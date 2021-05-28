@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    软测学习6-软件测试分类 |
+    
+    Charonc</title>
+  
+  <link rel="shortcut icon" href="/images/C.svg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-2021-5-5-软测学习6-软件测试分类" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  软测学习6-软件测试分类
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/05/05/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/" class="article-date">
+  <time datetime="2021-05-04T16:00:00.000Z" itemprop="datePublished">2021-05-05</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h2 id="一、GUI测试"><a href="#一、GUI测试" class="headerlink" title="一、GUI测试"></a>一、GUI测试</h2><h3 id="1-1-GUI概念"><a href="#1-1-GUI概念" class="headerlink" title="1.1 GUI概念"></a>1.1 GUI概念</h3><ol>
+<li>图形化用户界面(GRAPHIC USER INTERFACE):GUI是一个分层的图形化的软件前端,它从一个固定的事件集中接受用户产生的和系统产生的事件,并且产生确定的图形输出。</li>
+<li>所有图形用户界面（GUI）应用程序的主要特征都是事件驱动。</li>
+<li>用户可以以任何顺序引发多个事件中的任意几个。虽然可以创建“引导”事件序列的GUI应用程序，但是很多GUI应用程序并没有这类功能。</li>
+<li>GUI应用程序为测试人员提供了一点方便：<br>• 基本上不需要集成测试。<br>• 单元测试一般在“按钮级”进行，也就是说，按钮具有功能，而且这些功能可以在一般单元级意义上进行测试。</li>
+<li>GUI应用程序的系统级测试的本质，是表现出应用程序的事件驱动性质</li>
+</ol>
+<h3 id="1-2-GUI测试的主要内容"><a href="#1-2-GUI测试的主要内容" class="headerlink" title="1.2 GUI测试的主要内容"></a>1.2 GUI测试的主要内容</h3><ol>
+<li>界面实现与界面设计的吻合情况<br>• 主要测试界面的外形和界面的设计内容是否一致。</li>
+<li>确认界面处理的正确性<br>• 当界面元素被赋予各种值的时候,系统处理是否符合设计以及是否有异常。例如，当我们选择”打开文档”菜单，系统应当弹出一个打开文档的对话框，而不是弹出一个保存文档对话框或别的对话框。</li>
+</ol>
+<h3 id="1-3-GUI测试的图形对象"><a href="#1-3-GUI测试的图形对象" class="headerlink" title="1.3 GUI测试的图形对象"></a>1.3 GUI测试的图形对象</h3><p>简单界面元素：指功能和属性相对比较单一的界面元素，即通常所指的各种控件<br>• 工具栏的一个菜单项、<br>• 一个按钮（控制按钮）、<br>• 一个列表框、<br>• 一个检查框、<br>• 一个编辑框、<br>• 工具栏中的一个图标、<br>• 一个快捷键、<br>• 一个静态文本等</p>
+<h3 id="1-4-获取测试数据"><a href="#1-4-获取测试数据" class="headerlink" title="1.4 获取测试数据"></a>1.4 获取测试数据</h3><ol>
+<li>对于界面元素的布局，可以从以下几个角度获取测试数据：<br>• 各界面元素的位置<br>• 各界面元素的对齐方式<br>• 各界面元素间间隔<br>• TAB顺序<br>• 各界面元素间的色彩搭配</li>
+<li>对于界面元素的行为，可以从以下几个角度获取测试数据：<br>• 回显功能<br>• 输入限制和输入检查<br>• 输入提醒<br>• 联机帮助<br>• 默认值<br>• 激活或取消激活<br>• 焦点状态<br>• 功能键或快捷键<br>• 操作路径<br>• 行为后退</li>
+</ol>
+<h3 id="1-5-设计原则"><a href="#1-5-设计原则" class="headerlink" title="1.5 设计原则"></a>1.5 设计原则</h3><p>应验证界面显示内容的完整性<br>应验证界面显示内容的一致性<br>应验证界面显示内容的准确性<br>应验证界面显示内容的友好性<br>应验证界面提示信息的指导性<br>应验证界面显示内容的合理性<br>界面测试时，应考虑用户使用的方便性<br>界面测试时，应考虑界面显示及处理的正确性<br>界面测试时，应考虑数据显示的规范性</p>
+<h2 id="二、兼容性与配置测试"><a href="#二、兼容性与配置测试" class="headerlink" title="二、兼容性与配置测试"></a>二、兼容性与配置测试</h2><h3 id="2-1-配置测试"><a href="#2-1-配置测试" class="headerlink" title="2.1 配置测试"></a>2.1 配置测试</h3><p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153137658.png" alt="image-20210528153137658"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153150090.png" alt="image-20210528153150090"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153201366.png" alt="image-20210528153201366"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153208982.png" alt="image-20210528153208982"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153217210.png" alt="image-20210528153217210"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153227135.png" alt="image-20210528153227135"></p>
+<h3 id="2-2-兼容性测试"><a href="#2-2-兼容性测试" class="headerlink" title="2.2 兼容性测试"></a>2.2 兼容性测试</h3><p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153254038.png" alt="image-20210528153254038"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153310411.png" alt="image-20210528153310411"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153314735.png" alt="image-20210528153314735"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153321230.png" alt="image-20210528153321230"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153326169.png" alt="image-20210528153326169"></p>
+<p><img src="/pic/2021-5-5-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A06-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB/image-20210528153338387.png" alt="image-20210528153338387"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GUI/" rel="tag">GUI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95/" rel="tag">配置及兼容性测试</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/05/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      数据库调优！
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/05/03/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">软测学习5-软件测试模型</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>Charonc &copy; 2021</li>
+    </ul>
+  </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=2836442100&auto=1&height=32"></iframe>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/toux.png" alt="Charonc"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">时光轴</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">照片</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+
+</html>
