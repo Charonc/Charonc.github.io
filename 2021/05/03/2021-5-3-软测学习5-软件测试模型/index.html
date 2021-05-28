@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    软测学习5-软件测试模型 |
+    
+    Charonc</title>
+  
+  <link rel="shortcut icon" href="/images/C.svg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-2021-5-3-软测学习5-软件测试模型" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  软测学习5-软件测试模型
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/05/03/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time datetime="2021-05-02T16:00:00.000Z" itemprop="datePublished">2021-05-03</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h2 id="一、软件测试模型概述"><a href="#一、软件测试模型概述" class="headerlink" title="一、软件测试模型概述"></a>一、软件测试模型概述</h2><h3 id="1-1-软件测试过程模型"><a href="#1-1-软件测试过程模型" class="headerlink" title="1.1 软件测试过程模型"></a>1.1 软件测试过程模型</h3><ol>
+<li>软件测试过程要求基于项目的整体需求，对整个测试生命周期中的所有过程、活动及变更进行定义、控制和管理。</li>
+<li>软件开发过程模型有：瀑布模型、原型模型、螺旋模型、增量模型、渐进模型、快速软件开发(RAD)以及Rational统一过程(RUP)<br>• − 对软件开发过程具有很好的指导作用，软件测试在其中的地位<br>和价值并没有体现出来，也没有给软件测试以足够的重视，用它<br>们无法指导测试实践</li>
+<li>软件测试是与软件开发紧密相关的一系列有计划的系统性的活动<br>• − 软件测试需要测试模型去指导实践。<br>• − 软件测试模型的研究随着软件工程的发展而越来越深入</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="1-2-V模型"><a href="#1-2-V模型" class="headerlink" title="1.2 V模型"></a>1.2 V模型</h3><p>是软件开发瀑布模型的变种，传统的软件测试模型，它反映了测试活动与分析和设计的关系<br>• − 描述了基本的开发过程和测试行为<br>• − 明确地标明了测试过程中存在不同类型、不同级别的测试<br>• − 清楚地描述了这些测试阶段和开发过程期间各阶段的对应关系</p>
+<p><img src="/pic/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/image-20210527202236164.png" alt="image-20210527202236164"></p>
+<h3 id="1-3-测试技术"><a href="#1-3-测试技术" class="headerlink" title="1.3 测试技术"></a>1.3 测试技术</h3><p><img src="/pic/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/image-20210527202406561.png" alt="image-20210527202406561"></p>
+<p><img src="/pic/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/image-20210527202420587.png" alt="image-20210527202420587"></p>
+<h3 id="1-4-测试层次阶段"><a href="#1-4-测试层次阶段" class="headerlink" title="1.4 测试层次阶段"></a>1.4 测试层次阶段</h3><h4 id="1-4-1-阶段1：-单元测试-Unit-Testing"><a href="#1-4-1-阶段1：-单元测试-Unit-Testing" class="headerlink" title="1.4.1 阶段1： 单元测试 Unit Testing"></a>1.4.1 阶段1： 单元测试 Unit Testing</h4><p><strong>§ 目标</strong>：<br>• 检验程序最小单元有无错误<br>• 接口、数据结构、边界、覆盖、逻辑<br>• 检验单元编码与设计是否吻合<br><strong>§ 时机</strong>：<br>• 编码完成后，首先要实施的测试<br><strong>§ 方法</strong>：<br>• 静态测试<br>• 白盒测试<br><strong>§ 责任</strong>：<br>• 开发工程师</p>
+<h4 id="1-4-1-阶段2：-集成测试-Integration-Testing"><a href="#1-4-1-阶段2：-集成测试-Integration-Testing" class="headerlink" title="1.4.1 阶段2： 集成测试 Integration Testing"></a>1.4.1 阶段2： 集成测试 Integration Testing</h4><p><strong>• 目标</strong>：<br>• 检验组成系统的模块接口有无错误<br>• 模块的数据流是否正确<br>• 代码实现的系统设计与需求定义是否吻合<br>• <strong>时机</strong>：<br>• 主要的单元测试完成后<br><strong>• 方法</strong>：<br>• 黑盒测试<br><strong>• 责任</strong>：<br>• 测试工程师</p>
+<h4 id="1-4-3-阶段3：系统测试-System-Testing"><a href="#1-4-3-阶段3：系统测试-System-Testing" class="headerlink" title="1.4.3 阶段3：系统测试  System Testing"></a>1.4.3 阶段3：系统测试  System Testing</h4><p><strong>• 目标</strong>：<br>• 检验组成整个系统的代码、以及系统的软硬件配合有无错误<br>• 代码实现的系统与用户需求是否吻合<br>• 检验系统的文档等各种是否完整、有效<br>• 模拟验收测试的要求，检查系统是否符合用户的验收标准<br><strong>• 时机</strong>：<br>• 多数集成测试完成后<br><strong>• 方法</strong>：<br>• 黑盒测试<br><strong>• 责任</strong>：<br>• 测试工程师</p>
+<h4 id="1-4-4-阶段4：-验收测试-Acceptance-Testing"><a href="#1-4-4-阶段4：-验收测试-Acceptance-Testing" class="headerlink" title="1.4.4 阶段4： 验收测试 Acceptance Testing"></a>1.4.4 阶段4： 验收测试 Acceptance Testing</h4><p><strong>• 目标</strong>：<br>• 使用实际的业务数据测试软件的需求<br>• 系统是否符合事先约定的验收标准<br>• 使客户验收签字<br><strong>• 时机</strong>：<br>• 系统测试完成后，在项目组看来开发和测试工作已经全部完成，可以交付使用<br><strong>• 方法</strong>：<br>• 黑盒测试<br><strong>• 责任</strong>：<br>• 产品经理或其他高级经理<br>• 开发工程师<br>• 测试工程师<br>• 用户</p>
+<h4 id="1-4-5-回归测试-Regression-Testing"><a href="#1-4-5-回归测试-Regression-Testing" class="headerlink" title="1.4.5 回归测试 Regression Testing"></a>1.4.5 回归测试 Regression Testing</h4><p><strong>• 目标</strong>：<br>• 验证程序修改或者版本更新以后，以前正确的功能和其他指标仍旧正确。<br><strong>• 时机</strong>：<br>• 每次错误修改之后，或者版本更新之后<br><strong>• 方法</strong>：<br>• 白盒测试/黑盒测试<br><strong>• 责任</strong>：<br>• 开发工程师<br>• 测试工程师</p>
+<h2 id="二、单元测试"><a href="#二、单元测试" class="headerlink" title="二、单元测试"></a>二、单元测试</h2><h3 id="2-1-软件单元"><a href="#2-1-软件单元" class="headerlink" title="2.1 软件单元"></a>2.1 软件单元</h3>
+      
+    </div>
+    <footer class="article-footer">
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" rel="tag">单元测试</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/" rel="tag">软件测试模型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95/" rel="tag">集成测试</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%AA%8C%E6%94%B6%E6%B5%8B%E8%AF%95/" rel="tag">验收测试</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/05/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      数据库调优！
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/04/30/2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">软测学习4-黑盒测试</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>Charonc &copy; 2021</li>
+    </ul>
+  </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=2836442100&auto=1&height=32"></iframe>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/toux.png" alt="Charonc"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">时光轴</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">照片</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+
+</html>

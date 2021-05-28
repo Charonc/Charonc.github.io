@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    python基础 |
+    
+    Charonc</title>
+  
+  <link rel="shortcut icon" href="/images/C.svg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-初学python对其中字符串的理解" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  python基础
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/11/23/%E5%88%9D%E5%AD%A6python%E5%AF%B9%E5%85%B6%E4%B8%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
+  <time datetime="2019-11-22T16:00:00.000Z" itemprop="datePublished">2019-11-23</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E7%9B%B8%E5%85%B3/">技术相关</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h2 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h2><p><strong>想用python写一个将不规范的英文名字输入转换成规范名字的函数</strong><br>eg：<br>传入：”charonC”,”abDdE”<br>传出：  “Charonc”, “Abdde”</p>
+<a id="more"></a>
+<h2 id="二、思路"><a href="#二、思路" class="headerlink" title="二、思路"></a>二、思路</h2><p>首先想的是c语言的思路，传进这个字符串 然后进行条件判断 如果第一位是小写就转换成为大写 如果是其他位置是大写就转换为小写 用assic判断是否是大小写 然后通过assic码+-32的方式来进行大小写转换。但是疯狂报错 ，后来发现原因 python的字符串是不可更改的，也就是说设s=’Charonc’然后使得s[0]=’c’这种操作是不被允许的。 而c语言中’c’+1=’d’这种操作也是不可以的。因为是初学者所以我只能想到用python自带的upper()和lower()函数转大小写了。</p>
+<h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def change(s):</span><br><span class="line">    l=<span class="string">''</span><span class="comment">#因为不能在原来的字符串上进行修改所以需要一个新串来存储转换后的字符串</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(0,len(s)):</span><br><span class="line">        <span class="keyword">if</span> i==0 and (s[i]&gt;<span class="string">'Z'</span>or s[i]&lt;<span class="string">'A'</span>): </span><br><span class="line">           l=s[i].upper()</span><br><span class="line">        <span class="keyword">elif</span> i!=0 and (s[i]&gt;=<span class="string">'A'</span> and s[i]&lt;=<span class="string">'Z'</span>):</span><br><span class="line">            l=l+s[i].lower()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l=l+s[i]</span><br><span class="line">    <span class="built_in">return</span> l</span><br><span class="line"><span class="built_in">print</span>(change(<span class="string">'zhangG'</span>))</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Zhangg</span><br></pre></td></tr></table></figure>
+<p>成功！</p>
+<h2 id="四、继续探索python中的字符串"><a href="#四、继续探索python中的字符串" class="headerlink" title="四、继续探索python中的字符串"></a>四、继续探索python中的字符串</h2><h3 id="1-replace（）函数"><a href="#1-replace（）函数" class="headerlink" title="1.replace（）函数"></a>1.replace（）函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">'abcdefa'</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'初始a='</span>,a)</span><br><span class="line">b=a.replace(<span class="string">'a'</span>,<span class="string">'A'</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"a.replace('a','A'):"</span>,a) <span class="comment">#replace 也不会改变原来字符串的值 只是会生成一个改变字符串的新串</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'b:'</span>,b)</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.replace(<span class="string">'a'</span>,<span class="string">'A'</span>): abcdefa</span><br><span class="line">b: AbcdefA</span><br></pre></td></tr></table></figure>
+<h3 id="2-字符串之间相加"><a href="#2-字符串之间相加" class="headerlink" title="2.字符串之间相加"></a>2.字符串之间相加</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">'abcdefa'</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'初始a='</span>,a)</span><br><span class="line">b=a+a</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'a=:'</span>,a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'b=a+a:'</span>,b)</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">初始a= abcdefa</span><br><span class="line">a=: abcdefa</span><br><span class="line">b=a+a: abcdefaabcdefa</span><br></pre></td></tr></table></figure>
+<h3 id="3-简单结论"><a href="#3-简单结论" class="headerlink" title="3.简单结论"></a>3.简单结论</h3><p>python中的<strong>replace函数</strong>和字符串用<strong>‘+’</strong>相加都不是对原来的字符串进行修改，都只是创建了一个新串然后将变量指向新串。python中的str好像真的没有办法被更改。</p>
+<h2 id="五、结语"><a href="#五、结语" class="headerlink" title="五、结语"></a>五、结语</h2><p>这是第一次写博客，一定会有疏忽和语句不通顺的地方，还请见谅，如果帮到了你我会很开心的，如果没什么用也希望多担待，如果有错误还希望大家能指出，我一定好好修改，谢谢大家！<br>date: 2019-11-23 10:12:45</p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/03/22/%E5%87%86%E5%A4%87%E5%AE%9E%E4%B9%A0/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      时隔多年，重回boke
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2019/11/22/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%EF%BC%81/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">我的第一篇博客~</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>Charonc &copy; 2021</li>
+    </ul>
+  </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=2836442100&auto=1&height=32"></iframe>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/toux.png" alt="Charonc"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">时光轴</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">照片</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+
+</html>

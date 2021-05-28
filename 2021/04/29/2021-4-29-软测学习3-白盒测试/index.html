@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    软测学习3 白盒测试 |
+    
+    Charonc</title>
+  
+  <link rel="shortcut icon" href="/images/C.svg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-2021-4-29-软测学习3-白盒测试" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  软测学习3 白盒测试
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/04/29/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/" class="article-date">
+  <time datetime="2021-04-29T12:46:25.000Z" itemprop="datePublished">2021-04-29</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h2 id="一、白盒测试的基本原理"><a href="#一、白盒测试的基本原理" class="headerlink" title="一、白盒测试的基本原理"></a>一、白盒测试的基本原理</h2><h3 id="1-1-动态测试概念"><a href="#1-1-动态测试概念" class="headerlink" title="1.1 动态测试概念"></a>1.1 动态测试概念</h3><h4 id="1-1-1-动态测试定义"><a href="#1-1-1-动态测试定义" class="headerlink" title="1.1.1 动态测试定义"></a>1.1.1 动态测试定义</h4><p>通过运行被测程序，检查运行结果与预期结果的差异，并分析运行效率和健壮性等性能。</p>
+<a id="more"></a>
+
+<h4 id="1-1-2-动态测试组成部分"><a href="#1-1-2-动态测试组成部分" class="headerlink" title="1.1.2 动态测试组成部分"></a>1.1.2 动态测试组成部分</h4><ol>
+<li>构造测试用例</li>
+<li>执行程序</li>
+<li>分析程序的输出结果</li>
+</ol>
+<h4 id="1-1-3-动态测试分类"><a href="#1-1-3-动态测试分类" class="headerlink" title="1.1.3 动态测试分类"></a>1.1.3 动态测试分类</h4><ol>
+<li>从是否关心软件内部结构和具体实现的角度划分<br>• − “白盒”测试、“黑盒”测试和“灰盒”测试</li>
+<li>从软件开发的过程的角度划分<br>• − 单元测试、集成测试、确认测试、系统测试、验收测试及回归测试</li>
+<li>从测试执行时是否需要人工干预的角度划分<br>• − 人工测试和自动化测试</li>
+<li>从测试实施组织的角度划分<br>• − 开发方测试、用户测试(β测试)、第三方测试</li>
+</ol>
+<h3 id="1-2-白盒测试"><a href="#1-2-白盒测试" class="headerlink" title="1.2 白盒测试"></a>1.2 白盒测试</h3><h4 id="1-2-1-白盒测试概念"><a href="#1-2-1-白盒测试概念" class="headerlink" title="1.2.1 白盒测试概念"></a>1.2.1 白盒测试概念</h4><p>是一种按照程序内部逻辑结构和编码结构设计测试数据并完成<br>测试的一种测试方法<br>• − 测试覆盖全部代码、分支、路径和条件<br>• − 它利用查看代码功能和实现方式得到的信息来确定哪些需要<br>测试、哪些不需要、如何展开测试<br>• − 又称为结构测试或逻辑驱动测试</p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520171718144.png" alt="image-20210520171718144"></p>
+<h4 id="1-2-2-白盒测试特点"><a href="#1-2-2-白盒测试特点" class="headerlink" title="1.2.2 白盒测试特点"></a>1.2.2 白盒测试特点</h4><ol>
+<li>可以构成测试数据使特定程序部分得到测试</li>
+<li>有一定的充分性度量手段</li>
+<li>可获得较多工具支持</li>
+<li>通常只用于单元测试和集成测试(主要是单元测试)</li>
+</ol>
+<h3 id="1-3-白盒测试内容和方法"><a href="#1-3-白盒测试内容和方法" class="headerlink" title="1.3 白盒测试内容和方法"></a>1.3 白盒测试内容和方法</h3><h4 id="1-3-1-基本测试内容"><a href="#1-3-1-基本测试内容" class="headerlink" title="1.3.1 基本测试内容"></a>1.3.1 基本测试内容</h4><p>• 对程序模块的所有独立执行路径至少测试一次<br>• 对所有的逻辑判定，取“真”与取“假”的两种情况都至少测<br>试一次<br>• 在循环的边界和运行的边界限内执行循环体<br>• 测试内部数据结构的有效性</p>
+<h4 id="1-3-2-白盒测试所采用的测试方法是"><a href="#1-3-2-白盒测试所采用的测试方法是" class="headerlink" title="1.3.2 白盒测试所采用的测试方法是"></a>1.3.2 白盒测试所采用的测试方法是</h4><p>逻辑覆盖（包括语句覆盖、分支覆盖、条件覆盖、分支-条件覆盖以及路径覆盖）</p>
+<h2 id="二、代码逻辑覆盖测试"><a href="#二、代码逻辑覆盖测试" class="headerlink" title="二、代码逻辑覆盖测试"></a>二、代码逻辑覆盖测试</h2><h3 id="2-1-代码逻辑覆盖概念"><a href="#2-1-代码逻辑覆盖概念" class="headerlink" title="2.1 代码逻辑覆盖概念"></a>2.1 代码逻辑覆盖概念</h3><h4 id="2-1-1-覆盖率"><a href="#2-1-1-覆盖率" class="headerlink" title="2.1.1 覆盖率"></a>2.1.1 覆盖率</h4><p>覆盖率是用来度量测试完整性的一个手段。分为逻辑覆盖和功能覆盖两大类。<br>覆盖率可以通过一个比率公式来表示：<br><strong>覆盖率=（至少被执行一次的item数）/item的总数</strong><br>通过覆盖率数据，可以知道测试的是否充分，测试的弱点在哪些方面，进而指导设计能够增加覆盖率的测试用例。</p>
+<h4 id="2-1-2-逻辑覆盖"><a href="#2-1-2-逻辑覆盖" class="headerlink" title="2.1.2 逻辑覆盖"></a>2.1.2 逻辑覆盖</h4><p>是以程序内部的逻辑结构为基础的测试方法，属“白盒”测试<br>这一方法是一系列测试过程的总称，它要求测试人员对程序的逻辑结构有清楚的了解<br>从覆盖源程序的各个方面考虑，大致可以分为<br>• − <strong>语句覆盖、判定覆盖、条件覆盖、判定/条件覆盖、条件组合覆盖和路径覆盖</strong></p>
+<h3 id="2-2-代码逻辑覆盖的测试方法"><a href="#2-2-代码逻辑覆盖的测试方法" class="headerlink" title="2.2 代码逻辑覆盖的测试方法"></a>2.2 代码逻辑覆盖的测试方法</h3><h4 id="2-2-1-语句覆盖"><a href="#2-2-1-语句覆盖" class="headerlink" title="2.2.1 语句覆盖"></a>2.2.1 语句覆盖</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520172442100.png" alt="image-20210520172442100"></p>
+<p>为了暴露程序中的错误，语句覆盖是最起码的测试要求，要求设计足够多的测试用例，使得每一条语句至少被执行一次。<br>它对程序的逻辑覆盖很少，是很弱的逻辑覆盖标准<br>• 为了更充分地测试程序，需要采用后边讲述的其他逻辑覆盖方法<br><strong>语句覆盖的优点</strong><br>• − 检查所有语句<br>• − 结构简单的代码的测试效果较好<br>• − 容易实现自动测试<br>• − 代码覆盖率高<br>• − 如果是程序块覆盖，则不用考虑程序块中的源代码<br>语句覆盖<strong>不能</strong>检查出的<strong>错误</strong>有<br>• − 条件语句错误、逻辑运算错误、循环语句错误</p>
+<h4 id="2-2-2-判定覆盖（分支覆盖）"><a href="#2-2-2-判定覆盖（分支覆盖）" class="headerlink" title="2.2.2 判定覆盖（分支覆盖）"></a>2.2.2 判定覆盖（分支覆盖）</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520172947269.png" alt="image-20210520172947269"></p>
+<p>要求设计做够多的测试用例，使得程序中的每一个分支至少通过一次<br>• − 即每一条分支语句的“真”值和“假”值都至少执行一次<br>• − while语句、switch语句、异常处理、跳转语句和三目运算符(a？b：c)等等同样可以使用分支覆盖来测试<br>• − 对多分支语句，如C语言中的case语句，分支覆盖必须对每一个分支的每一种可能的结果都进行测试<br><strong>判定覆盖要比语句覆盖查错能力强一些：</strong><br>• − 执行了分支覆盖，实际也就执行了语句覆盖<br> <strong>判定覆盖与语句覆盖存在同样的缺点</strong><br>• − 不能查出条件语句错误，不能查出逻辑运算错误，不能查出循环次数错误，不能查出循环条件错误</p>
+<h4 id="2-2-3-条件覆盖"><a href="#2-2-3-条件覆盖" class="headerlink" title="2.2.3 条件覆盖"></a>2.2.3 条件覆盖</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520232121973.png" alt="image-20210520232121973"></p>
+<p>不仅每一个语句至少执行一次，使得判定中的每个条件获得各种可能结果<br>判定覆盖只关心整个判定表达式的结果，条件覆盖关心的则是每个条件各种取值的结果<br><strong>条件覆盖的利弊</strong><br>• − 能够检查所有的条件错误<br>• − 不能实现对每个分支的检查<br>• − 用例数增加</p>
+<h4 id="2-2-4-判断-条件覆盖"><a href="#2-2-4-判断-条件覆盖" class="headerlink" title="2.2.4 判断/条件覆盖"></a><strong>2.2.4 判断/条件覆盖</strong></h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520232400125.png" alt="image-20210520232400125"></p>
+<p>设计足够多的测试用例，使得判定中每个条件的所有可能取值至少能够获取一次，同时每个判断的所有可能的判定结果至少执行一次<br>• − 用于解决条件覆盖不一定包括判定覆盖，判定覆盖也不一定<br>包括条件覆盖的问题<br><strong>分支-条件覆盖的利弊：</strong><br>• − 既考虑了每一个条件，又考虑了每一个分支，发现错误能力<br><strong>强于分支覆盖和条件覆盖</strong><br>• − 并不能全面覆盖所有路径<br>• − 用例数量的增加</p>
+<h4 id="2-2-5-条件组合覆盖"><a href="#2-2-5-条件组合覆盖" class="headerlink" title="2.2.5 条件组合覆盖"></a>2.2.5 条件组合覆盖</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520233027458.png" alt="image-20210520233027458"></p>
+<p>要求设计足够多的测试用例，使得每个判定中条件的各种组合至少出现一次<br>满足条件组合覆盖标准的测试用例，也一定满足判定覆盖、条件覆盖和判定/条件覆盖标准<br>• − 条件组合覆盖是前面几种覆盖标准中最强的<br>• − 但是，满足条件组合覆盖要求的测试用例并不一定能使程序中的每条路径都执行到</p>
+<h4 id="2-2-6-路径覆盖"><a href="#2-2-6-路径覆盖" class="headerlink" title="2.2.6 路径覆盖"></a>2.2.6 路径覆盖</h4><p>所有的路径全都覆盖一遍</p>
+<p>最全面，但也是消耗最大的方式。</p>
+<h2 id="三、代码路径测试"><a href="#三、代码路径测试" class="headerlink" title="三、代码路径测试"></a>三、代码路径测试</h2><h3 id="3-1-测试覆盖率"><a href="#3-1-测试覆盖率" class="headerlink" title="3.1 测试覆盖率"></a>3.1 测试覆盖率</h3><p>覆盖率是用来度量测试完整性的一个手段。分为逻辑覆盖和功能覆盖两大类。</p>
+<p>覆盖率可以通过一个比率公式来表示：覆盖率=（至少被执行一次的item数）/item的总数</p>
+<p>通过覆盖率数据，可以知道测试的是否充分，测试的弱点在哪些方面，进而指导设计能够增加覆盖率的测试用例。</p>
+<h3 id="3-2-程序图"><a href="#3-2-程序图" class="headerlink" title="3.2 程序图"></a>3.2 程序图</h3><p><strong>定义</strong>：给定一个采用命令式程序设计语言编写的程序，其程序图是一种有向图，其中：</p>
+<p>• 传统定义：<br>• 节点是程序语句，边表示控制流（从节点i到节点j有一条边，当且仅当对应节点j的语句可以立即在节点i对应的语句之后执行）。<br>• 改进后的定义：<br>• 节点要么是整个语句，要么是语句的一部分，边表示控制流<br>（从节点i到节点j有一条边,当且仅当对应节点j的语句或语句的<br>一部分，可以立即在节点i对应的语句或语句的一部分之后执行）</p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120058676.png" alt="image-20210522120058676"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120108272.png" alt="image-20210522120108272"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120123968.png" alt="image-20210522120123968"></p>
+<h3 id="3-3-DD-路径测试"><a href="#3-3-DD-路径测试" class="headerlink" title="3.3 DD-路径测试"></a>3.3 DD-路径测试</h3><h4 id="3-3-1-DD路径基本概念"><a href="#3-3-1-DD路径基本概念" class="headerlink" title="3.3.1 DD路径基本概念"></a>3.3.1 DD路径基本概念</h4><p>结构性测试最著名的形式以叫做决策到决策路径(DD-路径)的结构为基础。<br>DD-路径指语句的一种序列，从决策语句的“出路”开始，到下一个决策语句的“入路”结束，在这种序列中没有内部分支。</p>
+<p><strong>定义</strong>：给定采用命令式语言编写的一段程序，其DD-路径图是有向图。其中，其节点表示其程序图的DD-路径，边表示连续DD-路径之间的控制流。<br>实际上，DD-路径图是一种压缩图，在这种压缩图中，2-连接组件被压缩DD-路径的单个节点。提出DD-路径的目的，在于DD-路径能够非常精确地描述测试覆盖。</p>
+<h4 id="3-3-2-Miller测试覆盖指标"><a href="#3-3-2-Miller测试覆盖指标" class="headerlink" title="3.3.2 Miller测试覆盖指标"></a>3.3.2 Miller测试覆盖指标</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120316263.png" alt="image-20210522120316263"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120342250.png" alt="image-20210522120342250"></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>错误行数之间是线性关系，随着程序的增大，出错率以非线性方式增长。</p>
+<p>代码行度量：以源代码的行数–度量程序的复杂性。</p>
+<p>程序出错率为100行源程序中可能存在0.04-7个错误，出错率与源程序行数之间不存在简单的线性关系</p>
+<p>对于小程序，每行代码（执行部分）的出错率为1.3%-1.8%</p>
+<p>对于大程序，每行代码（执行部分）的出错率为2.7%-3.2%</p>
+<h3 id="3-5-环形复杂度（McCabe度量法）"><a href="#3-5-环形复杂度（McCabe度量法）" class="headerlink" title="3.5 环形复杂度（McCabe度量法）"></a>3.5 环形复杂度（McCabe度量法）</h3><p><a href="https://blog.csdn.net/weixin_40312518/article/details/89556473" target="_blank" rel="noopener">环形复杂度求法</a></p>
+<p>（1）流图中的区域数等于环形复杂度。<br>（2）流图G的环形复杂度V(G)=E-N+2，其中，E是流图中边的条数，N是结点数。<br>（3）流图G的环形复杂度V(G)=P+1，其中，P是流图中判定结点的数目。</p>
+<h2 id="四、数据流测试"><a href="#四、数据流测试" class="headerlink" title="四、数据流测试"></a>四、数据流测试</h2><h3 id="4-1-数据流测试的目标"><a href="#4-1-数据流测试的目标" class="headerlink" title="4.1 数据流测试的目标"></a>4.1 数据流测试的目标</h3><p><strong>数据流测试主要是为了发现</strong><br>• 定义/引用异常缺陷<br>• 变量被定义，但从来没有使用（引用）<br>• 所使用的变量没有被定义<br>• 变量在使用之前被定义两次。<br><strong>数据流测试重点关注的是变量的定义与使用测试</strong><br>• 调试修改bug时，我们可能会在一段代码中搜索某个变量所有的定义、使用位置，思考在程序运行时该变量的值会如何变化，从而分析bug产生原因<br>• 数据流测试是将这种方法形式化，这样也便于构造算法，实现自动化分析</p>
+<h3 id="4-2-数据流测试概念"><a href="#4-2-数据流测试概念" class="headerlink" title="4.2 数据流测试概念"></a>4.2 数据流测试概念</h3><p><strong>数据流测试</strong>：指关注变量接收值的点和使用（引用）这些值的点的结构性测试形式。数据流测试用作路径测试<br>的“真实性检查”。<br><strong>两种方法</strong>：<br>• 一种提供一组基本定义和一种统一的测试覆盖指标结构<br>• 另一种基于叫做“程序片”的概念。</p>
+<h3 id="4-3-定义-使用测试"><a href="#4-3-定义-使用测试" class="headerlink" title="4.3 定义/使用测试"></a>4.3 定义/使用测试</h3><p>程序图：G（P），其中P是程序<br>V：程序P中的一组变量<br>G（P）：有一个单入口节点和一个单出口节点，并且<br>不允许有从某个节点到其自身的边<br>PATH（P）：P中所有路径的集合</p>
+<p><strong>一组定义</strong>：</p>
+<ol>
+<li><p>节点n∈G（P）是变量v ∈V的定义节点，记做DEF（v，n），当且仅当变量v的值由对应节点n的语句片段处定义。</p>
+</li>
+<li><p>输入语句、赋值语句、循环控制语句和过程调用，都是定义节点语句的例子。</p>
+</li>
+<li><p>执行定义语句，该变量所关联的存储单元的内容就会改变。</p>
+</li>
+<li><p>使用节点USE（v，n）是一个谓词使用（记做P-use），当且仅当语句n是谓词语句；否则USE（v，n）是计算使用（记做C-use）。</p>
+</li>
+<li><p>对应谓词使用的节点永远有外度≥2，对应于计算使用的节点永远有外度≤1。</p>
+</li>
+<li><p>关于变量v的定义-使用路径（记做du-path）<br>• 是PATHS（P）中的路径，使得对某个v ∈V，存在定义和使用节点DEF（v，m）和USE（v，n），使得m和n是该路径的最初和最终节点。</p>
+</li>
+<li><p>关于变量v的定义清除路径（记做dc-path），<br>• 是具有最初和最终节点DEF（v，m）和USE（v，n）的PATHS（P）中的路径，使得该路径中没有其他节点是v的定义节点。</p>
+</li>
+</ol>
+<h3 id="4-4-定义-使用路径测试覆盖指标"><a href="#4-4-定义-使用路径测试覆盖指标" class="headerlink" title="4.4  定义-使用路径测试覆盖指标"></a>4.4  定义-使用路径测试覆盖指标</h3><ol>
+<li>集合T满足程序P的全定义准则，<br>• 当且仅当所有变量v∈V，T包含从v的每个定义节点到v的一个使用的定义清除路径。</li>
+<li>集合T满足程序P的全使用准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有使用，以及到所有USE（v，n）后续节点的定义清除路径。</li>
+<li>集合T满足程序P的全谓词使用/部分计算使用准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有谓词使用的定义清除路径，并且如果v的一个定义没有谓词使用，则定义清除路径导致至少一个计算使用。</li>
+<li>集合T满足程序P的全计算使用/部分谓词使用准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有计算使用的定义清除路径，并且如果v的一个定义没有计算使用，则定义清除路径导致至少一个谓词使用。</li>
+<li>集合T满足程序P的全定义-使用路径准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有使用，以及到所有USE（v，n）后续节点的定义清除路径，并且这些路径要么有一次的环经过，要么没有环路。</li>
+</ol>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522130217381.png" alt="image-20210522130217381"></p>
+<h2 id="五、代码静态审查"><a href="#五、代码静态审查" class="headerlink" title="五、代码静态审查"></a>五、代码静态审查</h2><h3 id="5-1-代码静态分析"><a href="#5-1-代码静态分析" class="headerlink" title="5.1 代码静态分析"></a>5.1 代码静态分析</h3><h4 id="5-1-1-概念"><a href="#5-1-1-概念" class="headerlink" title="5.1.1 概念"></a>5.1.1 <strong>概念</strong></h4><ol>
+<li>静态分析通常是指不执行程序代码而寻找代码中可能存在的错误或评估程序代码的过程</li>
+<li>被测对象是各种与软件相关的有必要测试的产物，如文档、源代码等</li>
+<li>通过扫描程序正文对程序的数据流和控制流等进行分析<br>• − 找出系统的缺陷，得出测试报告<br>• − 不必进行测试用例的设计和结果分析等工作</li>
+<li>静态测试可以手工/人工进行，也可以借助软件工具自动进行<br>• − 人工进行静态测试，能够充分发挥人的思维的优势<br>• − 在发现错误的同时也就可以定位错误<br>• − 静态测试不需要特别的条件，容易展开</li>
+<li>静态测试对测试人员要求较高，至少测试人员要具有编程经验</li>
+</ol>
+<h4 id="5-1-2-原因"><a href="#5-1-2-原因" class="headerlink" title="5.1.2 原因"></a>5.1.2 <strong>原因</strong></h4><ol>
+<li>一个软件产品可能实现了所要求的功能<br>• − 但如果它的内部结构复杂、混乱，代码的编写也没有规范的话，这时软件中往往会隐藏一些不易被察觉的错误<br>• 这些错误在特定的条件下会造成重大的影响</li>
+<li>即使这个软件基本满足了用户目前的要求<br>• − 但到了日后对该产品进行维护升级工作的时候，会发现维护工作相当困难</li>
+<li>静态分析所要做的就是对代码标准以及质量进行监控，以此来提高代码的可靠性，使系统的设计符合模块化、结构化、面向对象的要求</li>
+</ol>
+<h4 id="5-1-3-作用"><a href="#5-1-3-作用" class="headerlink" title="5.1.3 作用"></a>5.1.3 作用</h4><ol>
+<li>对软件进行科学、细致的静态分析<br>•  使系统的设计符合模块化、结构化、面向对象的要求<br>•  使开发人员编写的代码符合规定的编码规范<br>•  通过对代码标准及质量的监控提高代码可靠性<br>•  尽可能早地通过对源代码的检查发现缺陷<br>•  组织代码审核定位易产生错误的模块<br>•  为日后的维护工作节约大量的人力、物力</li>
+<li>非常有效的质量保证手段<br>• − 越来越多地被采用</li>
+</ol>
+<h4 id="5-1-4-内容"><a href="#5-1-4-内容" class="headerlink" title="5.1.4 内容"></a>5.1.4 内容</h4><ol>
+<li>主要包括<strong>各阶段的评审、代码检查、程序分析、软件质量度量等，用以对被测程序进行特性分析</strong><br>• − 其中评审通常由人来执行<br>• − 代码检查、程序分析、软件质量度量等即可人工完成，也可用工具来完成，但工具的作用和效果相对要更大、更好一些</li>
+<li>经验表明，通过包括代码审查、桌面检查、代码走查、审查和技术评审在内的静态分析能够有效地发现30%-<br>70%的逻辑设计和编码错误，而且这种方法一次能解释一批错误，同时还能对错误进行定位</li>
+</ol>
+<h3 id="5-2-代码检查"><a href="#5-2-代码检查" class="headerlink" title="5.2 代码检查"></a>5.2 代码检查</h3><h4 id="5-2-1-代码检查概念"><a href="#5-2-1-代码检查概念" class="headerlink" title="5.2.1 代码检查概念"></a>5.2.1 代码检查概念</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522133437427.png" alt="image-20210522133437427"></p>
+<h4 id="5-2-2-代码检查内容"><a href="#5-2-2-代码检查内容" class="headerlink" title="5.2.2 代码检查内容"></a>5.2.2 代码检查内容</h4><ol>
+<li>完整性检查<br>• – 代码是否完全实现了设计文档中提出的功能需求<br>• – 代码中是否存在没有定义或没有引用到的变量、常数或数据类型</li>
+<li>一致性检查<br>• – 代码的逻辑是否符合设计文档<br>• – 代码中使用的格式、符号、结构等风格是否保持一致</li>
+<li>正确性检查<br>• – 代码是否符合制定的标准<br>• – 所有的变量都被正确定义和使用<br>• – 所有的注释都是准确的</li>
+<li>可修改性检查<br>• – 代码涉及到的常量是否易于修改，<br>• ▪ 如使用配置、定义为类常量、使用专门的常量类等</li>
+<li>可预测性检查<br> • – 代码是否具有定义良好的语法和语义<br> • – 代码是否无意中陷入了死循环<br> • – 代码是否是否避免了无穷递归</li>
+<li>健壮性检查<br> • – 代码是否采取措施避免运行时错误。如空指针异常等</li>
+<li>可理解性检查<br>• – 注释是否足够清晰的描述每个子程序，对于没用的代码注释是否删除<br>• – 是否使用到不明确或不必要的复杂代码，它们是否被清楚的注释<br>• – 使用一些统一格式化技巧用来增强代码的清晰度，诸如缩进、空白等<br>• – 是否在定义命名规则时采用了便于记忆，反映类型等方法<br>• – 循环嵌套是否太长太深</li>
+<li>可验证性检查<br>• – 代码中的实现技术是否便于测试</li>
+<li>结构性检查<br>• – 程序的每个功能是否都作为一个可辩识的代码块存在<br>• – 循环是否只有一个入口</li>
+<li>可追溯性检查<br>• – 代码是否对每个程序进行了唯一标识<br>• – 是否有一个交叉引用的框架可以用来在代码和开发文档之间相互对应<br>• – 代码是否包括一个修订历史记录<br>• – 记录中对代码的修改和原因都有记录，是否所有的安全功能都有标识</li>
+<li>代码标准符合性检查<br> • – 有些代码虽然可以正常运行，但代码的编写不符合某种标准或规范<br> • ▪ 标准是建立起来的、经过修改和必须遵守的规则——做什么和不做什么<br> • ▪ 规范是建议最佳做法，规范可以适当的放宽<br> • ▪ 严重影响了软件的可靠性、可读性、可维护性和可移植性</li>
+</ol>
+<h3 id="5-3-编码规范"><a href="#5-3-编码规范" class="headerlink" title="5.3 编码规范"></a>5.3 编码规范</h3><h4 id="5-3-1-代码编写规则"><a href="#5-3-1-代码编写规则" class="headerlink" title="5.3.1 代码编写规则"></a>5.3.1 代码编写规则</h4><ol>
+<li>编码规则又称编程风格<br>是对程序代码的格式、注释、标识符命名、语句使用、函数、类、程序组织、公共变量等方面的要求<br>• − 开发人员书写的代码更健壮、更安全、更可靠<br>• − 提高代码的可读性，使代码易于查看、理解和维护<br>• − 提高代码质量最有效、最直接的手段</li>
+<li>规范分为两个级别——规则和建议<br>• 规则级的规范要求开发人员必须要遵守<br>• 建议级的规范开发人员应尽量遵守</li>
+</ol>
+<h4 id="5-3-2-编码规范的内容"><a href="#5-3-2-编码规范的内容" class="headerlink" title="5.3.2 编码规范的内容"></a>5.3.2 编码规范的内容</h4><ol>
+<li>格式<br>• 对代码书写格式的要求</li>
+<li>注释<br>• 程序中的注释是程序与日后程序读者之间通信的重要手段<br>• 良好的注释能够帮助读者理解程序，为后续阶段进行测试和维护提供明确的指导<br>• 注释量：注释行的数量不得少于程序行数量的1/3</li>
+<li>命名——对标识符和文件的命名要求<br>• 在程序中声明、定义的变量、常量、宏、类型、函数，在对其命名时应该遵守统一的命名规范</li>
+<li>语句、函数和类——对具体程序中的语句、函数和类的使用要求</li>
+<li>程序组织<br>• 一个头文件中只声明一个类<br>• 一个源文件中只实现一个类<br>• 头文件中只包含声明，不应包含定义或实现<br>• 源文件中不要有类的声明<br>• 可被包含的文件<br>• − 只允许头文件被包含到其它的代码文件中去<br>• 避免头文件的重复包含</li>
+<li>公共变量<br>• 严格限制公共变量的使用<br>• 公共变量会增大模块间的耦合<br>• 明确公共变量的定义<br>• 防止公共变量与局部变量重名</li>
+</ol>
+<h3 id="5-4-代码结构分析"><a href="#5-4-代码结构分析" class="headerlink" title="5.4  代码结构分析"></a>5.4  代码结构分析</h3><ol>
+<li>程序的理解是程序质量的度量、评估的基础<br>• 代码的结构形式是“白盒”测试的主要依据<br>• 研究表明程序员38%的时间花费在理解软件系统上<br>• − 因为代码以文本格式被写入多重文件中，这是很难阅读理解的，需要其它一些东西来帮助人们阅读理解，如各种图表等</li>
+<li>在代码结构分析中测试者通过使用测试工具分析程序源代码的系统结构、数据结构、内部控制逻辑等内部结构<br>• 生成函数调用关系图、模块控制流图、模块数据流图、内部文件调用关系图、子程序表、宏和函数参数表等各类图形图表<br>• 可以清晰地标识整个软件系统的组成结构，使其便于阅读和理解<br>• 可以通过分析这些图表，检查软件有没有存在缺陷或错误</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A6%82%E5%BF%B5/" rel="tag">概念</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/" rel="tag">白盒测试</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A6%86%E7%9B%96%EF%BC%8C%E7%8E%AF%E5%BD%A2%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%8C%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" rel="tag">覆盖，环形复杂度，静态分析</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/04/30/2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      软测学习4-黑盒测试
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/04/29/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">软测学习2 软件质量保证</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>Charonc &copy; 2021</li>
+    </ul>
+  </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=2836442100&auto=1&height=32"></iframe>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/toux.png" alt="Charonc"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">时光轴</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">照片</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+
+</html>

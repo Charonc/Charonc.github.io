@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>数据库调优！</title>
+    <url>/2021/05/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、性能指标查询语句"><a href="#一、性能指标查询语句" class="headerlink" title="一、性能指标查询语句"></a>一、性能指标查询语句</h2><p>1.1 show STATUS like ‘%page%’  – 查看MySQL参数  默认是Session 作用域状态<br>1.2 show Global status<br>1.3 show variables like’%storage_engine%’ – 查看当前所用的数据库引擎<br>1.4 show engines;</p>
+<a id="more"></a>
+
+<h2 id="二、sql执行相关"><a href="#二、sql执行相关" class="headerlink" title="二、sql执行相关"></a>二、sql执行相关</h2><p>– 编写sql语句的顺序  select distinct … from join…on where..group by…having order by ..limit…<br>– 执行sql语句的顺序是 from .. on…join…. where… .. group by…  having.. select distinct ..order by…limt…</p>
+<h2 id="三、MySQL主要的两种引擎以及MyISAM性能优化"><a href="#三、MySQL主要的两种引擎以及MyISAM性能优化" class="headerlink" title="三、MySQL主要的两种引擎以及MyISAM性能优化"></a>三、MySQL主要的两种引擎以及MyISAM性能优化</h2><p>– MySQL两种引擎 InnoDB 和 MyISAM<br>– InnoDB(默认)              MyISAM<br>– 事务优先                    性能优先<br>– 行级锁适用于高并发       表级锁适用于非高并发场景<br>– 行级锁消耗的性能大       表级锁消耗的性能小<br>show status like ‘%key_read%’</p>
+<p>其中用myisam时<br>key_read(命中磁盘的总数)/Key_read_requests(命中磁盘的总请求数)的值越低越好 如果这个值过于大 可以增加key_buffer_size 来降低磁盘命中率（磁盘太慢了 还是多命中内存比较好）<br>4g内存一般可以设置256~512MB！<br>可以用 show variables like ‘%key_buffer_size%’ 来查看！</p>
+<p>如果用的不是myisam<br>设置几十mb即可 用来缓存系统表~</p>
+<h2 id="四、索引的数据结构"><a href="#四、索引的数据结构" class="headerlink" title="四、索引的数据结构"></a>四、索引的数据结构</h2><h3 id="4-1-索引具体的定义"><a href="#4-1-索引具体的定义" class="headerlink" title="4.1 索引具体的定义"></a>4.1 索引具体的定义</h3><p>索引相当于书的目录，是可以让数据库高效查询数据的数据结构，索引的数据结构一般都是树！如B树（默认）<br>R-树、Hash树等。</p>
+<h3 id="4-2-索引优点"><a href="#4-2-索引优点" class="headerlink" title="4.2 索引优点"></a>4.2 索引优点</h3><p>可以降低IO次数从而提高查询的速度且降低CPU使用率 基本上与二分的原理类似？<br>如果查询语句索引被order by 如果底层是B树实现的可以直接使用结果~ </p>
+<h3 id="4-3-索引缺点"><a href="#4-3-索引缺点" class="headerlink" title="4.3 索引缺点"></a>4.3 索引缺点</h3><p>用空间换时间，维护索引需要额外的开销，且增删改的时候同时也要维护索引。<br>所以索引更适合多查找少增删的业务范围。并且索引需要被建立在经常被查询的字段之上！<br>但是一般来讲 读操作比写操作更多 所以建立索引利大于弊！</p>
+<h3 id="4-4-索引分类"><a href="#4-4-索引分类" class="headerlink" title="4.4 索引分类"></a>4.4 索引分类</h3><p>（1）<strong>主键索引</strong>：不能重复，并且索引列的值不能为null 此外主键会被默认创建主键索引！<br>（2）<strong>唯一索引</strong>：不能重复，但是索引列值可以为null<br>（3）<strong>单值索引</strong>：单字段（如age），一个表可以多个单值索引<br>（4）<strong>复合索引</strong>：多个字段构成的索引，相当于二级目录。（name，age）共同组成的一个复合索引先根据name找 name相同再查询age 所以也是最左匹配原则。</p>
+<h2 id="五、SQL优化"><a href="#五、SQL优化" class="headerlink" title="五、SQL优化"></a>五、SQL优化</h2><h3 id="5-1-SQL执行计划十大参数"><a href="#5-1-SQL执行计划十大参数" class="headerlink" title="5.1 SQL执行计划十大参数"></a>5.1 SQL执行计划十大参数</h3><p>explain select* from teacher<br>（1）<strong>id</strong>：编号<br>（2）<strong>select_type</strong>：查询类型<br>（3）<strong>table</strong>：表<br>（4）<strong>type</strong>：索引类型<br>（5）<strong>possible_keys</strong>：预测可能用到的索引<br>（6）<strong>key</strong>：实际使用的索引<br>（7）<strong>key_len</strong>：实际使用的索引的长度<br>（8）<strong>ref</strong>：表之间的引用<br>（9）<strong>rows</strong>：通过索引查询到的数据个数<br>（10）<strong>Extra</strong>：额外的信息<br>（11）<strong>filtered</strong>：过滤</p>
+]]></content>
+      <categories>
+        <category>技术相关</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软测学习实践1 功能测试基础与实战技巧</title>
+    <url>/2021/05/21/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、功能测试定义"><a href="#一、功能测试定义" class="headerlink" title="一、功能测试定义"></a>一、功能测试定义</h2><p>通常也叫黑盒测试</p>
+<a id="more"></a>
+
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521184401747.png" alt="image-20210521184401747"></p>
+<h2 id="二、如何做好功能测试"><a href="#二、如何做好功能测试" class="headerlink" title="二、如何做好功能测试"></a>二、如何做好功能测试</h2><p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521184454316.png" alt="image-20210521184454316"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521184532446.png" alt="image-20210521184532446"></p>
+<h2 id="三、功能测试基本流程"><a href="#三、功能测试基本流程" class="headerlink" title="三、功能测试基本流程"></a>三、功能测试基本流程</h2><p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185159540.png" alt="image-20210521185159540"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521184722236.png" alt="image-20210521184722236"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521184844893.png" alt="image-20210521184844893"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185406080.png" alt="image-20210521185406080"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185510489.png" alt="image-20210521185510489"></p>
+<p> <img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185603256.png" alt="image-20210521185603256"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185700150.png" alt="image-20210521185700150"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185727653.png" alt="image-20210521185727653"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185809297.png" alt="image-20210521185809297"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185907191.png" alt="image-20210521185907191"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521185936804.png" alt="image-20210521185936804"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190009013.png" alt="image-20210521190009013"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190045742.png" alt="image-20210521190045742"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190143101.png" alt="image-20210521190143101"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190243242.png" alt="image-20210521190243242"></p>
+<h2 id="四、功能测试常见问题"><a href="#四、功能测试常见问题" class="headerlink" title="四、功能测试常见问题"></a>四、功能测试常见问题</h2><p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190256062.png" alt="image-20210521190256062"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190303053.png" alt="image-20210521190303053"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190354231.png" alt="image-20210521190354231"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190442964.png" alt="image-20210521190442964"></p>
+<p><img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190533278.png" alt="image-20210521190533278"></p>
+<h2 id="五、功能测试未来前景"><a href="#五、功能测试未来前景" class="headerlink" title="五、功能测试未来前景"></a>五、功能测试未来前景</h2><p> <img src="/pic/2021-5-21-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B51-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E6%8A%80%E5%B7%A7/image-20210521190615167.png" alt="image-20210521190615167"></p>
+]]></content>
+      <categories>
+        <category>软件测试</category>
+      </categories>
+      <tags>
+        <tag>功能测试</tag>
+        <tag>实践</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>blog添加BGM</title>
+    <url>/2021/05/19/2021-5-19-blog%E6%B7%BB%E5%8A%A0BGM/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><p>鸣谢<br><a href="https://blog.csdn.net/u013384788/article/details/74079890?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-1&amp;spm=1001.2101.3001.4242" target="_blank" rel="noopener">参考链接</a></p>
+<h2 id="一、安装插件"><a href="#一、安装插件" class="headerlink" title="一、安装插件"></a>一、安装插件</h2><p>本地blog文件夹下使用cmd或者git命令行输入以下命令，安装插件。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-tag-dplayer</span><br><span class="line">npm install hexo-tag-aplayer</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="二、找寻网易云插件"><a href="#二、找寻网易云插件" class="headerlink" title="二、找寻网易云插件"></a>二、找寻网易云插件</h2><p>首先先登录自己的网易云</p>
+<p><a href="https://music.163.com/" target="_blank" rel="noopener">网易云</a></p>
+<p>然后找到我的主页</p>
+<p><img src="/pic/2021-5-19-blog%E6%B7%BB%E5%8A%A0BGM/%E6%89%BE%E5%88%B0%E6%88%91%E7%9A%84%E4%B8%BB%E9%A1%B5.png" alt="找到我的主页"></p>
+<p>然后找到我创建的歌单</p>
+<p><img src="/pic/2021-5-19-blog%E6%B7%BB%E5%8A%A0BGM/%E6%89%BE%E5%88%B0%E6%88%91%E5%88%9B%E5%BB%BA%E7%9A%84%E6%AD%8C%E5%8D%95.png" alt="找到我创建的歌单"></p>
+<p>然后找到外链生成器</p>
+<p><img src="/pic/2021-5-19-blog%E6%B7%BB%E5%8A%A0BGM/%E6%89%BE%E5%88%B0%E5%A4%96%E9%93%BE%E7%94%9F%E6%88%90%E5%99%A8.png" alt="找到外链生成器"></p>
+<p>然后复制html代码</p>
+<p><img src="/pic/2021-5-19-blog%E6%B7%BB%E5%8A%A0BGM/%E5%A4%8D%E5%88%B6html%E4%BB%A3%E7%A0%81.png" alt="复制html代码"></p>
+<p><code>&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=298 height=52 src=&quot;//music.163.com/outchain/player?type=0&amp;id=&amp;auto=1&amp;height=32&quot;&gt;&lt;/iframe&gt;</code></p>
+<p>这里的auto=1代表自动播放，如果不需要可以改成0</p>
+<h2 id="三、嵌入ejs文件"><a href="#三、嵌入ejs文件" class="headerlink" title="三、嵌入ejs文件"></a>三、嵌入ejs文件</h2><p>将html代码嵌入ejs文件。一般在themes/主题/layout下会有一些ejs文件，选择你想插入的ejs文件的内容中。根据不同地方插入不同的文件中，例如我插入到了footer.ejs中。</p>
+<h2 id="四、效果"><a href="#四、效果" class="headerlink" title="四、效果"></a>四、效果</h2><p><img src="/pic/2021-5-19-blog%E6%B7%BB%E5%8A%A0BGM/%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="效果图"></p>
+]]></content>
+      <categories>
+        <category>blog相关</category>
+      </categories>
+      <tags>
+        <tag>music</tag>
+        <tag>配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软测学习5-软件测试模型</title>
+    <url>/2021/05/03/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、软件测试模型概述"><a href="#一、软件测试模型概述" class="headerlink" title="一、软件测试模型概述"></a>一、软件测试模型概述</h2><h3 id="1-1-软件测试过程模型"><a href="#1-1-软件测试过程模型" class="headerlink" title="1.1 软件测试过程模型"></a>1.1 软件测试过程模型</h3><ol>
+<li>软件测试过程要求基于项目的整体需求，对整个测试生命周期中的所有过程、活动及变更进行定义、控制和管理。</li>
+<li>软件开发过程模型有：瀑布模型、原型模型、螺旋模型、增量模型、渐进模型、快速软件开发(RAD)以及Rational统一过程(RUP)<br>• − 对软件开发过程具有很好的指导作用，软件测试在其中的地位<br>和价值并没有体现出来，也没有给软件测试以足够的重视，用它<br>们无法指导测试实践</li>
+<li>软件测试是与软件开发紧密相关的一系列有计划的系统性的活动<br>• − 软件测试需要测试模型去指导实践。<br>• − 软件测试模型的研究随着软件工程的发展而越来越深入</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="1-2-V模型"><a href="#1-2-V模型" class="headerlink" title="1.2 V模型"></a>1.2 V模型</h3><p>是软件开发瀑布模型的变种，传统的软件测试模型，它反映了测试活动与分析和设计的关系<br>• − 描述了基本的开发过程和测试行为<br>• − 明确地标明了测试过程中存在不同类型、不同级别的测试<br>• − 清楚地描述了这些测试阶段和开发过程期间各阶段的对应关系</p>
+<p><img src="/pic/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/image-20210527202236164.png" alt="image-20210527202236164"></p>
+<h3 id="1-3-测试技术"><a href="#1-3-测试技术" class="headerlink" title="1.3 测试技术"></a>1.3 测试技术</h3><p><img src="/pic/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/image-20210527202406561.png" alt="image-20210527202406561"></p>
+<p><img src="/pic/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/image-20210527202420587.png" alt="image-20210527202420587"></p>
+<h3 id="1-4-测试层次阶段"><a href="#1-4-测试层次阶段" class="headerlink" title="1.4 测试层次阶段"></a>1.4 测试层次阶段</h3><h4 id="1-4-1-阶段1：-单元测试-Unit-Testing"><a href="#1-4-1-阶段1：-单元测试-Unit-Testing" class="headerlink" title="1.4.1 阶段1： 单元测试 Unit Testing"></a>1.4.1 阶段1： 单元测试 Unit Testing</h4><p><strong>§ 目标</strong>：<br>• 检验程序最小单元有无错误<br>• 接口、数据结构、边界、覆盖、逻辑<br>• 检验单元编码与设计是否吻合<br><strong>§ 时机</strong>：<br>• 编码完成后，首先要实施的测试<br><strong>§ 方法</strong>：<br>• 静态测试<br>• 白盒测试<br><strong>§ 责任</strong>：<br>• 开发工程师</p>
+<h4 id="1-4-1-阶段2：-集成测试-Integration-Testing"><a href="#1-4-1-阶段2：-集成测试-Integration-Testing" class="headerlink" title="1.4.1 阶段2： 集成测试 Integration Testing"></a>1.4.1 阶段2： 集成测试 Integration Testing</h4><p><strong>• 目标</strong>：<br>• 检验组成系统的模块接口有无错误<br>• 模块的数据流是否正确<br>• 代码实现的系统设计与需求定义是否吻合<br>• <strong>时机</strong>：<br>• 主要的单元测试完成后<br><strong>• 方法</strong>：<br>• 黑盒测试<br><strong>• 责任</strong>：<br>• 测试工程师</p>
+<h4 id="1-4-3-阶段3：系统测试-System-Testing"><a href="#1-4-3-阶段3：系统测试-System-Testing" class="headerlink" title="1.4.3 阶段3：系统测试  System Testing"></a>1.4.3 阶段3：系统测试  System Testing</h4><p><strong>• 目标</strong>：<br>• 检验组成整个系统的代码、以及系统的软硬件配合有无错误<br>• 代码实现的系统与用户需求是否吻合<br>• 检验系统的文档等各种是否完整、有效<br>• 模拟验收测试的要求，检查系统是否符合用户的验收标准<br><strong>• 时机</strong>：<br>• 多数集成测试完成后<br><strong>• 方法</strong>：<br>• 黑盒测试<br><strong>• 责任</strong>：<br>• 测试工程师</p>
+<h4 id="1-4-4-阶段4：-验收测试-Acceptance-Testing"><a href="#1-4-4-阶段4：-验收测试-Acceptance-Testing" class="headerlink" title="1.4.4 阶段4： 验收测试 Acceptance Testing"></a>1.4.4 阶段4： 验收测试 Acceptance Testing</h4><p><strong>• 目标</strong>：<br>• 使用实际的业务数据测试软件的需求<br>• 系统是否符合事先约定的验收标准<br>• 使客户验收签字<br><strong>• 时机</strong>：<br>• 系统测试完成后，在项目组看来开发和测试工作已经全部完成，可以交付使用<br><strong>• 方法</strong>：<br>• 黑盒测试<br><strong>• 责任</strong>：<br>• 产品经理或其他高级经理<br>• 开发工程师<br>• 测试工程师<br>• 用户</p>
+<h4 id="1-4-5-回归测试-Regression-Testing"><a href="#1-4-5-回归测试-Regression-Testing" class="headerlink" title="1.4.5 回归测试 Regression Testing"></a>1.4.5 回归测试 Regression Testing</h4><p><strong>• 目标</strong>：<br>• 验证程序修改或者版本更新以后，以前正确的功能和其他指标仍旧正确。<br><strong>• 时机</strong>：<br>• 每次错误修改之后，或者版本更新之后<br><strong>• 方法</strong>：<br>• 白盒测试/黑盒测试<br><strong>• 责任</strong>：<br>• 开发工程师<br>• 测试工程师</p>
+<h2 id="二、单元测试"><a href="#二、单元测试" class="headerlink" title="二、单元测试"></a>二、单元测试</h2><h3 id="2-1-软件单元"><a href="#2-1-软件单元" class="headerlink" title="2.1 软件单元"></a>2.1 软件单元</h3>]]></content>
+      <categories>
+        <category>软件测试</category>
+      </categories>
+      <tags>
+        <tag>软件测试模型</tag>
+        <tag>单元测试</tag>
+        <tag>集成测试</tag>
+        <tag>验收测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软测学习4-黑盒测试</title>
+    <url>/2021/04/30/2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、黑盒测试基本原理"><a href="#一、黑盒测试基本原理" class="headerlink" title="一、黑盒测试基本原理"></a>一、黑盒测试基本原理</h2><h3 id="1-1-黑盒测试概念"><a href="#1-1-黑盒测试概念" class="headerlink" title="1.1 黑盒测试概念"></a>1.1 黑盒测试概念</h3><ol>
+<li>黑盒测试，又称为功能测试或数据驱动测试把测试对象当作看不见内部的黑盒<br>• − 在完全不考虑程序内部结构和处理过程的情况下，测试者仅依据程序功能的需求规范考虑确定测试用例和推断测试结果的正确性</li>
+<li>要求导出执行程序所有功能需求的输入条件集，实现功能覆盖<br>• − 功能覆盖主要是需求覆盖,通过设计一定的测试用例,对每个需求点进行测试<br>• − 根据软件产品需求规格说明中的功能设计规格,在计算机上进行测试,以证实每个实现了的功能是否符合要求</li>
+<li>黑盒测试是在软件的接口处进行测试<br>• − 它着眼于程序外部结构，不考虑内部逻辑结构，主要针对软件界面和软件功能进行测试<br>• − “黑盒”测试是站在使用软件或程序的角度，从输入数据与输出数据的对应关系出发进行的测试</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="1-2-黑盒测试特点"><a href="#1-2-黑盒测试特点" class="headerlink" title="1.2 黑盒测试特点"></a>1.2 黑盒测试特点</h3><ol>
+<li>黑盒测试定位<br>• 如果外部特性本身设计有问题或规格说明的规定有误，用黑盒<br>测试方法是发现不了的</li>
+<li>黑盒测试不能替代白盒测试，而是用来发现白盒测试以<br>外的其他类型的错误，比如：<br>• − 功能不对或遗漏<br>• − 接口错误或界面错误<br>• − 数据结构或外部数据库访问错误<br>• − 性能错误<br>• − 初始化和中止错误</li>
+</ol>
+<h3 id="1-3-黑盒测试方法"><a href="#1-3-黑盒测试方法" class="headerlink" title="1.3 黑盒测试方法"></a>1.3 黑盒测试方法</h3><ol>
+<li>用“黑盒”测试发现程序中的错误，须在所有可能的输入/输出条件中确定测试数据检查程序是否，都能产生<br>正确输出<br>• − 这是不可能的，因为穷举测试数量太大，人们不仅要测试所有合法的输入，而且还要对那些不合法但是可能的输入进行测试，无法完成<br>• − 假设一个程序P有输入量X和Y及输出量Z。在字长为32位计算机上运行。若X、Y取整数，按“黑盒”方法进行穷举测试，其测试数据组可能为232×232＝264<br>• − 如果测试一组数据需要1毫秒，一年工作365×24小时，完成所有测试需5亿年</li>
+<li>黑盒测试要有一套产生测试用例的方法，用以产生有限的测试用例而覆盖足够多的“任何情况”<br>• − 如：等价类划分法、因果图方法、边值分析法、猜错法、随机数法等</li>
+<li>这些测试方法是从更广泛的角度来进行黑盒测试</li>
+<li>每种方法都力图能涵盖更多的“任何情况”，但又各有长处</li>
+<li>综合使用这些方法，会得到一个较好的测试用例</li>
+</ol>
+<h3 id="1-4-黑盒测试要求"><a href="#1-4-黑盒测试要求" class="headerlink" title="1.4 黑盒测试要求"></a>1.4 黑盒测试要求</h3><ol>
+<li>既要考核“程序是否做了该做的”,还要考察“程序是否没有做不该做的”。同时还要考察程序在其他一些情况下是否正常<br>• 每个软件特性或功能必须被一个测试用例或一个被认可的异常所覆盖<br>• 构造数据类型和数据值的最小集测试<br>• 用假想的数据类型和数据值运行，测试是否具备排斥不规则输入的能力<br>• 对影响性能的关键模块(如基本算法)，应测试模块性能(如精度、时间、容量等)</li>
+<li>应用黑盒测试方法，所设计出的测试用例集满足以下两个标准：<br>• 所设计出的测试用例能够减少为达到合理测试所需要设计的测试用例的总数<br>• 所设计出的测试用例能够告诉我们，是否存在某些类型的错误，而不是仅仅指出与特定测试有关的错误是否存在</li>
+</ol>
+<h2 id="二、等价类方法"><a href="#二、等价类方法" class="headerlink" title="二、等价类方法"></a>二、等价类方法</h2><h3 id="2-1-等价类测试的原理"><a href="#2-1-等价类测试的原理" class="headerlink" title="2.1 等价类测试的原理"></a>2.1 等价类测试的原理</h3><ol>
+<li>测试的目的是进行完备的测试，同时避免测试用例冗余</li>
+<li>等价类是将集合划分成互不相交的一组子集，这些子集并不是整个集合</li>
+<li>子集是由等价关系决定的，子集元素都有共同点</li>
+<li>因此：<br>• 利用子集表示了集合的完备性<br>• 互不相交体现了无冗余性</li>
+<li>等价类测试是通过每个等价类中的一个元素标<br>识测试用例，降低测试用例的冗余性</li>
+</ol>
+<h3 id="2-2-等价类划分的方法"><a href="#2-2-等价类划分的方法" class="headerlink" title="2.2 等价类划分的方法"></a>2.2 等价类划分的方法</h3><h4 id="2-2-1-划分等价类"><a href="#2-2-1-划分等价类" class="headerlink" title="2.2.1 划分等价类"></a>2.2.1 划分等价类</h4><ol>
+<li>等价类是指某个输入域的子集合<br>• − 在该子集合中，各个输入数据对于揭露程序中的错误都是等效的。测试某等价类的代表值就等价于对这一类其它值的测试</li>
+<li>等价类的划分有两种不同的情况：<br>• − 有效等价类：对于程序规格说明来说，是合理的，有意义的输入数据构成的集合<br>• − 无效等价类：对于程序规格说明来说，是不合理的，无意义的输入数据构成的集合</li>
+<li>设计测试用例时，要同时考虑有效等价类和无效等价类设计</li>
+</ol>
+<h4 id="2-2-2-等价类方法的变化依据"><a href="#2-2-2-等价类方法的变化依据" class="headerlink" title="2.2.2 等价类方法的变化依据"></a>2.2.2 等价类方法的变化依据</h4><ol>
+<li>等价类测试的思想是通过每个等价类中的一个元素标识测试用例。如果广泛选择等价类，则这样可以大大降低<br>测试用例之间的冗余。</li>
+<li>等价类测试重复边界值测试的两个决定因素，即健壮性和单/多缺陷假设。</li>
+<li>等价类测试的关键，就是选择确定的等价关系，必须区分弱和强等价类。</li>
+</ol>
+<h4 id="2-2-3-等价类的特点"><a href="#2-2-3-等价类的特点" class="headerlink" title="2.2.3 等价类的特点"></a>2.2.3 等价类的特点</h4><ol>
+<li>测试的内容相同</li>
+<li>一个等价类中的某个测试可以发现缺陷，那么这个等价类的其他测试也能发现该缺陷。</li>
+<li>如果一个等价类中的一个测试没有发现缺陷，这个等价类的其他测试也不能发现缺陷。</li>
+</ol>
+<h4 id="2-2-4-等价类划分方法"><a href="#2-2-4-等价类划分方法" class="headerlink" title="2.2.4 等价类划分方法"></a>2.2.4 等价类划分方法</h4><ol>
+<li>假设被测对象抽象成函数F，具有两个输入变量x1和x2，</li>
+<li>如果F实现为一个程序，则输入变量x1和x2将拥有以下边界，以及边界内的区间：<br>• a≤x1≤d, 区间为[a,b),[b,c),[c,d]<br>• e≤x2≤g, 区间为[e,f),[f,g]</li>
+<li>x1和x2的无效值是：<br>• x1&lt;a, x1&gt;d以及x2&lt;e, x2&gt;g</li>
+</ol>
+<h3 id="2-3-等价类测试的类型"><a href="#2-3-等价类测试的类型" class="headerlink" title="2.3 等价类测试的类型"></a>2.3 等价类测试的类型</h3><h4 id="2-3-1-弱一般等价类测试"><a href="#2-3-1-弱一般等价类测试" class="headerlink" title="2.3.1 弱一般等价类测试"></a>2.3.1 弱一般等价类测试</h4><p> 弱一般等价类测试是单缺陷假设<br> 通过使用一个测试用例中的每个等价类(区间)的一个变量实现。</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522224808233.png" alt="image-20210522224808233"></p>
+<h4 id="2-3-2-强一般等价类测试"><a href="#2-3-2-强一般等价类测试" class="headerlink" title="2.3.2 强一般等价类测试"></a>2.3.2 强一般等价类测试</h4><p> 强一般等价类测试基于多缺陷假设，因此，需要等价类笛卡尔积的每个元素对应的测试用例。</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522224820113.png" alt="image-20210522224820113"></p>
+<h4 id="2-3-3-强健壮等价类测试"><a href="#2-3-3-强健壮等价类测试" class="headerlink" title="2.3.3 强健壮等价类测试"></a>2.3.3 强健壮等价类测试</h4><p>多缺陷条件假设，从所有等价类笛卡尔积的每个元素中获得测试用例。</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522225206077.png" alt="image-20210522225206077"></p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/20110310_d97ce671ce85852d30c6n1OYfMqLzE6t.jpg" alt="img"></p>
+<p>弱一般等价类：0<del>100中任意一个数为测试数据，只设计1个用例即可<br>强一般等价类：分为0、 1</del>99、 100三个等价类，需要设计3个用例<br>弱健壮等价类：考虑到60分在实际情况中为特殊数字，划分0、 1~99（除60外）、 100、 60四个等价类<br>强健壮等价类：考虑各种非法输入，如负数、其他字符等等</p>
+<h4 id="2-3-3-测试用例的选择"><a href="#2-3-3-测试用例的选择" class="headerlink" title="2.3.3 测试用例的选择"></a>2.3.3 测试用例的选择</h4><ol>
+<li>为每一个等价类规定一个唯一的编号</li>
+<li>设计一个新的测试用例，使其尽可能多的覆盖尚未被覆盖的有效等价类，重复这一步，直至所有的有效等价类<br>都被覆盖过</li>
+<li>设计一个新的测试用例，使其仅覆盖一个尚未被覆盖的无效等价类，重复这一步，直至所有的无效等价类都被<br>覆盖为止</li>
+</ol>
+<h4 id="2-3-4-等价类的划分"><a href="#2-3-4-等价类的划分" class="headerlink" title="2.3.4 等价类的划分"></a>2.3.4 等价类的划分</h4><ol>
+<li>如果输入条件规定了取值范围，或值的个数，则可以确立一个有效等价类和两个无效等价类。<br>• 例如，在程序的规格说明中，对输入条件有一句话：“…… 项数可以从1到999 ……”，则有效等价类是“1≤项数≤999”两个无效等价类是“项数＜1”或“项数＞999”。</li>
+<li>如果输入条件规定了输入值的集合，或者是规定了“必须如何”的条件，这时可确立一个有效等价类和一个无<br>效等价类。<br>• 例如，对变量标识符规定为“以字母打头的……串”。那么所有以字母打头的构成有效等价类，而不在此集合内（不以字母打头）的归于无效等价类。</li>
+<li>如果输入条件是一个布尔量，则可以确定一个有效等价类和一个无效等价类</li>
+<li>如果规定了输入数据的一组值，而且程序要对每个输入值分别进行处理，这时可为每一个输入值确立一个有效等价类，此外针对这组值确立一个无效等价类，它是所有不允许的输入值的集合<br>• 例如：在教师上岗方案中规定对教授、副教授、讲师和助教分别计算分数，做相应的处理，可以确定4个有效等价类为教授、副教授、讲师和助教，一个无效等价类，它是所有不符合以上身分的人员的输入值的集合。</li>
+<li>如果规定了输入数据必须遵守的规则，则可确立一个有效等价类(符合规则)和若干个无效等价类<br>• 例如，规定“一个语句必须以分号’;’结束”，这时，可以确定一个有效等价类“以’;’结束”，若干个无效等价类“以’:’结束”、“以’,’结束”、“以’ ‘结束”、“以LF结束”等</li>
+</ol>
+<h3 id="2-4-等价类方法的案例设计"><a href="#2-4-等价类方法的案例设计" class="headerlink" title="2.4 等价类方法的案例设计"></a>2.4 等价类方法的案例设计</h3><h4 id="2-4-1-等价类测试用例举例-三角形"><a href="#2-4-1-等价类测试用例举例-三角形" class="headerlink" title="2.4.1 等价类测试用例举例-三角形"></a>2.4.1 等价类测试用例举例-三角形</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230749568.png" alt="image-20210522230749568"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230755567.png" alt="image-20210522230755567"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230804823.png" alt="image-20210522230804823"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230821669.png" alt="image-20210522230821669"></p>
+<h4 id="2-4-2-等价类测试用例设计的步骤"><a href="#2-4-2-等价类测试用例设计的步骤" class="headerlink" title="2.4.2 等价类测试用例设计的步骤"></a>2.4.2 等价类测试用例设计的步骤</h4><ol>
+<li>分析需求描述</li>
+<li>划分测试功能的粒度</li>
+<li>确定每个测试功能的输入和输出</li>
+<li>对输入/输出划分等价类</li>
+<li>选择等价类的方法，计算测试用例数量</li>
+<li>设计测试用例</li>
+</ol>
+<h3 id="2-5-等价类测试总结"><a href="#2-5-等价类测试总结" class="headerlink" title="2.5 等价类测试总结"></a>2.5 等价类测试总结</h3><ol>
+<li>等价类测试的弱形式不如强形式的测试全面</li>
+<li>如果错误条件非常重要，有必要进行健壮形式的测试</li>
+<li>如果输入数据以离散值区间和集合定义，则等价类测试是合适的</li>
+<li>通过结合边界值测试，等价类测试可以得到加强</li>
+<li>如果函数很复杂，需要做等价类测试</li>
+<li>强等价类测试假设变量是独立的，相应的测试用例相乘会引起冗余问题。如果存在依赖关系，则常常会生成错误的测试用例</li>
+<li>在确定合适的等价关系之前，可能需要进行多次尝试</li>
+<li>强和弱形式的等价类测试之间的差别，有助于区分累进测试和回归测试</li>
+</ol>
+<h2 id="三、边界值方法"><a href="#三、边界值方法" class="headerlink" title="三、边界值方法"></a>三、边界值方法</h2><h3 id="3-1-边界值测试的基本概念"><a href="#3-1-边界值测试的基本概念" class="headerlink" title="3.1 边界值测试的基本概念"></a>3.1 边界值测试的基本概念</h3><h4 id="3-1-1-边界值测试的作用"><a href="#3-1-1-边界值测试的作用" class="headerlink" title="3.1.1 边界值测试的作用"></a>3.1.1 边界值测试的作用</h4><ol>
+<li>边界值分析是对等价类划分方法的补充</li>
+<li>从测试工作经验得知，大量的错误是发生在输入或输出范围的边界上，而不是在输入范围的内部</li>
+<li>针对各种边界情况设计测试用例，可以查出更多的错误</li>
+</ol>
+<h4 id="3-1-2-边界值测试的原理"><a href="#3-1-2-边界值测试的原理" class="headerlink" title="3.1.2 边界值测试的原理"></a>3.1.2 边界值测试的原理</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231448901.png" alt="image-20210522231448901"></p>
+<h4 id="3-1-3-边界值分析思想"><a href="#3-1-3-边界值分析思想" class="headerlink" title="3.1.3 边界值分析思想"></a>3.1.3 边界值分析思想</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231511441.png" alt="image-20210522231511441"></p>
+<h3 id="3-2-边界值分析的方法"><a href="#3-2-边界值分析的方法" class="headerlink" title="3.2 边界值分析的方法"></a>3.2 边界值分析的方法</h3><p>基本边界值分析手段可以用两种方式归纳：<strong>变量数量和值域</strong>。</p>
+<ol>
+<li>归纳变量数量：<br>• 如果有一个n变量函数，使除一个以外的所有变量取正常值，使剩余的那个变量取最小值、略高于最小值、正常值、略低于最大值和最大值，对每个变量都重复进行，<br>• 这样，对于一个n变量函数，边界值分析会产生4n+1个测试用例。</li>
+<li>通过值域的种类<br>• 取决于变量本身的类型<br>• 显式的边界和有离散的边界，容易确定边界<br>• 没有显式地给出边界的，需要人为地创建边界</li>
+</ol>
+<p>多个独立的变量（变量之间没有依赖），受物理量（温度、压力等）的限制，比较适合边界值分析</p>
+<h3 id="3-3-边界值测试的类型"><a href="#3-3-边界值测试的类型" class="headerlink" title="3.3 边界值测试的类型"></a>3.3 边界值测试的类型</h3><h4 id="3-3-1-一般边界值"><a href="#3-3-1-一般边界值" class="headerlink" title="3.3.1 一般边界值"></a>3.3.1 一般边界值</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231724096.png" alt="image-20210522231724096"></p>
+<h4 id="3-3-2-健壮性测试"><a href="#3-3-2-健壮性测试" class="headerlink" title="3.3.2 健壮性测试"></a>3.3.2 健壮性测试</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231741068.png" alt="image-20210522231741068"></p>
+<h4 id="3-3-3-最坏情况测试"><a href="#3-3-3-最坏情况测试" class="headerlink" title="3.3.3 最坏情况测试"></a>3.3.3 最坏情况测试</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231758947.png" alt="image-20210522231758947"></p>
+<h4 id="3-3-4-最坏健壮性测试"><a href="#3-3-4-最坏健壮性测试" class="headerlink" title="3.3.4 最坏健壮性测试"></a>3.3.4 最坏健壮性测试</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231815160.png" alt="image-20210522231815160">‘</p>
+<h4 id="3-3-5-特殊值测试"><a href="#3-3-5-特殊值测试" class="headerlink" title="3.3.5 特殊值测试"></a>3.3.5 特殊值测试</h4><ol>
+<li>特殊值测试大概是运用得最广泛的一种功能性测试。</li>
+<li>当测试人员使用其领域知识、使用类似程序的经验以及关于“软点”信息开发测试用例时，会出现特殊值测试</li>
+<li>特殊测试特别依赖测试人员的能力。尽管特殊值测试是高度主观性的，但是所产生的测试用例集合，常常更能<br>有效地发现缺陷。</li>
+</ol>
+<h4 id="3-3-6-随机测试"><a href="#3-3-6-随机测试" class="headerlink" title="3.3.6 随机测试"></a>3.3.6 随机测试</h4><ol>
+<li>随机测试的思想是：不是永远选取有界变量的最小值、略高于最小值、正常值、略低于最大值和最大值，而是<br>使用随机数生成器选出测试用例值。</li>
+<li>随机测试可以避免出现测试偏见，但是也带来了一个严重的问题：多少随机测试用例才是充分的。</li>
+<li>对于有界变量a≤x≤b可采用以下程序（C）生成:<br>• x=int((b-a+1)*random(1))+a</li>
+<li>这个程序持续生成随机测试用例，直到每种输出至少出现一次。</li>
+</ol>
+<h3 id="3-4-边界值方法的案例设计"><a href="#3-4-边界值方法的案例设计" class="headerlink" title="3.4 边界值方法的案例设计"></a>3.4 边界值方法的案例设计</h3><h4 id="3-4-1-佣金问题举例"><a href="#3-4-1-佣金问题举例" class="headerlink" title="3.4.1 佣金问题举例"></a>3.4.1 佣金问题举例</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231936461.png" alt="image-20210522231936461"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231946489.png" alt="image-20210522231946489"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231954698.png" alt="image-20210522231954698"></p>
+<h2 id="四、决策表方法"><a href="#四、决策表方法" class="headerlink" title="四、决策表方法"></a>四、决策表方法</h2><h3 id="4-1-决策表"><a href="#4-1-决策表" class="headerlink" title="4.1 决策表"></a>4.1 决策表</h3><h4 id="4-1-1-决策表的基本概念"><a href="#4-1-1-决策表的基本概念" class="headerlink" title="4.1.1 决策表的基本概念"></a>4.1.1 决策表的基本概念</h4><ol>
+<li>在所有功能性测试方法中，基于决策表的测试方法是最严格的，因为决策表具有逻辑严格性。</li>
+<li>决策表一直被用来表示和分析复杂逻辑关系。决策表很适合描述不同条件集合下采取行动的若干组合的情况</li>
+<li>决策表有四个部分：桩部分、条目部分、条件部分、行动部分。</li>
+<li>因此，我们可以引用条件桩、条件条目、行动桩和行动条目。条目中的一列是一条规则。规则指在规则的条件<br>环境下要采取什么行动。</li>
+</ol>
+<h4 id="4-1-2-决策表结构"><a href="#4-1-2-决策表结构" class="headerlink" title="4.1.2 决策表结构"></a>4.1.2 决策表结构</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232343451.png" alt="image-20210522232343451"></p>
+<h4 id="4-1-3-如何看懂一个决策表"><a href="#4-1-3-如何看懂一个决策表" class="headerlink" title="4.1.3 如何看懂一个决策表"></a>4.1.3 如何看懂一个决策表</h4><ol>
+<li>在决策表中，如果C1、C2和C3都为真,则采取行动A1和A2。如果C1和C2都为真而C3为假，则采取行动A1<br>和A3。</li>
+<li>在C1为真C2为假条件下，规则中的C3条目叫做“不关心”条目。不关心条目由两种主要解释：条件无关或条<br>件不适用。</li>
+<li>如果有二叉条件(真/假，是/否，0/1)，则决策表的条件部分是旋转了90度的真值表。</li>
+<li>所有条件都是二叉条件的决策表叫做有限条目决策表。如果条件可以有多个值，则对应的决策表叫做扩展条件。</li>
+</ol>
+<h3 id="4-2-决策表测试分析的方法"><a href="#4-2-决策表测试分析的方法" class="headerlink" title="4.2 决策表测试分析的方法"></a>4.2 决策表测试分析的方法</h3><h4 id="4-2-1-决策表的测试"><a href="#4-2-1-决策表的测试" class="headerlink" title="4.2.1 决策表的测试"></a>4.2.1 决策表的测试</h4><ol>
+<li>决策表的条件是真值表</li>
+<li>保证能够考虑了所有可能的条件组合</li>
+<li>使用决策表标识测试用例，能够保证一种完备的测试</li>
+<li>为了使用决策表标识测试用例，我们把条件解释为输入，把行动解释为输出。</li>
+<li>决策表是说明性的，给出的条件没有特别的顺序，而且所选择的行动发生时也没有任何特定顺序</li>
+</ol>
+<p><strong>例</strong>：</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232804719.png" alt="image-20210522232804719"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232851982.png" alt="image-20210522232851982"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232900921.png" alt="image-20210522232900921"></p>
+<h3 id="4-3-互斥条件"><a href="#4-3-互斥条件" class="headerlink" title="4.3 互斥条件"></a>4.3 互斥条件</h3><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232944888.png" alt="image-20210522232944888"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232936988.png" alt="image-20210522232936988"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232954346.png" alt="image-20210522232954346"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522233005777.png" alt="image-20210522233005777"></p>
+<h3 id="4-4-决策表方法的案例设计"><a href="#4-4-决策表方法的案例设计" class="headerlink" title="4.4 决策表方法的案例设计"></a>4.4 决策表方法的案例设计</h3><h4 id="4-4-1-三角形问题的测试用例"><a href="#4-4-1-三角形问题的测试用例" class="headerlink" title="4.4.1 三角形问题的测试用例"></a>4.4.1 三角形问题的测试用例</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522233029012.png" alt="image-20210522233029012"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522233046221.png" alt="image-20210522233046221"></p>
+<h3 id="4-5-决策表总结"><a href="#4-5-决策表总结" class="headerlink" title="4.5 决策表总结"></a>4.5 决策表总结</h3><ol>
+<li>决策表技术适用于以下特征的应用程序<br>• IF-THEN-ELSE逻辑突出<br>• 输入变量之间存在逻辑关系<br>• 涉及输出变量子集的计算<br>• 输入与输出之间存在因果关系</li>
+<li>决策表不能很好地伸缩，需要使用扩展条目决策表、代数简化表，将大表分解成小表可以使用迭代技术，逐渐改进，直到得到满意的决策表</li>
+</ol>
+]]></content>
+      <categories>
+        <category>软件测试</category>
+      </categories>
+      <tags>
+        <tag>黑盒测试</tag>
+        <tag>概念，等价类，边界值，决策表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软测学习3 白盒测试</title>
+    <url>/2021/04/29/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、白盒测试的基本原理"><a href="#一、白盒测试的基本原理" class="headerlink" title="一、白盒测试的基本原理"></a>一、白盒测试的基本原理</h2><h3 id="1-1-动态测试概念"><a href="#1-1-动态测试概念" class="headerlink" title="1.1 动态测试概念"></a>1.1 动态测试概念</h3><h4 id="1-1-1-动态测试定义"><a href="#1-1-1-动态测试定义" class="headerlink" title="1.1.1 动态测试定义"></a>1.1.1 动态测试定义</h4><p>通过运行被测程序，检查运行结果与预期结果的差异，并分析运行效率和健壮性等性能。</p>
+<a id="more"></a>
+
+<h4 id="1-1-2-动态测试组成部分"><a href="#1-1-2-动态测试组成部分" class="headerlink" title="1.1.2 动态测试组成部分"></a>1.1.2 动态测试组成部分</h4><ol>
+<li>构造测试用例</li>
+<li>执行程序</li>
+<li>分析程序的输出结果</li>
+</ol>
+<h4 id="1-1-3-动态测试分类"><a href="#1-1-3-动态测试分类" class="headerlink" title="1.1.3 动态测试分类"></a>1.1.3 动态测试分类</h4><ol>
+<li>从是否关心软件内部结构和具体实现的角度划分<br>• − “白盒”测试、“黑盒”测试和“灰盒”测试</li>
+<li>从软件开发的过程的角度划分<br>• − 单元测试、集成测试、确认测试、系统测试、验收测试及回归测试</li>
+<li>从测试执行时是否需要人工干预的角度划分<br>• − 人工测试和自动化测试</li>
+<li>从测试实施组织的角度划分<br>• − 开发方测试、用户测试(β测试)、第三方测试</li>
+</ol>
+<h3 id="1-2-白盒测试"><a href="#1-2-白盒测试" class="headerlink" title="1.2 白盒测试"></a>1.2 白盒测试</h3><h4 id="1-2-1-白盒测试概念"><a href="#1-2-1-白盒测试概念" class="headerlink" title="1.2.1 白盒测试概念"></a>1.2.1 白盒测试概念</h4><p>是一种按照程序内部逻辑结构和编码结构设计测试数据并完成<br>测试的一种测试方法<br>• − 测试覆盖全部代码、分支、路径和条件<br>• − 它利用查看代码功能和实现方式得到的信息来确定哪些需要<br>测试、哪些不需要、如何展开测试<br>• − 又称为结构测试或逻辑驱动测试</p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520171718144.png" alt="image-20210520171718144"></p>
+<h4 id="1-2-2-白盒测试特点"><a href="#1-2-2-白盒测试特点" class="headerlink" title="1.2.2 白盒测试特点"></a>1.2.2 白盒测试特点</h4><ol>
+<li>可以构成测试数据使特定程序部分得到测试</li>
+<li>有一定的充分性度量手段</li>
+<li>可获得较多工具支持</li>
+<li>通常只用于单元测试和集成测试(主要是单元测试)</li>
+</ol>
+<h3 id="1-3-白盒测试内容和方法"><a href="#1-3-白盒测试内容和方法" class="headerlink" title="1.3 白盒测试内容和方法"></a>1.3 白盒测试内容和方法</h3><h4 id="1-3-1-基本测试内容"><a href="#1-3-1-基本测试内容" class="headerlink" title="1.3.1 基本测试内容"></a>1.3.1 基本测试内容</h4><p>• 对程序模块的所有独立执行路径至少测试一次<br>• 对所有的逻辑判定，取“真”与取“假”的两种情况都至少测<br>试一次<br>• 在循环的边界和运行的边界限内执行循环体<br>• 测试内部数据结构的有效性</p>
+<h4 id="1-3-2-白盒测试所采用的测试方法是"><a href="#1-3-2-白盒测试所采用的测试方法是" class="headerlink" title="1.3.2 白盒测试所采用的测试方法是"></a>1.3.2 白盒测试所采用的测试方法是</h4><p>逻辑覆盖（包括语句覆盖、分支覆盖、条件覆盖、分支-条件覆盖以及路径覆盖）</p>
+<h2 id="二、代码逻辑覆盖测试"><a href="#二、代码逻辑覆盖测试" class="headerlink" title="二、代码逻辑覆盖测试"></a>二、代码逻辑覆盖测试</h2><h3 id="2-1-代码逻辑覆盖概念"><a href="#2-1-代码逻辑覆盖概念" class="headerlink" title="2.1 代码逻辑覆盖概念"></a>2.1 代码逻辑覆盖概念</h3><h4 id="2-1-1-覆盖率"><a href="#2-1-1-覆盖率" class="headerlink" title="2.1.1 覆盖率"></a>2.1.1 覆盖率</h4><p>覆盖率是用来度量测试完整性的一个手段。分为逻辑覆盖和功能覆盖两大类。<br>覆盖率可以通过一个比率公式来表示：<br><strong>覆盖率=（至少被执行一次的item数）/item的总数</strong><br>通过覆盖率数据，可以知道测试的是否充分，测试的弱点在哪些方面，进而指导设计能够增加覆盖率的测试用例。</p>
+<h4 id="2-1-2-逻辑覆盖"><a href="#2-1-2-逻辑覆盖" class="headerlink" title="2.1.2 逻辑覆盖"></a>2.1.2 逻辑覆盖</h4><p>是以程序内部的逻辑结构为基础的测试方法，属“白盒”测试<br>这一方法是一系列测试过程的总称，它要求测试人员对程序的逻辑结构有清楚的了解<br>从覆盖源程序的各个方面考虑，大致可以分为<br>• − <strong>语句覆盖、判定覆盖、条件覆盖、判定/条件覆盖、条件组合覆盖和路径覆盖</strong></p>
+<h3 id="2-2-代码逻辑覆盖的测试方法"><a href="#2-2-代码逻辑覆盖的测试方法" class="headerlink" title="2.2 代码逻辑覆盖的测试方法"></a>2.2 代码逻辑覆盖的测试方法</h3><h4 id="2-2-1-语句覆盖"><a href="#2-2-1-语句覆盖" class="headerlink" title="2.2.1 语句覆盖"></a>2.2.1 语句覆盖</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520172442100.png" alt="image-20210520172442100"></p>
+<p>为了暴露程序中的错误，语句覆盖是最起码的测试要求，要求设计足够多的测试用例，使得每一条语句至少被执行一次。<br>它对程序的逻辑覆盖很少，是很弱的逻辑覆盖标准<br>• 为了更充分地测试程序，需要采用后边讲述的其他逻辑覆盖方法<br><strong>语句覆盖的优点</strong><br>• − 检查所有语句<br>• − 结构简单的代码的测试效果较好<br>• − 容易实现自动测试<br>• − 代码覆盖率高<br>• − 如果是程序块覆盖，则不用考虑程序块中的源代码<br>语句覆盖<strong>不能</strong>检查出的<strong>错误</strong>有<br>• − 条件语句错误、逻辑运算错误、循环语句错误</p>
+<h4 id="2-2-2-判定覆盖（分支覆盖）"><a href="#2-2-2-判定覆盖（分支覆盖）" class="headerlink" title="2.2.2 判定覆盖（分支覆盖）"></a>2.2.2 判定覆盖（分支覆盖）</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520172947269.png" alt="image-20210520172947269"></p>
+<p>要求设计做够多的测试用例，使得程序中的每一个分支至少通过一次<br>• − 即每一条分支语句的“真”值和“假”值都至少执行一次<br>• − while语句、switch语句、异常处理、跳转语句和三目运算符(a？b：c)等等同样可以使用分支覆盖来测试<br>• − 对多分支语句，如C语言中的case语句，分支覆盖必须对每一个分支的每一种可能的结果都进行测试<br><strong>判定覆盖要比语句覆盖查错能力强一些：</strong><br>• − 执行了分支覆盖，实际也就执行了语句覆盖<br> <strong>判定覆盖与语句覆盖存在同样的缺点</strong><br>• − 不能查出条件语句错误，不能查出逻辑运算错误，不能查出循环次数错误，不能查出循环条件错误</p>
+<h4 id="2-2-3-条件覆盖"><a href="#2-2-3-条件覆盖" class="headerlink" title="2.2.3 条件覆盖"></a>2.2.3 条件覆盖</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520232121973.png" alt="image-20210520232121973"></p>
+<p>不仅每一个语句至少执行一次，使得判定中的每个条件获得各种可能结果<br>判定覆盖只关心整个判定表达式的结果，条件覆盖关心的则是每个条件各种取值的结果<br><strong>条件覆盖的利弊</strong><br>• − 能够检查所有的条件错误<br>• − 不能实现对每个分支的检查<br>• − 用例数增加</p>
+<h4 id="2-2-4-判断-条件覆盖"><a href="#2-2-4-判断-条件覆盖" class="headerlink" title="2.2.4 判断/条件覆盖"></a><strong>2.2.4 判断/条件覆盖</strong></h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520232400125.png" alt="image-20210520232400125"></p>
+<p>设计足够多的测试用例，使得判定中每个条件的所有可能取值至少能够获取一次，同时每个判断的所有可能的判定结果至少执行一次<br>• − 用于解决条件覆盖不一定包括判定覆盖，判定覆盖也不一定<br>包括条件覆盖的问题<br><strong>分支-条件覆盖的利弊：</strong><br>• − 既考虑了每一个条件，又考虑了每一个分支，发现错误能力<br><strong>强于分支覆盖和条件覆盖</strong><br>• − 并不能全面覆盖所有路径<br>• − 用例数量的增加</p>
+<h4 id="2-2-5-条件组合覆盖"><a href="#2-2-5-条件组合覆盖" class="headerlink" title="2.2.5 条件组合覆盖"></a>2.2.5 条件组合覆盖</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210520233027458.png" alt="image-20210520233027458"></p>
+<p>要求设计足够多的测试用例，使得每个判定中条件的各种组合至少出现一次<br>满足条件组合覆盖标准的测试用例，也一定满足判定覆盖、条件覆盖和判定/条件覆盖标准<br>• − 条件组合覆盖是前面几种覆盖标准中最强的<br>• − 但是，满足条件组合覆盖要求的测试用例并不一定能使程序中的每条路径都执行到</p>
+<h4 id="2-2-6-路径覆盖"><a href="#2-2-6-路径覆盖" class="headerlink" title="2.2.6 路径覆盖"></a>2.2.6 路径覆盖</h4><p>所有的路径全都覆盖一遍</p>
+<p>最全面，但也是消耗最大的方式。</p>
+<h2 id="三、代码路径测试"><a href="#三、代码路径测试" class="headerlink" title="三、代码路径测试"></a>三、代码路径测试</h2><h3 id="3-1-测试覆盖率"><a href="#3-1-测试覆盖率" class="headerlink" title="3.1 测试覆盖率"></a>3.1 测试覆盖率</h3><p>覆盖率是用来度量测试完整性的一个手段。分为逻辑覆盖和功能覆盖两大类。</p>
+<p>覆盖率可以通过一个比率公式来表示：覆盖率=（至少被执行一次的item数）/item的总数</p>
+<p>通过覆盖率数据，可以知道测试的是否充分，测试的弱点在哪些方面，进而指导设计能够增加覆盖率的测试用例。</p>
+<h3 id="3-2-程序图"><a href="#3-2-程序图" class="headerlink" title="3.2 程序图"></a>3.2 程序图</h3><p><strong>定义</strong>：给定一个采用命令式程序设计语言编写的程序，其程序图是一种有向图，其中：</p>
+<p>• 传统定义：<br>• 节点是程序语句，边表示控制流（从节点i到节点j有一条边，当且仅当对应节点j的语句可以立即在节点i对应的语句之后执行）。<br>• 改进后的定义：<br>• 节点要么是整个语句，要么是语句的一部分，边表示控制流<br>（从节点i到节点j有一条边,当且仅当对应节点j的语句或语句的<br>一部分，可以立即在节点i对应的语句或语句的一部分之后执行）</p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120058676.png" alt="image-20210522120058676"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120108272.png" alt="image-20210522120108272"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120123968.png" alt="image-20210522120123968"></p>
+<h3 id="3-3-DD-路径测试"><a href="#3-3-DD-路径测试" class="headerlink" title="3.3 DD-路径测试"></a>3.3 DD-路径测试</h3><h4 id="3-3-1-DD路径基本概念"><a href="#3-3-1-DD路径基本概念" class="headerlink" title="3.3.1 DD路径基本概念"></a>3.3.1 DD路径基本概念</h4><p>结构性测试最著名的形式以叫做决策到决策路径(DD-路径)的结构为基础。<br>DD-路径指语句的一种序列，从决策语句的“出路”开始，到下一个决策语句的“入路”结束，在这种序列中没有内部分支。</p>
+<p><strong>定义</strong>：给定采用命令式语言编写的一段程序，其DD-路径图是有向图。其中，其节点表示其程序图的DD-路径，边表示连续DD-路径之间的控制流。<br>实际上，DD-路径图是一种压缩图，在这种压缩图中，2-连接组件被压缩DD-路径的单个节点。提出DD-路径的目的，在于DD-路径能够非常精确地描述测试覆盖。</p>
+<h4 id="3-3-2-Miller测试覆盖指标"><a href="#3-3-2-Miller测试覆盖指标" class="headerlink" title="3.3.2 Miller测试覆盖指标"></a>3.3.2 Miller测试覆盖指标</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120316263.png" alt="image-20210522120316263"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522120342250.png" alt="image-20210522120342250"></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>错误行数之间是线性关系，随着程序的增大，出错率以非线性方式增长。</p>
+<p>代码行度量：以源代码的行数–度量程序的复杂性。</p>
+<p>程序出错率为100行源程序中可能存在0.04-7个错误，出错率与源程序行数之间不存在简单的线性关系</p>
+<p>对于小程序，每行代码（执行部分）的出错率为1.3%-1.8%</p>
+<p>对于大程序，每行代码（执行部分）的出错率为2.7%-3.2%</p>
+<h3 id="3-5-环形复杂度（McCabe度量法）"><a href="#3-5-环形复杂度（McCabe度量法）" class="headerlink" title="3.5 环形复杂度（McCabe度量法）"></a>3.5 环形复杂度（McCabe度量法）</h3><p><a href="https://blog.csdn.net/weixin_40312518/article/details/89556473" target="_blank" rel="noopener">环形复杂度求法</a></p>
+<p>（1）流图中的区域数等于环形复杂度。<br>（2）流图G的环形复杂度V(G)=E-N+2，其中，E是流图中边的条数，N是结点数。<br>（3）流图G的环形复杂度V(G)=P+1，其中，P是流图中判定结点的数目。</p>
+<h2 id="四、数据流测试"><a href="#四、数据流测试" class="headerlink" title="四、数据流测试"></a>四、数据流测试</h2><h3 id="4-1-数据流测试的目标"><a href="#4-1-数据流测试的目标" class="headerlink" title="4.1 数据流测试的目标"></a>4.1 数据流测试的目标</h3><p><strong>数据流测试主要是为了发现</strong><br>• 定义/引用异常缺陷<br>• 变量被定义，但从来没有使用（引用）<br>• 所使用的变量没有被定义<br>• 变量在使用之前被定义两次。<br><strong>数据流测试重点关注的是变量的定义与使用测试</strong><br>• 调试修改bug时，我们可能会在一段代码中搜索某个变量所有的定义、使用位置，思考在程序运行时该变量的值会如何变化，从而分析bug产生原因<br>• 数据流测试是将这种方法形式化，这样也便于构造算法，实现自动化分析</p>
+<h3 id="4-2-数据流测试概念"><a href="#4-2-数据流测试概念" class="headerlink" title="4.2 数据流测试概念"></a>4.2 数据流测试概念</h3><p><strong>数据流测试</strong>：指关注变量接收值的点和使用（引用）这些值的点的结构性测试形式。数据流测试用作路径测试<br>的“真实性检查”。<br><strong>两种方法</strong>：<br>• 一种提供一组基本定义和一种统一的测试覆盖指标结构<br>• 另一种基于叫做“程序片”的概念。</p>
+<h3 id="4-3-定义-使用测试"><a href="#4-3-定义-使用测试" class="headerlink" title="4.3 定义/使用测试"></a>4.3 定义/使用测试</h3><p>程序图：G（P），其中P是程序<br>V：程序P中的一组变量<br>G（P）：有一个单入口节点和一个单出口节点，并且<br>不允许有从某个节点到其自身的边<br>PATH（P）：P中所有路径的集合</p>
+<p><strong>一组定义</strong>：</p>
+<ol>
+<li><p>节点n∈G（P）是变量v ∈V的定义节点，记做DEF（v，n），当且仅当变量v的值由对应节点n的语句片段处定义。</p>
+</li>
+<li><p>输入语句、赋值语句、循环控制语句和过程调用，都是定义节点语句的例子。</p>
+</li>
+<li><p>执行定义语句，该变量所关联的存储单元的内容就会改变。</p>
+</li>
+<li><p>使用节点USE（v，n）是一个谓词使用（记做P-use），当且仅当语句n是谓词语句；否则USE（v，n）是计算使用（记做C-use）。</p>
+</li>
+<li><p>对应谓词使用的节点永远有外度≥2，对应于计算使用的节点永远有外度≤1。</p>
+</li>
+<li><p>关于变量v的定义-使用路径（记做du-path）<br>• 是PATHS（P）中的路径，使得对某个v ∈V，存在定义和使用节点DEF（v，m）和USE（v，n），使得m和n是该路径的最初和最终节点。</p>
+</li>
+<li><p>关于变量v的定义清除路径（记做dc-path），<br>• 是具有最初和最终节点DEF（v，m）和USE（v，n）的PATHS（P）中的路径，使得该路径中没有其他节点是v的定义节点。</p>
+</li>
+</ol>
+<h3 id="4-4-定义-使用路径测试覆盖指标"><a href="#4-4-定义-使用路径测试覆盖指标" class="headerlink" title="4.4  定义-使用路径测试覆盖指标"></a>4.4  定义-使用路径测试覆盖指标</h3><ol>
+<li>集合T满足程序P的全定义准则，<br>• 当且仅当所有变量v∈V，T包含从v的每个定义节点到v的一个使用的定义清除路径。</li>
+<li>集合T满足程序P的全使用准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有使用，以及到所有USE（v，n）后续节点的定义清除路径。</li>
+<li>集合T满足程序P的全谓词使用/部分计算使用准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有谓词使用的定义清除路径，并且如果v的一个定义没有谓词使用，则定义清除路径导致至少一个计算使用。</li>
+<li>集合T满足程序P的全计算使用/部分谓词使用准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有计算使用的定义清除路径，并且如果v的一个定义没有计算使用，则定义清除路径导致至少一个谓词使用。</li>
+<li>集合T满足程序P的全定义-使用路径准则，<br>• 当且仅当所有变量v ∈V，T包含从v的每个定义节点到v的所有使用，以及到所有USE（v，n）后续节点的定义清除路径，并且这些路径要么有一次的环经过，要么没有环路。</li>
+</ol>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522130217381.png" alt="image-20210522130217381"></p>
+<h2 id="五、代码静态审查"><a href="#五、代码静态审查" class="headerlink" title="五、代码静态审查"></a>五、代码静态审查</h2><h3 id="5-1-代码静态分析"><a href="#5-1-代码静态分析" class="headerlink" title="5.1 代码静态分析"></a>5.1 代码静态分析</h3><h4 id="5-1-1-概念"><a href="#5-1-1-概念" class="headerlink" title="5.1.1 概念"></a>5.1.1 <strong>概念</strong></h4><ol>
+<li>静态分析通常是指不执行程序代码而寻找代码中可能存在的错误或评估程序代码的过程</li>
+<li>被测对象是各种与软件相关的有必要测试的产物，如文档、源代码等</li>
+<li>通过扫描程序正文对程序的数据流和控制流等进行分析<br>• − 找出系统的缺陷，得出测试报告<br>• − 不必进行测试用例的设计和结果分析等工作</li>
+<li>静态测试可以手工/人工进行，也可以借助软件工具自动进行<br>• − 人工进行静态测试，能够充分发挥人的思维的优势<br>• − 在发现错误的同时也就可以定位错误<br>• − 静态测试不需要特别的条件，容易展开</li>
+<li>静态测试对测试人员要求较高，至少测试人员要具有编程经验</li>
+</ol>
+<h4 id="5-1-2-原因"><a href="#5-1-2-原因" class="headerlink" title="5.1.2 原因"></a>5.1.2 <strong>原因</strong></h4><ol>
+<li>一个软件产品可能实现了所要求的功能<br>• − 但如果它的内部结构复杂、混乱，代码的编写也没有规范的话，这时软件中往往会隐藏一些不易被察觉的错误<br>• 这些错误在特定的条件下会造成重大的影响</li>
+<li>即使这个软件基本满足了用户目前的要求<br>• − 但到了日后对该产品进行维护升级工作的时候，会发现维护工作相当困难</li>
+<li>静态分析所要做的就是对代码标准以及质量进行监控，以此来提高代码的可靠性，使系统的设计符合模块化、结构化、面向对象的要求</li>
+</ol>
+<h4 id="5-1-3-作用"><a href="#5-1-3-作用" class="headerlink" title="5.1.3 作用"></a>5.1.3 作用</h4><ol>
+<li>对软件进行科学、细致的静态分析<br>•  使系统的设计符合模块化、结构化、面向对象的要求<br>•  使开发人员编写的代码符合规定的编码规范<br>•  通过对代码标准及质量的监控提高代码可靠性<br>•  尽可能早地通过对源代码的检查发现缺陷<br>•  组织代码审核定位易产生错误的模块<br>•  为日后的维护工作节约大量的人力、物力</li>
+<li>非常有效的质量保证手段<br>• − 越来越多地被采用</li>
+</ol>
+<h4 id="5-1-4-内容"><a href="#5-1-4-内容" class="headerlink" title="5.1.4 内容"></a>5.1.4 内容</h4><ol>
+<li>主要包括<strong>各阶段的评审、代码检查、程序分析、软件质量度量等，用以对被测程序进行特性分析</strong><br>• − 其中评审通常由人来执行<br>• − 代码检查、程序分析、软件质量度量等即可人工完成，也可用工具来完成，但工具的作用和效果相对要更大、更好一些</li>
+<li>经验表明，通过包括代码审查、桌面检查、代码走查、审查和技术评审在内的静态分析能够有效地发现30%-<br>70%的逻辑设计和编码错误，而且这种方法一次能解释一批错误，同时还能对错误进行定位</li>
+</ol>
+<h3 id="5-2-代码检查"><a href="#5-2-代码检查" class="headerlink" title="5.2 代码检查"></a>5.2 代码检查</h3><h4 id="5-2-1-代码检查概念"><a href="#5-2-1-代码检查概念" class="headerlink" title="5.2.1 代码检查概念"></a>5.2.1 代码检查概念</h4><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522133437427.png" alt="image-20210522133437427"></p>
+<h4 id="5-2-2-代码检查内容"><a href="#5-2-2-代码检查内容" class="headerlink" title="5.2.2 代码检查内容"></a>5.2.2 代码检查内容</h4><ol>
+<li>完整性检查<br>• – 代码是否完全实现了设计文档中提出的功能需求<br>• – 代码中是否存在没有定义或没有引用到的变量、常数或数据类型</li>
+<li>一致性检查<br>• – 代码的逻辑是否符合设计文档<br>• – 代码中使用的格式、符号、结构等风格是否保持一致</li>
+<li>正确性检查<br>• – 代码是否符合制定的标准<br>• – 所有的变量都被正确定义和使用<br>• – 所有的注释都是准确的</li>
+<li>可修改性检查<br>• – 代码涉及到的常量是否易于修改，<br>• ▪ 如使用配置、定义为类常量、使用专门的常量类等</li>
+<li>可预测性检查<br> • – 代码是否具有定义良好的语法和语义<br> • – 代码是否无意中陷入了死循环<br> • – 代码是否是否避免了无穷递归</li>
+<li>健壮性检查<br> • – 代码是否采取措施避免运行时错误。如空指针异常等</li>
+<li>可理解性检查<br>• – 注释是否足够清晰的描述每个子程序，对于没用的代码注释是否删除<br>• – 是否使用到不明确或不必要的复杂代码，它们是否被清楚的注释<br>• – 使用一些统一格式化技巧用来增强代码的清晰度，诸如缩进、空白等<br>• – 是否在定义命名规则时采用了便于记忆，反映类型等方法<br>• – 循环嵌套是否太长太深</li>
+<li>可验证性检查<br>• – 代码中的实现技术是否便于测试</li>
+<li>结构性检查<br>• – 程序的每个功能是否都作为一个可辩识的代码块存在<br>• – 循环是否只有一个入口</li>
+<li>可追溯性检查<br>• – 代码是否对每个程序进行了唯一标识<br>• – 是否有一个交叉引用的框架可以用来在代码和开发文档之间相互对应<br>• – 代码是否包括一个修订历史记录<br>• – 记录中对代码的修改和原因都有记录，是否所有的安全功能都有标识</li>
+<li>代码标准符合性检查<br> • – 有些代码虽然可以正常运行，但代码的编写不符合某种标准或规范<br> • ▪ 标准是建立起来的、经过修改和必须遵守的规则——做什么和不做什么<br> • ▪ 规范是建议最佳做法，规范可以适当的放宽<br> • ▪ 严重影响了软件的可靠性、可读性、可维护性和可移植性</li>
+</ol>
+<h3 id="5-3-编码规范"><a href="#5-3-编码规范" class="headerlink" title="5.3 编码规范"></a>5.3 编码规范</h3><h4 id="5-3-1-代码编写规则"><a href="#5-3-1-代码编写规则" class="headerlink" title="5.3.1 代码编写规则"></a>5.3.1 代码编写规则</h4><ol>
+<li>编码规则又称编程风格<br>是对程序代码的格式、注释、标识符命名、语句使用、函数、类、程序组织、公共变量等方面的要求<br>• − 开发人员书写的代码更健壮、更安全、更可靠<br>• − 提高代码的可读性，使代码易于查看、理解和维护<br>• − 提高代码质量最有效、最直接的手段</li>
+<li>规范分为两个级别——规则和建议<br>• 规则级的规范要求开发人员必须要遵守<br>• 建议级的规范开发人员应尽量遵守</li>
+</ol>
+<h4 id="5-3-2-编码规范的内容"><a href="#5-3-2-编码规范的内容" class="headerlink" title="5.3.2 编码规范的内容"></a>5.3.2 编码规范的内容</h4><ol>
+<li>格式<br>• 对代码书写格式的要求</li>
+<li>注释<br>• 程序中的注释是程序与日后程序读者之间通信的重要手段<br>• 良好的注释能够帮助读者理解程序，为后续阶段进行测试和维护提供明确的指导<br>• 注释量：注释行的数量不得少于程序行数量的1/3</li>
+<li>命名——对标识符和文件的命名要求<br>• 在程序中声明、定义的变量、常量、宏、类型、函数，在对其命名时应该遵守统一的命名规范</li>
+<li>语句、函数和类——对具体程序中的语句、函数和类的使用要求</li>
+<li>程序组织<br>• 一个头文件中只声明一个类<br>• 一个源文件中只实现一个类<br>• 头文件中只包含声明，不应包含定义或实现<br>• 源文件中不要有类的声明<br>• 可被包含的文件<br>• − 只允许头文件被包含到其它的代码文件中去<br>• 避免头文件的重复包含</li>
+<li>公共变量<br>• 严格限制公共变量的使用<br>• 公共变量会增大模块间的耦合<br>• 明确公共变量的定义<br>• 防止公共变量与局部变量重名</li>
+</ol>
+<h3 id="5-4-代码结构分析"><a href="#5-4-代码结构分析" class="headerlink" title="5.4  代码结构分析"></a>5.4  代码结构分析</h3><ol>
+<li>程序的理解是程序质量的度量、评估的基础<br>• 代码的结构形式是“白盒”测试的主要依据<br>• 研究表明程序员38%的时间花费在理解软件系统上<br>• − 因为代码以文本格式被写入多重文件中，这是很难阅读理解的，需要其它一些东西来帮助人们阅读理解，如各种图表等</li>
+<li>在代码结构分析中测试者通过使用测试工具分析程序源代码的系统结构、数据结构、内部控制逻辑等内部结构<br>• 生成函数调用关系图、模块控制流图、模块数据流图、内部文件调用关系图、子程序表、宏和函数参数表等各类图形图表<br>• 可以清晰地标识整个软件系统的组成结构，使其便于阅读和理解<br>• 可以通过分析这些图表，检查软件有没有存在缺陷或错误</li>
+</ol>
+]]></content>
+      <categories>
+        <category>软件测试</category>
+      </categories>
+      <tags>
+        <tag>概念</tag>
+        <tag>白盒测试</tag>
+        <tag>覆盖，环形复杂度，静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软测学习2 软件质量保证</title>
+    <url>/2021/04/29/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、软件质量体系"><a href="#一、软件质量体系" class="headerlink" title="一、软件质量体系"></a>一、软件质量体系</h2><h3 id="1-1-ISO（国际标准化组织）软件质量标准"><a href="#1-1-ISO（国际标准化组织）软件质量标准" class="headerlink" title="1.1 ISO（国际标准化组织）软件质量标准"></a>1.1 ISO（国际标准化组织）软件质量标准</h3><p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520155311800.png" alt="image-20210520155311800"></p>
+<a id="more"></a>
+
+<h3 id="1-2-CMM思想和结构体系"><a href="#1-2-CMM思想和结构体系" class="headerlink" title="1.2 CMM思想和结构体系"></a>1.2 CMM思想和结构体系</h3><h4 id="1-2-1-CMM概念"><a href="#1-2-1-CMM概念" class="headerlink" title="1.2.1 CMM概念"></a>1.2.1 CMM概念</h4><p>CMM即软件能力成熟度模型（Capability Maturity Model）是向软件组织提供如何增加对其开发和维护软件过程的控制能力。</p>
+<h4 id="1-2-2-CMM的五个等级及关键过程"><a href="#1-2-2-CMM的五个等级及关键过程" class="headerlink" title="1.2.2 CMM的五个等级及关键过程"></a>1.2.2 CMM的五个等级及关键过程</h4><p>初始级–可重复级–已定义级–已管理级–优化级</p>
+<p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520155509598.png" alt="image-20210520155509598"></p>
+<h4 id="1-2-3-关键过程域"><a href="#1-2-3-关键过程域" class="headerlink" title="1.2.3 关键过程域"></a>1.2.3 关键过程域</h4><p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520155646452.png" alt="image-20210520155646452"></p>
+<h3 id="1-3-ISO9000与CMM区别"><a href="#1-3-ISO9000与CMM区别" class="headerlink" title="1.3 ISO9000与CMM区别"></a>1.3 ISO9000与CMM区别</h3><p>ISO9001是通用的国际标准,适用于各类组织。<br>CMM是美国军方为评价软件供应商的质量水平,委托SEI开发的一个评价模型,只用于软件业。<br>CMM更详细,更专业。<br>ISO9001只建立了一个可接受水平，而CMM是一个具有五个水平的评估工具。<br>ISO9001聚焦于供应商和用户间的关系，而CMM更关注软件的开发过程。</p>
+<h2 id="二、SQA"><a href="#二、SQA" class="headerlink" title="二、SQA"></a>二、SQA</h2><h3 id="2-1-SQA基本概念"><a href="#2-1-SQA基本概念" class="headerlink" title="2.1 SQA基本概念"></a>2.1 SQA基本概念</h3><p>软件质量保证（Software Quality Assurance）是恰当保证为“项目生存周期中的软件产品和过程符合规定的需求和计划”提供足够保证的过程。<br>具体：软件质量保证是通过对软件产品和活动有计划的进行评审和审计来验证软件是否合乎标准的系统工程活动。<br>确保SQA活动要自始至有计划的进行<br>审查软件产品和活动是否遵守适用的标准、规程和要求并得到客观验证。<br>SQA的活动和结果要保证全员参与，沟通顺畅。<br>逐级解决不符合问题</p>
+<h3 id="2-2-SQA的目标"><a href="#2-2-SQA的目标" class="headerlink" title="2.2 SQA的目标"></a>2.2 SQA的目标</h3><p>第三方角度独立审查软件是否遵循已制定的计划、标准和规程，提供给开发人员和管理层产品和过程的质量信息和数据。<br>•监控软件开发过程<br>•保证产品和过程符合相应的标准和规程<br>•保证不符合问题得到处理，并反映给高层<br>•保证项目的计划、标准和规程适合，并满足评审和审计要求</p>
+<h3 id="2-3-SQA的工作内容"><a href="#2-3-SQA的工作内容" class="headerlink" title="2.3 SQA的工作内容"></a>2.3 SQA的工作内容</h3><p>为项目准备SQA计划：与项目开发计划一致，得到评审确认。<br>参与开发项目的过程定义和描述：评审项目制定的开发过程定义，确保与组织企业的政策和标准相一致<br>评审项目实施中的各项软件工程活动：核实、记录、跟踪不符合项<br>审计预定的软件工作产品：核实、记录、跟踪不符合项<br>处理不符合问题：按照SQA规程处理不符合项<br>形成报告：书写SQA报告，发布给相关人员和高层</p>
+<h3 id="2-4-SQA工作的流程"><a href="#2-4-SQA工作的流程" class="headerlink" title="2.4 SQA工作的流程"></a>2.4 SQA工作的流程</h3><p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520160611847.png" alt="image-20210520160611847"></p>
+<h3 id="2-5-SQA的工作措施"><a href="#2-5-SQA的工作措施" class="headerlink" title="2.5 SQA的工作措施"></a>2.5 SQA的工作措施</h3><ol>
+<li>应用好的技术方法：指导项目组使用适合的开发技术方法和工具平台，保证高质量的开发结果</li>
+<li>进行正式的技术评审：在项目里程碑之处，组织正式的技术评审，严格审查软件产品</li>
+<li>组织实施多种软件测试策略：通过测试发现大多数软件缺陷</li>
+<li>遵循软件质量标准：按照国际、国家或行业标准来制定评审要求，</li>
+<li>严格控制修改变更：减小变更带来的缺陷引入</li>
+<li>度量：选择完善的信息数据进行收集，并使用分析手段分析</li>
+<li>记录、保存和报告质量信息：软件质量保证收集分析的数据要提供给项目组成员或者高层管理者</li>
+</ol>
+<h3 id="2-6-SQA活动的影响因素"><a href="#2-6-SQA活动的影响因素" class="headerlink" title="2.6 SQA活动的影响因素"></a>2.6 SQA活动的影响因素</h3><ol>
+<li>知识结构：<br>•专业的技术，例如质量管理与控制知识、统计学知识等。</li>
+<li>经验</li>
+<li>依据：<br>•如果没有这些标准，就无法准确地判断开发活动中的问题，容易引发不必要的争论，因此组织应当建立文档化的开发标准和规程。</li>
+<li>全员参与：<br>•全员参与至关重要，高层管理者必须重视软件质量保证活动。</li>
+<li>把握重点：<br>•一定要抓住问题的重点与本质，尽可能避免陷入对细节的争论之中。</li>
+</ol>
+<h3 id="2-7-SQA策略"><a href="#2-7-SQA策略" class="headerlink" title="2.7 SQA策略"></a>2.7 SQA策略</h3><p>•以检测为重：产品制成之后进行检测，只能判断产品质量，不能提高产品质量。<br>•以过程管理为重：把质量的保证工作重点放在过程管理上，对制造过程中的每一道工序都要进行质量控制。<br>•以新产品开发为重：在新产品的开发设计阶段，采取强有力的措施来消灭由于设计原因而产生的质量隐患。</p>
+<h3 id="2-8-SQA与软件测试的关系"><a href="#2-8-SQA与软件测试的关系" class="headerlink" title="2.8 SQA与软件测试的关系"></a>2.8 SQA与软件测试的关系</h3><p>•SQA 是管理工作，审查对象是流程、强调以预防为主<br>•测试是技术工作、测试对象是产品、主要是以事后检查<br>•SQA指导测试、监控测试<br>•测试为SQA提供依据</p>
+<h3 id="2-9-案例"><a href="#2-9-案例" class="headerlink" title="2.9 案例"></a>2.9 案例</h3><h4 id="2-9-1-SQA过程"><a href="#2-9-1-SQA过程" class="headerlink" title="2.9.1 SQA过程"></a>2.9.1 SQA过程</h4><p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520161224092.png" alt="image-20210520161224092"></p>
+<h4 id="2-9-2-SQA计划"><a href="#2-9-2-SQA计划" class="headerlink" title="2.9.2 SQA计划"></a>2.9.2 SQA计划</h4><p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520161243836.png" alt="image-20210520161243836"></p>
+<h4 id="2-9-3-SQA审计报告"><a href="#2-9-3-SQA审计报告" class="headerlink" title="2.9.3 SQA审计报告"></a>2.9.3 SQA审计报告</h4><p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520161309954.png" alt="image-20210520161309954"></p>
+<h2 id="三、评审"><a href="#三、评审" class="headerlink" title="三、评审"></a>三、评审</h2><h3 id="3-1-评审的定义"><a href="#3-1-评审的定义" class="headerlink" title="3.1 评审的定义"></a>3.1 评审的定义</h3><p>评审是为了提高软件产品的质量、降低软件开发的成本，从而逐步提高生产率，在管理和技术的合适层次上进行检查</p>
+<h3 id="3-2-静态分析技术"><a href="#3-2-静态分析技术" class="headerlink" title="3.2 静态分析技术"></a>3.2 静态分析技术</h3><h4 id="3-2-1-定义"><a href="#3-2-1-定义" class="headerlink" title="3.2.1 定义"></a>3.2.1 定义</h4><p>不实际运行程序，而是通过检查和阅读等手段来发现错误并评估代码质量的软件测试技术。也称为静态测试技术。</p>
+<h4 id="3-2-2-方法"><a href="#3-2-2-方法" class="headerlink" title="3.2.2 方法"></a>3.2.2 方法</h4><p><strong>走查</strong>：WalkThrough</p>
+<p>开发组内部进行的，采用讲解、讨论和模拟运行的方式进行的查找错误的活动。</p>
+<p><strong>审查</strong>：Inspection</p>
+<p>开发组内部进行的，采用讲解、提问并使用Checklist方式进行的查找错误的活动。一般有正式的计划、流程和结果报告。</p>
+<p><strong>同行评审</strong>：Peer Review</p>
+<p>开发组、测试组和相关人员(QA、产品经理等)联合进行的，采用讲解、提问并使用Checklist方式进行的查找错误的活动。一般有正式的计划、流程和结果报告。</p>
+<h3 id="3-3-评审类别"><a href="#3-3-评审类别" class="headerlink" title="3.3 评审类别"></a>3.3 评审类别</h3><p>将软件生命周期内的评审分成三类：管理评审、技术评审、SQA评审和审计。<br>•<strong>技术评审</strong>主要是从技术上检查项目，它评审的一般是比较具体的问题，涉及业务的规范、软件工程技术、产品的实现技术环节、数据库技术、图形图象技术、接口技术等。评审的目的是尽早找出技术的问题和缺陷，保证产品的技术质量。<br>•<strong>管理评审</strong>主要是管理者在项目的开始结束等处检查项目的约束和工作量/成本等问题，并定期的评审项目的风险管理、配置管理、跟踪与监控等活动，这些评审可以根据项目的具体情况决定评审的频度，定期进行评审，也可以在管理者认为必要的时候或事件驱动下进行评审。<br>•<strong>SQA评审和审计</strong>是SQA验证过程的符合性和验证产品与相关规程或标准的符合性，只有按照规范的过程才能保证技术的有效实施，并且保证质量。</p>
+<h3 id="3-4-评审流程"><a href="#3-4-评审流程" class="headerlink" title="3.4 评审流程"></a>3.4 评审流程</h3><p>1评审策划<br>•评审发起人确定在何种情况或前提下可以开始评审，在评审结束时希望完成哪些工作，确定评审的时间和类型，以及通过本次评审希望达到的目的经验<br>2评审准备<br>•首先确定评审的参加人员，然后分配好角色，指定负责人、记录员等，并准备好相关的材料。<br>3执行评审<br>•所有评审人员都完成评审准备后，可以举行评审会把握重点<br>4评审问题记录和管理<br>•在评审过程中，记录发现的问题和做出的决定，跟踪问题解决情况，确认问题已经得到解决</p>
+<h3 id="3-5-案例"><a href="#3-5-案例" class="headerlink" title="3.5 案例"></a>3.5 案例</h3><p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520165232382.png" alt="image-20210520165232382"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520165251914.png" alt="image-20210520165251914"></p>
+<p><img src="/pic/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A02-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81/image-20210520165303218.png" alt="image-20210520165303218"></p>
+<h3 id="3-6-SQA评审内容"><a href="#3-6-SQA评审内容" class="headerlink" title="3.6 SQA评审内容"></a>3.6 SQA评审内容</h3><ol>
+<li>需求管理活动和产品的评审</li>
+<li>项目策划管理的活动和产品的评审</li>
+<li>项目跟踪与监控管理的活动和产品的评审</li>
+<li>SCM的活动和产品的评审</li>
+<li>软件开发和测试的活动与产品评审</li>
+</ol>
+]]></content>
+      <categories>
+        <category>软件测试</category>
+      </categories>
+      <tags>
+        <tag>CMMI</tag>
+        <tag>SQA</tag>
+        <tag>评审规程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软测学习1 软件测试基础知识</title>
+    <url>/2021/04/28/2021-4-28-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A01-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、软件测试概念"><a href="#一、软件测试概念" class="headerlink" title="一、软件测试概念"></a>一、软件测试概念</h2><p>评价一个程序和系统的特性或能力，并确认它是否达到预期的结果，检查是否满足规定的需求！</p>
+<p><strong>软件测试是为了发现问题！</strong></p>
+<a id="more"></a>
+
+
+
+<h2 id="二、软件质量评价"><a href="#二、软件质量评价" class="headerlink" title="二、软件质量评价"></a>二、软件质量评价</h2><h3 id="2-1-软件的运行特性"><a href="#2-1-软件的运行特性" class="headerlink" title="2.1 软件的运行特性"></a>2.1 软件的运行特性</h3><p><strong>正确性</strong>：软件能满足需求规格说明，完成客户提出任务要求的程度。</p>
+<p><strong>可靠性</strong>：软件精确地工作。</p>
+<p><strong>有效性：</strong>是否能够在一定内存和外设容量下有效运行。</p>
+<p><strong>完整性</strong>：控制各类不同用户使用软件或数据的能力。</p>
+<p><strong>可用性：</strong>软件被用户容易掌握。</p>
+<h3 id="2-2-软件的维护特性"><a href="#2-2-软件的维护特性" class="headerlink" title="2.2 软件的维护特性"></a>2.2 软件的维护特性</h3><p><strong>可维护性</strong>：找到错误发生的位置，加以修正的工作量。</p>
+<p><strong>灵活性</strong>：是否可以修改，是否容易修改。</p>
+<p><strong>测试性</strong>：是否可以测试，是否容易测试。</p>
+<h3 id="2-3-软件的维护特性"><a href="#2-3-软件的维护特性" class="headerlink" title="2.3 软件的维护特性"></a>2.3 软件的维护特性</h3><p><strong>可移植性</strong>：软件可以在不同的机器或环境下运行。</p>
+<p><strong>可复用性</strong>：软件的重复使用。</p>
+<h2 id="三、软件测试流程"><a href="#三、软件测试流程" class="headerlink" title="三、软件测试流程"></a>三、软件测试流程</h2><h3 id="3-1-软件缺陷概念"><a href="#3-1-软件缺陷概念" class="headerlink" title="3.1 软件缺陷概念"></a>3.1 软件缺陷概念</h3><h4 id="3-1-1-软件缺陷类型"><a href="#3-1-1-软件缺陷类型" class="headerlink" title="3.1.1 软件缺陷类型"></a>3.1.1 软件缺陷类型</h4><p><strong>错误的</strong>：未将规格说明书正确实现。</p>
+<p><strong>遗漏的</strong>：规定的或者预期的需求没有体现在产品中。</p>
+<p><strong>额外的</strong>：规格说明书未规定的需求被纳入产品加以实现。</p>
+<h4 id="3-1-2-软件缺陷的定义"><a href="#3-1-2-软件缺陷的定义" class="headerlink" title="3.1.2 软件缺陷的定义"></a>3.1.2 软件缺陷的定义</h4><p>• 软件没有达到产品说明书表明的功能<br>• 软件出现了产品说明书指明不会出现的问题<br>• 软件功能超出产品说明书指明的范围<br>• 软件没有达到产品说明书虽未指明，但应该达到的功能<br>• 软件测试人员认为软件难以理解、不易使用、运行速度慢，或<br>者用户认为不好。</p>
+<h3 id="3-2-软件测试的流程"><a href="#3-2-软件测试的流程" class="headerlink" title="3.2 软件测试的流程"></a>3.2 软件测试的流程</h3><p>单元测试（详细设计）-&gt;集成测试（概要设计）-&gt;验收测试（需求设计）-&gt;可交付</p>
+<p><img src="/pic/2021-5-20-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A01-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E6%B5%8B%E6%B5%81%E7%A8%8B.png" alt="软测流程"></p>
+<h3 id="3-3-软件测试的目标"><a href="#3-3-软件测试的目标" class="headerlink" title="3.3 软件测试的目标"></a>3.3 软件测试的目标</h3><p><strong>软件测试是为了证明程序有错！</strong></p>
+<p><strong>一个成功的测试是找到了从未发现的错误！</strong></p>
+<p><strong>一个好的测试用例也是发现了之前未发现的错误！</strong></p>
+<h2 id="四、软件测试原理和方法"><a href="#四、软件测试原理和方法" class="headerlink" title="四、软件测试原理和方法"></a>四、软件测试原理和方法</h2><h3 id="4-1-软件测试的原理"><a href="#4-1-软件测试的原理" class="headerlink" title="4.1 软件测试的原理"></a>4.1 软件测试的原理</h3><ol>
+<li>测试不能证明系统不存在缺陷：<br>• 测试可以显示缺陷的存在，但不能证明系统不存在缺陷。</li>
+<li>穷尽测试是不可能的：<br>• 通过运用风险分析和不同系统功能的测试优先级，来确定测试的关注点，从而<br>替代穷尽测试。</li>
+<li>测试尽早介入：<br>• 在软件开发生命周期中，测试活动应该尽可能早的介入。</li>
+<li>缺陷集群性：<br>• 版本发布前进行的测试所发现的大部分缺陷和软件运行失效是由于少数软件模<br>块引起的。</li>
+<li>杀虫剂悖论：<br>• 采用同样的测试用例多次重复进行测试，最后将不再能够发现新的缺陷。</li>
+<li>测试活动依赖于测试要求：<br>• 针对不同的测试要求，进行的测试活动也是不同的。</li>
+</ol>
+<h3 id="4-2-软件测试的经验"><a href="#4-2-软件测试的经验" class="headerlink" title="4.2 软件测试的经验"></a>4.2 软件测试的经验</h3><ol>
+<li>测试应该基于用户需求和“质量第一”的事项去开展工作，所有的测试都应追溯到用户需求</li>
+<li>项目一启动，软件测试就开始，而不是等程序写完才开始测试</li>
+<li>充分覆盖程序逻辑，第三方测试会更有效、更客观</li>
+<li>测试时间和资源是有限的，测试到所有情况是不可能的，要避免冗余的测试</li>
+<li>事先定义好产品的质量标准，应该尽早开始测试，尽早制定测试计划</li>
+<li>测试从模块级开始</li>
+</ol>
+<h3 id="4-3-软件测试的技术"><a href="#4-3-软件测试的技术" class="headerlink" title="4.3 软件测试的技术"></a>4.3 软件测试的技术</h3><p><strong>白盒测试</strong></p>
+<p><strong>黑盒测试</strong></p>
+<h3 id="4-4-软件测试中需要的文档"><a href="#4-4-软件测试中需要的文档" class="headerlink" title="4.4 软件测试中需要的文档"></a>4.4 软件测试中需要的文档</h3><p> 测试计划<br> 测试设计<br> 测试用例与测试记录<br> 测试缺陷报告<br> 测试评估报告<br> 日志等</p>
+<h3 id="4-5-软件测试的具体分类"><a href="#4-5-软件测试的具体分类" class="headerlink" title="4.5 软件测试的具体分类"></a>4.5 软件测试的具体分类</h3><p>功能测试<br>压力/负载测试<br>安装/卸载测试<br>数据库测试<br>界面测试<br>文档测试可用性测试<br>配置测试<br>安全测试<br>其他非功能测试</p>
+<h3 id="4-6-软件测试方法"><a href="#4-6-软件测试方法" class="headerlink" title="4.6 软件测试方法"></a>4.6 软件测试方法</h3><p>手工测试</p>
+<p>自动化测试</p>
+<hr>
+]]></content>
+      <categories>
+        <category>软件测试</category>
+      </categories>
+      <tags>
+        <tag>概念</tag>
+        <tag>软测</tag>
+        <tag>评价指标</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式学习1 设计模式概要</title>
+    <url>/2021/04/20/2021-4-20-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A01-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A6%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、设计模式分类"><a href="#一、设计模式分类" class="headerlink" title="一、设计模式分类"></a>一、设计模式分类</h2><h3 id="1-1-GoF-Gang-of-Four"><a href="#1-1-GoF-Gang-of-Four" class="headerlink" title="1.1 GoF(Gang of Four)"></a>1.1 GoF(Gang of Four)</h3><p><img src="/pic/2021-4-20-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A01-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A6%81/image-20210521101459104.png" alt="image-20210521101459104"></p>
+<a id="more"></a>
+
+<h3 id="1-2-GRASP-General-Responsibility-Assignment-Software-Patterns"><a href="#1-2-GRASP-General-Responsibility-Assignment-Software-Patterns" class="headerlink" title="1.2 GRASP(General Responsibility Assignment Software Patterns)"></a>1.2 GRASP(General Responsibility Assignment Software Patterns)</h3><p>职责分配原则</p>
+<p><img src="/pic/2021-4-20-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A01-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A6%81/image-20210521101608294.png" alt="image-20210521101608294"></p>
+<h2 id="二、前置知识"><a href="#二、前置知识" class="headerlink" title="二、前置知识"></a>二、前置知识</h2><p><img src="/pic/2021-4-20-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A01-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A6%81/image-20210521104802449.png" alt="image-20210521104802449"></p>
+<p><img src="/pic/2021-4-20-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A01-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A6%81/image-20210521104813845.png" alt="image-20210521104813845"></p>
+<p><img src="/pic/2021-4-20-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A01-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A6%81/image-20210521104921305.png" alt="image-20210521104921305"></p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>概念</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring boot 第一章 认识微服务</title>
+    <url>/2021/04/19/Spring%20boot%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="1-1-微服务框架的概念"><a href="#1-1-微服务框架的概念" class="headerlink" title="1.1 微服务框架的概念"></a>1.1 微服务框架的概念</h2><h2 id="1-2-互联网框架的演变"><a href="#1-2-互联网框架的演变" class="headerlink" title="1.2 互联网框架的演变"></a>1.2 互联网框架的演变</h2><a id="more"></a>
+
+<h3 id="1-2-1-ORM框架"><a href="#1-2-1-ORM框架" class="headerlink" title="1.2.1 ORM框架"></a>1.2.1 ORM框架</h3><p>ORM（Object Relational Mapping）对象关系映射框架，所有的程序放在一起 发布在一台服务器上、数据库和文件也都放在一个服务器上，可以降低网络传输的损耗，降低通信成本。</p>
+<h3 id="1-2-2-MVC框架"><a href="#1-2-2-MVC框架" class="headerlink" title="1.2.2 MVC框架"></a>1.2.2 MVC框架</h3><p>M：数据访问层</p>
+<p>V：用户界面</p>
+<p>C：逻辑控制层</p>
+<h4 id="MVC优点："><a href="#MVC优点：" class="headerlink" title="MVC优点："></a>MVC优点：</h4><p>可以单台服务器进行部署，也可以多台服务器进行部署。</p>
+<p>高并发时可以集群部署，采用Nginx等技术进行负载均衡。</p>
+<h4 id="MVC缺点："><a href="#MVC缺点：" class="headerlink" title="MVC缺点："></a>MVC缺点：</h4><p>开发维护成本大，重复开发功能多，重复代码多。不利于团队合作。</p>
+<p>系统可靠性差。</p>
+<p>维护困难，定制化修改困难。</p>
+<h3 id="1-2-3-RPC框架"><a href="#1-2-3-RPC框架" class="headerlink" title="1.2.3 RPC框架"></a>1.2.3 RPC框架</h3><p>RPC（Remote Procedure Call）远程过程调用框架 。我的理解就是mvc中有很多的相同的操作，不同的应用程序都需要这些操作，但是不同的业务有略微差别，这就导致了代码重复，可以将公共业务抽离出来，封装成一些微服务。就有了rpc框架</p>
+<p>提供者、消费者、注册中心</p>
+<p>这是一种本地应用通过暴露接口和远程服务的方式去调用。</p>
+<h4 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h4><p>大量的服务配置难以管理。</p>
+<p>服务间的依赖关系错综复杂。</p>
+<p>服务的调用量越来越大。服务的容量难以估计。</p>
+<h3 id="1-2-4-SOA框架"><a href="#1-2-4-SOA框架" class="headerlink" title="1.2.4 SOA框架"></a>1.2.4 SOA框架</h3><p>SOA（Service Oriented Architecture）面向服务架构框架</p>
+<p>这是一个组件模型。是一种粗粒度、松耦合。以服务为中心的框架。接口之间通过定义明确的协议和接口进行通信。</p>
+<p>这个框架以服务为重点。</p>
+<p><strong>大规模系统的框架设计原则就是<u>尽可能地拆分</u></strong>以达到更好的<strong>独立扩展伸缩 更灵活的部署 隔离 容错 更高的开发效率</strong></p>
+<h2 id="1-3模块的拆分"><a href="#1-3模块的拆分" class="headerlink" title="1.3模块的拆分"></a>1.3模块的拆分</h2><h3 id="1-3-1-拆分中的问题"><a href="#1-3-1-拆分中的问题" class="headerlink" title="1.3.1 拆分中的问题"></a>1.3.1 拆分中的问题</h3><p>如果拆的过粗： 单体结构化 老路 仍然有巨大的重复</p>
+<p>如果拆的过细： 服务太多了 难以管理</p>
+<h3 id="1-3-2拆分原则"><a href="#1-3-2拆分原则" class="headerlink" title="1.3.2拆分原则"></a>1.3.2拆分原则</h3><h4 id="1-AKF扩展立方体"><a href="#1-AKF扩展立方体" class="headerlink" title="1.AKF扩展立方体"></a>1.AKF扩展立方体</h4><h4 id="2-前后端分离"><a href="#2-前后端分离" class="headerlink" title="2.前后端分离"></a>2.前后端分离</h4><h4 id="3-无状态服务"><a href="#3-无状态服务" class="headerlink" title="3.无状态服务"></a>3.无状态服务</h4>]]></content>
+      <categories>
+        <category>技术相关</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java实现快排</title>
+    <url>/2021/03/24/%E5%BF%AB%E6%8E%92/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、快排的思想以及为什么是时间复杂度是nlogn的"><a href="#一、快排的思想以及为什么是时间复杂度是nlogn的" class="headerlink" title="一、快排的思想以及为什么是时间复杂度是nlogn的"></a>一、快排的思想以及为什么是时间复杂度是nlogn的</h2><p><strong>快速排序每次会将等待排序的数组分成两部分</strong>，在理想状况下，每一次都将待排序数组划分成等长两个部分，则需要<strong>logn</strong>次划分。</p>
+<a id="more"></a>
+<p>而在最坏情况下，即数组已经有序或大致有序的情况下，每次划分只能减少一个元素，快速排序将不幸退化为冒泡排序，所以快速排序时间复杂度下界为<strong>O(nlogn)</strong>，<strong>最坏情况</strong>为<strong>O(n^2)</strong>。在实际应用中，快速排序的<strong>平均时间复杂度</strong>为<strong>O(nlogn)</strong>。<br>递归栈上需要花费最少logn最多n的空间。空间复杂度为O(logn)。</p>
+<h2 id="二、思路"><a href="#二、思路" class="headerlink" title="二、思路"></a>二、思路</h2><p>选择标杆！<br>为了简化代码选择的标杆为传入数组的第一个，优化过后会随机选择。</p>
+<h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">public class QuickSort &#123;</span><br><span class="line">    public static void main(String []args)</span><br><span class="line">    &#123;</span><br><span class="line">        int []a=&#123;5,4,3,2,1,2,3,4,5&#125;;</span><br><span class="line">        QuickSort.quickSort(a,0,8);</span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;9;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            System.out.println(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    static void  quickSort(int []ass,int l,int r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(l&gt;=r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        int left=l;</span><br><span class="line">        int right=r;</span><br><span class="line">        int key=ass[left];</span><br><span class="line">        <span class="keyword">while</span>(left&lt;right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(left&lt;right &amp;&amp; ass[right]&gt;=key)</span><br><span class="line">            &#123;</span><br><span class="line">                right--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(left&lt;right)</span><br><span class="line">            &#123;</span><br><span class="line">                ass[left]=ass[right];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span>(left&lt;right &amp;&amp; ass[left]&lt;=key)</span><br><span class="line">            &#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(left&lt;right)</span><br><span class="line">            &#123;</span><br><span class="line">                ass[right]=ass[left];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ass[left]=key;</span><br><span class="line">        quickSort(ass,l,left-1);</span><br><span class="line">        quickSort(ass,left+1,r);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、快速排序特点总结"><a href="#四、快速排序特点总结" class="headerlink" title="四、快速排序特点总结"></a>四、快速排序特点总结</h2><p>时间复杂度 O(nlog2n)<br>空间复杂度 O(logn)递归需要的栈空间<br>稳定性：不稳定<br>eg:10<sub>1</sub> 20 30 10<sub>2</sub> 5 50<br>选择10为key 则第一趟排序为<br>5 20 30 10<sub>2</sub> 10<sub>1</sub> 50<br>可见 10<sub>2</sub> 10<sub>1</sub>  交换了顺序 算法不稳定<br>date: 2021-3-22 23:21</p>
+<hr>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面经</title>
+    <url>/2021/03/23/%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、http1-0，http1-1，http2-0的区别"><a href="#一、http1-0，http1-1，http2-0的区别" class="headerlink" title="一、http1.0，http1.1，http2.0的区别"></a>一、http1.0，http1.1，http2.0的区别</h2><h3 id="1-HTTP1-0和HTTP1-1的一些区别"><a href="#1-HTTP1-0和HTTP1-1的一些区别" class="headerlink" title="(1) HTTP1.0和HTTP1.1的一些区别"></a>(1) HTTP1.0和HTTP1.1的一些区别</h3><h4 id="1-长连接"><a href="#1-长连接" class="headerlink" title="1.长连接"></a>1.长连接</h4><p>Http1.1支持请求长连接和流水线链接，而http1.0虽然支持但不是默认开启的。在HTTP1.1中默认开启长连接keep-alive，一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点。HTTP1.0需要使用keep-alive参数来告知服务器端要建立一个长连接。通过支持长连接使得建立和关闭tcp链接的次数减少了，从而减少了消耗和延迟。</p>
+<a id="more"></a>
+<h4 id="2-节约带宽"><a href="#2-节约带宽" class="headerlink" title="2.节约带宽"></a>2.节约带宽</h4><p> HTTP1.0中存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能。HTTP1.1支持只发送header信息（不带任何body信息），如果服务器认为客户端有权限请求服务器，则返回100，客户端接收到100才开始把请求body发送到服务器；如果返回401，客户端就可以不用发送请求body了节约了带宽。</p>
+<h5 id="3-HOST域"><a href="#3-HOST域" class="headerlink" title="3.HOST域"></a>3.HOST域</h5><p> 在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname），HTTP1.0没有host域。随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。HTTP1.1的请求消息和响应消息都支持host域，且请求消息中如果没有host域会报告一个错误（400 Bad Request）。</p>
+<h5 id="4-缓存处理"><a href="#4-缓存处理" class="headerlink" title="4.缓存处理"></a>4.缓存处理</h5><p>  在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。</p>
+<h3 id="2-http1-1和http2-0的一些区别"><a href="#2-http1-1和http2-0的一些区别" class="headerlink" title="(2)http1.1和http2.0的一些区别"></a>(2)http1.1和http2.0的一些区别</h3><h4 id="1-多路复用"><a href="#1-多路复用" class="headerlink" title="1.多路复用"></a>1.多路复用</h4><p> HTTP2.0使用了多路复用的技术，做到同一个连接并发处理多个请求，而且并发请求的数量比HTTP1.1大了好几个数量级。HTTP1.1也可以多建立几个TCP连接，来支持处理更多并发的请求，但是创建TCP连接本身也是有开销的。</p>
+<p><img src="/pic/%E9%9D%A2%E7%BB%8F/duoLuFuYong.jpg" alt="duoLuFuYong"></p>
+<h4 id="2-头部数据压缩"><a href="#2-头部数据压缩" class="headerlink" title="2.头部数据压缩"></a>2.头部数据压缩</h4><p>  在HTTP1.1中，HTTP请求和响应都是由状态行、请求/响应头部、消息主体三部分组成。一般而言，消息主体都会经过gzip压缩，或者本身传输的就是压缩过后的二进制文件，但状态行和头部却没有经过任何压缩，直接以纯文本传输。随着Web功能越来越复杂，每个页面产生的请求数也越来越多，导致消耗在头部的流量越来越多，尤其是每次都要传输UserAgent、Cookie这类不会频繁变动的内容，完全是一种浪费。<br>  HTTP1.1不支持header数据的压缩，HTTP2.0使用HPACK算法对header的数据进行压缩，这样数据体积小了，在网络上传输就会更快。</p>
+<h4 id="3-服务器推送"><a href="#3-服务器推送" class="headerlink" title="3.服务器推送"></a>3.服务器推送</h4><p> 服务端推送是一种在客户端请求之前发送数据的机制。网页使用了许多资源：HTML、样式表、脚本、图片等等。在HTTP1.1中这些资源每一个都必须明确地请求。这是一个很慢的过程。浏览器从获取HTML开始，然后在它解析和评估页面的时候，增量地获取更多的资源。因为服务器必须等待浏览器做每一个请求，网络经常是空闲的和未充分使用的。<br> 为了改善延迟，HTTP2.0引入了server push，它允许服务端推送资源给浏览器，在浏览器明确地请求之前，免得客户端再次创建连接发送请求到服务器端获取。这样客户端可以直接从本地加载这些资源，不用再通过网络。</p>
+<p><img src="/pic/%E9%9D%A2%E7%BB%8F/fuWuqiTuiSong.jpg" alt="fuWuqiTuiSong"></p>
+<h2 id="二、HashMap，HashTable和ConcurrentHashMap的区别"><a href="#二、HashMap，HashTable和ConcurrentHashMap的区别" class="headerlink" title="二、HashMap，HashTable和ConcurrentHashMap的区别"></a>二、HashMap，HashTable和ConcurrentHashMap的区别</h2><h3 id="1-解释说明"><a href="#1-解释说明" class="headerlink" title="(1) 解释说明"></a>(1) 解释说明</h3><p>1.HashMap是非线程安全的，HashTable是线程安全的，HashTable中的很多方法都是加了sysnchronized关键字的，确保了方法的同步；</p>
+<p>2.HashMap可以接受空key和value，而HashTable不能接受空key和value；</p>
+<p>3.由于HashMap是异步执行，而HashTable是同步执行，所以在单线程环境下，HashMap的速度高于HashTable；</p>
+<p>4.HashMap的迭代器采用的是Iterator，Iterator是快速失败（Fail-Fast）,在遍历过程中若有其他线程对该HashMap进行增加或者删除元素，则会抛出ConcurrentModificationException，因为快速失败的迭代器是操作的集合本身，<br>HashTable的迭代器是Enumeration，Enumeration是安全失败（Fail-Safe），在遍历过程中若有其他线程对该集合进行增加或则删除元素，不会抛出ConcurentModificationException，因为安全失败的迭代器操作的是原集合的一个拷贝。</p>
+<p>5.在进行迭代时，HashTable会锁住整个Map，而ConcurrentHashMap只锁住Map的一部分，所以ConcurrentHashMap在多线程环境下的性能更好。</p>
+<p>6.Map m= Collections.synchronizedMap(hashMap);</p>
+<h3 id="2-代码举例"><a href="#2-代码举例" class="headerlink" title="(2) 代码举例"></a>(2) 代码举例</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Hashtable;</span><br><span class="line">import java.util.concurrent.ConcurrentHashMap;</span><br><span class="line"></span><br><span class="line">public class StudyHash &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HashMap&lt;Integer,Integer&gt; hashMap=new HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">        ConcurrentHashMap&lt;Integer,Integer&gt; concurrentHashMap=new ConcurrentHashMap&lt;&gt;();</span><br><span class="line">        Hashtable&lt;Integer,Integer&gt;hashtable=new Hashtable&lt;&gt;();</span><br><span class="line">        hashMap.put(null,null);//成功</span><br><span class="line">        concurrentHashMap.put(null,null);//失败 抛出了空指针异常</span><br><span class="line">        hashtable.put(null,null);//失败 抛出了空指针异常</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、HashMap和TreeMap的区别"><a href="#三、HashMap和TreeMap的区别" class="headerlink" title="三、HashMap和TreeMap的区别"></a>三、HashMap和TreeMap的区别</h2><p>Map：在数组中是通过数组下标来对 其内容进行索引的，而Map是通过对象来对 对象进行索引的，用来 索引的对象叫键key，其对应的对象叫值value；</p>
+<p>1、HashMap是通过hashcode()对其内容进行快速查找的；HashMap中的元素是没有顺序的；</p>
+<p>TreeMap中所有的元素都是有某一固定顺序的，如果需要得到一个有序的结果，就应该使用TreeMap；</p>
+<p>2、HashMap和TreeMap都不是线程安全的；</p>
+<p>3、HashMap继承AbstractMap类；覆盖了hashcode() 和equals() 方法，以确保两个相等的映射返回相同的哈希值；</p>
+<p>TreeMap继承SortedMap类；他保持键的有序顺序；</p>
+<p>4、HashMap：基于hash表实现的；使用HashMap要求添加的键类明确定义了hashcode() 和equals() （可以重写该方法）；为了优化HashMap的空间使用，可以调优初始容量和负载因子；</p>
+<p>TreeMap：基于红黑树实现的；TreeMap就没有调优选项，因为红黑树总是处于平衡的状态；</p>
+<p>5、HashMap：适用于Map插入，删除，定位元素；</p>
+<p>TreeMap：适用于按自然顺序或自定义顺序遍历键（key）；</p>
+<h2 id="四、HashMap-和-Hashtable-的区别？HashMap如何实现扩容？"><a href="#四、HashMap-和-Hashtable-的区别？HashMap如何实现扩容？" class="headerlink" title="四、HashMap 和 Hashtable 的区别？HashMap如何实现扩容？"></a>四、HashMap 和 Hashtable 的区别？HashMap如何实现扩容？</h2><p>HashMap是用数组+链表+红黑树进行实现的，当添加一个元素（key-value）时，就首先计 算元素key的hash值，并根据hash值来确定插入数组中的位置，但是可能存在其他元素已经 被放在数组同一位置了，这个时候便使用链表来解决哈希冲突，当链表长度太长的时候，便将链表转换为红黑树来提高搜索的效率。<br>HashMap是基于拉链法实现的一个散列表，内部由数组和链表和红黑树实现。<br>数组的初始容量为16，而容量是以2的次方扩充的，一是为了提高性能使用足够大的数组，二是为了能使用位运算代替取模预算。<br>数组是否需要扩充是通过负载因子判断的，如果当前元素个数为数组容量的0.75时，就会扩充数组。这个0.75就是默认的负载因子，可由构造传入。<br>为了解决碰撞，数组中的元素是单向链表类型。当链表长度到达一个阈值时（&gt;=8）， 会将链表转换成红黑树提高性能。而当链表长度缩小到另一个阈值时（&lt;=6），又会将红黑树转换回单向链表提高性能，这里是一个平衡点。<br>当个数不多的时候，直接链表遍历更方便，实现起来也简单。而红黑树的实现要复杂的多。</p>
+<h2 id="五、ConcurrentHashMap的底层实现"><a href="#五、ConcurrentHashMap的底层实现" class="headerlink" title="五、ConcurrentHashMap的底层实现"></a>五、ConcurrentHashMap的底层实现</h2><p>底层数据结构： JDK1.7的 ConcurrentHashMap 底层采用 分段的数组+链表 实现，JDK1.8 采用的数据结构跟HashMap1.8的结构一样，数组+链表/红黑二叉树。Hashtable 和 JDK1.8 之前的 HashMap 的底层数据结构类似都是采用 数组+链表 的形式，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的；</p>
+<p>实现线程安全的方式（重要）：</p>
+<p>① 在JDK1.7的时候，ConcurrentHashMap（分段锁） 对整个桶数组进行了分割分段(Segment)，每一把锁只锁容器其中一部分数据，多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。 到了 JDK1.8 的时候已经摒弃了Segment的概念，而是直接用 Node 数组+链表+红黑树的数据结构来实现，并发控制使用 synchronized 和 CAS 来操作。（JDK1.6以后 对 synchronized锁做了很多优化） 整个看起来就像是优化过且线程安全的 HashMap，虽然在JDK1.8中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本；synchronized只锁定当前链表或红黑二叉树的首节点，这样只要hash不 冲突，就不会产生并发，效率又提升N倍。(TreeBin: 红黑二叉树节点 Node: 链表节点)<br>② Hashtable(同一把锁) :使用 synchronized 来保证线程安全，效率非常低下。当一个线程访问同步方法时，其他线程也访问同步方法，可能会进入阻塞或轮询状态，如使用 put 添加元素，另一个线程不能使用 put 添加元素，也不能使用 get，竞争会越来越激烈效率越低。</p>
+<h2 id="六、HashMap，LinkedHashMap，TreeMap-有什么区别？HashMap-，TreeMap，LinkedHashMap使用场景？"><a href="#六、HashMap，LinkedHashMap，TreeMap-有什么区别？HashMap-，TreeMap，LinkedHashMap使用场景？" class="headerlink" title="六、HashMap，LinkedHashMap，TreeMap 有什么区别？HashMap ，TreeMap，LinkedHashMap使用场景？"></a>六、HashMap，LinkedHashMap，TreeMap 有什么区别？HashMap ，TreeMap，LinkedHashMap使用场景？</h2><p>LinkedHashMap 保存了记录的插入顺序，在用 Iterator 遍历时，先取到的记录肯定是先插入的；遍历比 HashMap 慢；</p>
+<p>TreeMap 实现 SortMap 接口，能够把它保存的记录根据键排序（默认按键值升序排序，也可以指定排序的比较器）</p>
+<p>一般情况下，使用最多的是 HashMap。HashMap：在 Map 中插入、删除和定位元素时；TreeMap：在需要按自然顺序或自定义顺序遍历键的情况下； LinkedHashMap：在需要输出的顺序和输入的顺序相同的情况下。</p>
+<h2 id="七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？-线程安全的集合类"><a href="#七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？-线程安全的集合类" class="headerlink" title="七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？ 线程安全的集合类"></a>七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？ 线程安全的集合类</h2><p>Vector Stack Hashtable<br>java.util.concurrent包下所有的集合类（ConcurrentHashMap，CopyOnWriteArrayList和CopyOnWriteArraySet等）<br>快速失败(fail-fast)是 Java 集合的一种错误检测机制。在使用迭代器对集合进行遍历的时候，我们在多线程下操作非安全失败(fail-safe)的集合类可能就会触发 fail-fast 机制，导致抛出ConcurrentModificationException 异常。另外，在单线程下，如果在遍历过程中对集合对象的内容进行了修改的话也会触发 fail-fast 机制。</p>
+<p>举个例子：多线程下，如果线程 1 正在对集合进行遍历，此时线程 2 对集合进行修改（增加、删除、修改），或者线程 1 在遍历过程中对集合进行修改，都会导致线程 1 抛出异常。</p>
+<hr>
+]]></content>
+      <categories>
+        <category>面经</category>
+      </categories>
+      <tags>
+        <tag>HTTP</tag>
+        <tag>HashMap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>时隔多年，重回boke</title>
+    <url>/2021/03/22/%E5%87%86%E5%A4%87%E5%AE%9E%E4%B9%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="准备实习！准备实习！准备实习！"><a href="#准备实习！准备实习！准备实习！" class="headerlink" title="准备实习！准备实习！准备实习！"></a>准备实习！准备实习！准备实习！</h2><a id="more"></a>
+<p><strong>！！！希望今天开始在boke上总结自己学习的经验，克服心中拖延的恶魔，争取拿到实习的offer！</strong></p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>python基础</title>
+    <url>/2019/11/23/%E5%88%9D%E5%AD%A6python%E5%AF%B9%E5%85%B6%E4%B8%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h2><p><strong>想用python写一个将不规范的英文名字输入转换成规范名字的函数</strong><br>eg：<br>传入：”charonC”,”abDdE”<br>传出：  “Charonc”, “Abdde”</p>
+<a id="more"></a>
+<h2 id="二、思路"><a href="#二、思路" class="headerlink" title="二、思路"></a>二、思路</h2><p>首先想的是c语言的思路，传进这个字符串 然后进行条件判断 如果第一位是小写就转换成为大写 如果是其他位置是大写就转换为小写 用assic判断是否是大小写 然后通过assic码+-32的方式来进行大小写转换。但是疯狂报错 ，后来发现原因 python的字符串是不可更改的，也就是说设s=’Charonc’然后使得s[0]=’c’这种操作是不被允许的。 而c语言中’c’+1=’d’这种操作也是不可以的。因为是初学者所以我只能想到用python自带的upper()和lower()函数转大小写了。</p>
+<h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">def change(s):</span><br><span class="line">    l=<span class="string">''</span><span class="comment">#因为不能在原来的字符串上进行修改所以需要一个新串来存储转换后的字符串</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(0,len(s)):</span><br><span class="line">        <span class="keyword">if</span> i==0 and (s[i]&gt;<span class="string">'Z'</span>or s[i]&lt;<span class="string">'A'</span>): </span><br><span class="line">           l=s[i].upper()</span><br><span class="line">        <span class="keyword">elif</span> i!=0 and (s[i]&gt;=<span class="string">'A'</span> and s[i]&lt;=<span class="string">'Z'</span>):</span><br><span class="line">            l=l+s[i].lower()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l=l+s[i]</span><br><span class="line">    <span class="built_in">return</span> l</span><br><span class="line"><span class="built_in">print</span>(change(<span class="string">'zhangG'</span>))</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Zhangg</span><br></pre></td></tr></table></figure>
+<p>成功！</p>
+<h2 id="四、继续探索python中的字符串"><a href="#四、继续探索python中的字符串" class="headerlink" title="四、继续探索python中的字符串"></a>四、继续探索python中的字符串</h2><h3 id="1-replace（）函数"><a href="#1-replace（）函数" class="headerlink" title="1.replace（）函数"></a>1.replace（）函数</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a=<span class="string">'abcdefa'</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'初始a='</span>,a)</span><br><span class="line">b=a.replace(<span class="string">'a'</span>,<span class="string">'A'</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"a.replace('a','A'):"</span>,a) <span class="comment">#replace 也不会改变原来字符串的值 只是会生成一个改变字符串的新串</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'b:'</span>,b)</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a.replace(<span class="string">'a'</span>,<span class="string">'A'</span>): abcdefa</span><br><span class="line">b: AbcdefA</span><br></pre></td></tr></table></figure>
+<h3 id="2-字符串之间相加"><a href="#2-字符串之间相加" class="headerlink" title="2.字符串之间相加"></a>2.字符串之间相加</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a=<span class="string">'abcdefa'</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'初始a='</span>,a)</span><br><span class="line">b=a+a</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'a=:'</span>,a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'b=a+a:'</span>,b)</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">初始a= abcdefa</span><br><span class="line">a=: abcdefa</span><br><span class="line">b=a+a: abcdefaabcdefa</span><br></pre></td></tr></table></figure>
+<h3 id="3-简单结论"><a href="#3-简单结论" class="headerlink" title="3.简单结论"></a>3.简单结论</h3><p>python中的<strong>replace函数</strong>和字符串用<strong>‘+’</strong>相加都不是对原来的字符串进行修改，都只是创建了一个新串然后将变量指向新串。python中的str好像真的没有办法被更改。</p>
+<h2 id="五、结语"><a href="#五、结语" class="headerlink" title="五、结语"></a>五、结语</h2><p>这是第一次写博客，一定会有疏忽和语句不通顺的地方，还请见谅，如果帮到了你我会很开心的，如果没什么用也希望多担待，如果有错误还希望大家能指出，我一定好好修改，谢谢大家！<br>date: 2019-11-23 10:12:45</p>
+<hr>
+]]></content>
+      <categories>
+        <category>技术相关</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇博客~</title>
+    <url>/2019/11/22/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><a id="more"></a>
+
+<p>刚刚来到博客，有种刚开通qq空间的感觉，希望以后自己能在这个自己的空间里有所记录有所积累，希望能遇到更多的朋友，如果我的博客有写的不对的地方，非常欢迎大佬来指出错误！互相帮助。撒花~<br>date: 2019-11-22 21:51:23</p>
+<hr>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+</search>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    软测学习4-黑盒测试 |
+    
+    Charonc</title>
+  
+  <link rel="shortcut icon" href="/images/C.svg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-2021-4-30-软测学习4-黑盒测试" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  软测学习4-黑盒测试
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/04/30/2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/" class="article-date">
+  <time datetime="2021-04-29T16:00:00.000Z" itemprop="datePublished">2021-04-30</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h2 id="一、黑盒测试基本原理"><a href="#一、黑盒测试基本原理" class="headerlink" title="一、黑盒测试基本原理"></a>一、黑盒测试基本原理</h2><h3 id="1-1-黑盒测试概念"><a href="#1-1-黑盒测试概念" class="headerlink" title="1.1 黑盒测试概念"></a>1.1 黑盒测试概念</h3><ol>
+<li>黑盒测试，又称为功能测试或数据驱动测试把测试对象当作看不见内部的黑盒<br>• − 在完全不考虑程序内部结构和处理过程的情况下，测试者仅依据程序功能的需求规范考虑确定测试用例和推断测试结果的正确性</li>
+<li>要求导出执行程序所有功能需求的输入条件集，实现功能覆盖<br>• − 功能覆盖主要是需求覆盖,通过设计一定的测试用例,对每个需求点进行测试<br>• − 根据软件产品需求规格说明中的功能设计规格,在计算机上进行测试,以证实每个实现了的功能是否符合要求</li>
+<li>黑盒测试是在软件的接口处进行测试<br>• − 它着眼于程序外部结构，不考虑内部逻辑结构，主要针对软件界面和软件功能进行测试<br>• − “黑盒”测试是站在使用软件或程序的角度，从输入数据与输出数据的对应关系出发进行的测试</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="1-2-黑盒测试特点"><a href="#1-2-黑盒测试特点" class="headerlink" title="1.2 黑盒测试特点"></a>1.2 黑盒测试特点</h3><ol>
+<li>黑盒测试定位<br>• 如果外部特性本身设计有问题或规格说明的规定有误，用黑盒<br>测试方法是发现不了的</li>
+<li>黑盒测试不能替代白盒测试，而是用来发现白盒测试以<br>外的其他类型的错误，比如：<br>• − 功能不对或遗漏<br>• − 接口错误或界面错误<br>• − 数据结构或外部数据库访问错误<br>• − 性能错误<br>• − 初始化和中止错误</li>
+</ol>
+<h3 id="1-3-黑盒测试方法"><a href="#1-3-黑盒测试方法" class="headerlink" title="1.3 黑盒测试方法"></a>1.3 黑盒测试方法</h3><ol>
+<li>用“黑盒”测试发现程序中的错误，须在所有可能的输入/输出条件中确定测试数据检查程序是否，都能产生<br>正确输出<br>• − 这是不可能的，因为穷举测试数量太大，人们不仅要测试所有合法的输入，而且还要对那些不合法但是可能的输入进行测试，无法完成<br>• − 假设一个程序P有输入量X和Y及输出量Z。在字长为32位计算机上运行。若X、Y取整数，按“黑盒”方法进行穷举测试，其测试数据组可能为232×232＝264<br>• − 如果测试一组数据需要1毫秒，一年工作365×24小时，完成所有测试需5亿年</li>
+<li>黑盒测试要有一套产生测试用例的方法，用以产生有限的测试用例而覆盖足够多的“任何情况”<br>• − 如：等价类划分法、因果图方法、边值分析法、猜错法、随机数法等</li>
+<li>这些测试方法是从更广泛的角度来进行黑盒测试</li>
+<li>每种方法都力图能涵盖更多的“任何情况”，但又各有长处</li>
+<li>综合使用这些方法，会得到一个较好的测试用例</li>
+</ol>
+<h3 id="1-4-黑盒测试要求"><a href="#1-4-黑盒测试要求" class="headerlink" title="1.4 黑盒测试要求"></a>1.4 黑盒测试要求</h3><ol>
+<li>既要考核“程序是否做了该做的”,还要考察“程序是否没有做不该做的”。同时还要考察程序在其他一些情况下是否正常<br>• 每个软件特性或功能必须被一个测试用例或一个被认可的异常所覆盖<br>• 构造数据类型和数据值的最小集测试<br>• 用假想的数据类型和数据值运行，测试是否具备排斥不规则输入的能力<br>• 对影响性能的关键模块(如基本算法)，应测试模块性能(如精度、时间、容量等)</li>
+<li>应用黑盒测试方法，所设计出的测试用例集满足以下两个标准：<br>• 所设计出的测试用例能够减少为达到合理测试所需要设计的测试用例的总数<br>• 所设计出的测试用例能够告诉我们，是否存在某些类型的错误，而不是仅仅指出与特定测试有关的错误是否存在</li>
+</ol>
+<h2 id="二、等价类方法"><a href="#二、等价类方法" class="headerlink" title="二、等价类方法"></a>二、等价类方法</h2><h3 id="2-1-等价类测试的原理"><a href="#2-1-等价类测试的原理" class="headerlink" title="2.1 等价类测试的原理"></a>2.1 等价类测试的原理</h3><ol>
+<li>测试的目的是进行完备的测试，同时避免测试用例冗余</li>
+<li>等价类是将集合划分成互不相交的一组子集，这些子集并不是整个集合</li>
+<li>子集是由等价关系决定的，子集元素都有共同点</li>
+<li>因此：<br>• 利用子集表示了集合的完备性<br>• 互不相交体现了无冗余性</li>
+<li>等价类测试是通过每个等价类中的一个元素标<br>识测试用例，降低测试用例的冗余性</li>
+</ol>
+<h3 id="2-2-等价类划分的方法"><a href="#2-2-等价类划分的方法" class="headerlink" title="2.2 等价类划分的方法"></a>2.2 等价类划分的方法</h3><h4 id="2-2-1-划分等价类"><a href="#2-2-1-划分等价类" class="headerlink" title="2.2.1 划分等价类"></a>2.2.1 划分等价类</h4><ol>
+<li>等价类是指某个输入域的子集合<br>• − 在该子集合中，各个输入数据对于揭露程序中的错误都是等效的。测试某等价类的代表值就等价于对这一类其它值的测试</li>
+<li>等价类的划分有两种不同的情况：<br>• − 有效等价类：对于程序规格说明来说，是合理的，有意义的输入数据构成的集合<br>• − 无效等价类：对于程序规格说明来说，是不合理的，无意义的输入数据构成的集合</li>
+<li>设计测试用例时，要同时考虑有效等价类和无效等价类设计</li>
+</ol>
+<h4 id="2-2-2-等价类方法的变化依据"><a href="#2-2-2-等价类方法的变化依据" class="headerlink" title="2.2.2 等价类方法的变化依据"></a>2.2.2 等价类方法的变化依据</h4><ol>
+<li>等价类测试的思想是通过每个等价类中的一个元素标识测试用例。如果广泛选择等价类，则这样可以大大降低<br>测试用例之间的冗余。</li>
+<li>等价类测试重复边界值测试的两个决定因素，即健壮性和单/多缺陷假设。</li>
+<li>等价类测试的关键，就是选择确定的等价关系，必须区分弱和强等价类。</li>
+</ol>
+<h4 id="2-2-3-等价类的特点"><a href="#2-2-3-等价类的特点" class="headerlink" title="2.2.3 等价类的特点"></a>2.2.3 等价类的特点</h4><ol>
+<li>测试的内容相同</li>
+<li>一个等价类中的某个测试可以发现缺陷，那么这个等价类的其他测试也能发现该缺陷。</li>
+<li>如果一个等价类中的一个测试没有发现缺陷，这个等价类的其他测试也不能发现缺陷。</li>
+</ol>
+<h4 id="2-2-4-等价类划分方法"><a href="#2-2-4-等价类划分方法" class="headerlink" title="2.2.4 等价类划分方法"></a>2.2.4 等价类划分方法</h4><ol>
+<li>假设被测对象抽象成函数F，具有两个输入变量x1和x2，</li>
+<li>如果F实现为一个程序，则输入变量x1和x2将拥有以下边界，以及边界内的区间：<br>• a≤x1≤d, 区间为[a,b),[b,c),[c,d]<br>• e≤x2≤g, 区间为[e,f),[f,g]</li>
+<li>x1和x2的无效值是：<br>• x1&lt;a, x1&gt;d以及x2&lt;e, x2&gt;g</li>
+</ol>
+<h3 id="2-3-等价类测试的类型"><a href="#2-3-等价类测试的类型" class="headerlink" title="2.3 等价类测试的类型"></a>2.3 等价类测试的类型</h3><h4 id="2-3-1-弱一般等价类测试"><a href="#2-3-1-弱一般等价类测试" class="headerlink" title="2.3.1 弱一般等价类测试"></a>2.3.1 弱一般等价类测试</h4><p> 弱一般等价类测试是单缺陷假设<br> 通过使用一个测试用例中的每个等价类(区间)的一个变量实现。</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522224808233.png" alt="image-20210522224808233"></p>
+<h4 id="2-3-2-强一般等价类测试"><a href="#2-3-2-强一般等价类测试" class="headerlink" title="2.3.2 强一般等价类测试"></a>2.3.2 强一般等价类测试</h4><p> 强一般等价类测试基于多缺陷假设，因此，需要等价类笛卡尔积的每个元素对应的测试用例。</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522224820113.png" alt="image-20210522224820113"></p>
+<h4 id="2-3-3-强健壮等价类测试"><a href="#2-3-3-强健壮等价类测试" class="headerlink" title="2.3.3 强健壮等价类测试"></a>2.3.3 强健壮等价类测试</h4><p>多缺陷条件假设，从所有等价类笛卡尔积的每个元素中获得测试用例。</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522225206077.png" alt="image-20210522225206077"></p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/20110310_d97ce671ce85852d30c6n1OYfMqLzE6t.jpg" alt="img"></p>
+<p>弱一般等价类：0<del>100中任意一个数为测试数据，只设计1个用例即可<br>强一般等价类：分为0、 1</del>99、 100三个等价类，需要设计3个用例<br>弱健壮等价类：考虑到60分在实际情况中为特殊数字，划分0、 1~99（除60外）、 100、 60四个等价类<br>强健壮等价类：考虑各种非法输入，如负数、其他字符等等</p>
+<h4 id="2-3-3-测试用例的选择"><a href="#2-3-3-测试用例的选择" class="headerlink" title="2.3.3 测试用例的选择"></a>2.3.3 测试用例的选择</h4><ol>
+<li>为每一个等价类规定一个唯一的编号</li>
+<li>设计一个新的测试用例，使其尽可能多的覆盖尚未被覆盖的有效等价类，重复这一步，直至所有的有效等价类<br>都被覆盖过</li>
+<li>设计一个新的测试用例，使其仅覆盖一个尚未被覆盖的无效等价类，重复这一步，直至所有的无效等价类都被<br>覆盖为止</li>
+</ol>
+<h4 id="2-3-4-等价类的划分"><a href="#2-3-4-等价类的划分" class="headerlink" title="2.3.4 等价类的划分"></a>2.3.4 等价类的划分</h4><ol>
+<li>如果输入条件规定了取值范围，或值的个数，则可以确立一个有效等价类和两个无效等价类。<br>• 例如，在程序的规格说明中，对输入条件有一句话：“…… 项数可以从1到999 ……”，则有效等价类是“1≤项数≤999”两个无效等价类是“项数＜1”或“项数＞999”。</li>
+<li>如果输入条件规定了输入值的集合，或者是规定了“必须如何”的条件，这时可确立一个有效等价类和一个无<br>效等价类。<br>• 例如，对变量标识符规定为“以字母打头的……串”。那么所有以字母打头的构成有效等价类，而不在此集合内（不以字母打头）的归于无效等价类。</li>
+<li>如果输入条件是一个布尔量，则可以确定一个有效等价类和一个无效等价类</li>
+<li>如果规定了输入数据的一组值，而且程序要对每个输入值分别进行处理，这时可为每一个输入值确立一个有效等价类，此外针对这组值确立一个无效等价类，它是所有不允许的输入值的集合<br>• 例如：在教师上岗方案中规定对教授、副教授、讲师和助教分别计算分数，做相应的处理，可以确定4个有效等价类为教授、副教授、讲师和助教，一个无效等价类，它是所有不符合以上身分的人员的输入值的集合。</li>
+<li>如果规定了输入数据必须遵守的规则，则可确立一个有效等价类(符合规则)和若干个无效等价类<br>• 例如，规定“一个语句必须以分号’;’结束”，这时，可以确定一个有效等价类“以’;’结束”，若干个无效等价类“以’:’结束”、“以’,’结束”、“以’ ‘结束”、“以LF结束”等</li>
+</ol>
+<h3 id="2-4-等价类方法的案例设计"><a href="#2-4-等价类方法的案例设计" class="headerlink" title="2.4 等价类方法的案例设计"></a>2.4 等价类方法的案例设计</h3><h4 id="2-4-1-等价类测试用例举例-三角形"><a href="#2-4-1-等价类测试用例举例-三角形" class="headerlink" title="2.4.1 等价类测试用例举例-三角形"></a>2.4.1 等价类测试用例举例-三角形</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230749568.png" alt="image-20210522230749568"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230755567.png" alt="image-20210522230755567"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230804823.png" alt="image-20210522230804823"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522230821669.png" alt="image-20210522230821669"></p>
+<h4 id="2-4-2-等价类测试用例设计的步骤"><a href="#2-4-2-等价类测试用例设计的步骤" class="headerlink" title="2.4.2 等价类测试用例设计的步骤"></a>2.4.2 等价类测试用例设计的步骤</h4><ol>
+<li>分析需求描述</li>
+<li>划分测试功能的粒度</li>
+<li>确定每个测试功能的输入和输出</li>
+<li>对输入/输出划分等价类</li>
+<li>选择等价类的方法，计算测试用例数量</li>
+<li>设计测试用例</li>
+</ol>
+<h3 id="2-5-等价类测试总结"><a href="#2-5-等价类测试总结" class="headerlink" title="2.5 等价类测试总结"></a>2.5 等价类测试总结</h3><ol>
+<li>等价类测试的弱形式不如强形式的测试全面</li>
+<li>如果错误条件非常重要，有必要进行健壮形式的测试</li>
+<li>如果输入数据以离散值区间和集合定义，则等价类测试是合适的</li>
+<li>通过结合边界值测试，等价类测试可以得到加强</li>
+<li>如果函数很复杂，需要做等价类测试</li>
+<li>强等价类测试假设变量是独立的，相应的测试用例相乘会引起冗余问题。如果存在依赖关系，则常常会生成错误的测试用例</li>
+<li>在确定合适的等价关系之前，可能需要进行多次尝试</li>
+<li>强和弱形式的等价类测试之间的差别，有助于区分累进测试和回归测试</li>
+</ol>
+<h2 id="三、边界值方法"><a href="#三、边界值方法" class="headerlink" title="三、边界值方法"></a>三、边界值方法</h2><h3 id="3-1-边界值测试的基本概念"><a href="#3-1-边界值测试的基本概念" class="headerlink" title="3.1 边界值测试的基本概念"></a>3.1 边界值测试的基本概念</h3><h4 id="3-1-1-边界值测试的作用"><a href="#3-1-1-边界值测试的作用" class="headerlink" title="3.1.1 边界值测试的作用"></a>3.1.1 边界值测试的作用</h4><ol>
+<li>边界值分析是对等价类划分方法的补充</li>
+<li>从测试工作经验得知，大量的错误是发生在输入或输出范围的边界上，而不是在输入范围的内部</li>
+<li>针对各种边界情况设计测试用例，可以查出更多的错误</li>
+</ol>
+<h4 id="3-1-2-边界值测试的原理"><a href="#3-1-2-边界值测试的原理" class="headerlink" title="3.1.2 边界值测试的原理"></a>3.1.2 边界值测试的原理</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231448901.png" alt="image-20210522231448901"></p>
+<h4 id="3-1-3-边界值分析思想"><a href="#3-1-3-边界值分析思想" class="headerlink" title="3.1.3 边界值分析思想"></a>3.1.3 边界值分析思想</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231511441.png" alt="image-20210522231511441"></p>
+<h3 id="3-2-边界值分析的方法"><a href="#3-2-边界值分析的方法" class="headerlink" title="3.2 边界值分析的方法"></a>3.2 边界值分析的方法</h3><p>基本边界值分析手段可以用两种方式归纳：<strong>变量数量和值域</strong>。</p>
+<ol>
+<li>归纳变量数量：<br>• 如果有一个n变量函数，使除一个以外的所有变量取正常值，使剩余的那个变量取最小值、略高于最小值、正常值、略低于最大值和最大值，对每个变量都重复进行，<br>• 这样，对于一个n变量函数，边界值分析会产生4n+1个测试用例。</li>
+<li>通过值域的种类<br>• 取决于变量本身的类型<br>• 显式的边界和有离散的边界，容易确定边界<br>• 没有显式地给出边界的，需要人为地创建边界</li>
+</ol>
+<p>多个独立的变量（变量之间没有依赖），受物理量（温度、压力等）的限制，比较适合边界值分析</p>
+<h3 id="3-3-边界值测试的类型"><a href="#3-3-边界值测试的类型" class="headerlink" title="3.3 边界值测试的类型"></a>3.3 边界值测试的类型</h3><h4 id="3-3-1-一般边界值"><a href="#3-3-1-一般边界值" class="headerlink" title="3.3.1 一般边界值"></a>3.3.1 一般边界值</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231724096.png" alt="image-20210522231724096"></p>
+<h4 id="3-3-2-健壮性测试"><a href="#3-3-2-健壮性测试" class="headerlink" title="3.3.2 健壮性测试"></a>3.3.2 健壮性测试</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231741068.png" alt="image-20210522231741068"></p>
+<h4 id="3-3-3-最坏情况测试"><a href="#3-3-3-最坏情况测试" class="headerlink" title="3.3.3 最坏情况测试"></a>3.3.3 最坏情况测试</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231758947.png" alt="image-20210522231758947"></p>
+<h4 id="3-3-4-最坏健壮性测试"><a href="#3-3-4-最坏健壮性测试" class="headerlink" title="3.3.4 最坏健壮性测试"></a>3.3.4 最坏健壮性测试</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231815160.png" alt="image-20210522231815160">‘</p>
+<h4 id="3-3-5-特殊值测试"><a href="#3-3-5-特殊值测试" class="headerlink" title="3.3.5 特殊值测试"></a>3.3.5 特殊值测试</h4><ol>
+<li>特殊值测试大概是运用得最广泛的一种功能性测试。</li>
+<li>当测试人员使用其领域知识、使用类似程序的经验以及关于“软点”信息开发测试用例时，会出现特殊值测试</li>
+<li>特殊测试特别依赖测试人员的能力。尽管特殊值测试是高度主观性的，但是所产生的测试用例集合，常常更能<br>有效地发现缺陷。</li>
+</ol>
+<h4 id="3-3-6-随机测试"><a href="#3-3-6-随机测试" class="headerlink" title="3.3.6 随机测试"></a>3.3.6 随机测试</h4><ol>
+<li>随机测试的思想是：不是永远选取有界变量的最小值、略高于最小值、正常值、略低于最大值和最大值，而是<br>使用随机数生成器选出测试用例值。</li>
+<li>随机测试可以避免出现测试偏见，但是也带来了一个严重的问题：多少随机测试用例才是充分的。</li>
+<li>对于有界变量a≤x≤b可采用以下程序（C）生成:<br>• x=int((b-a+1)*random(1))+a</li>
+<li>这个程序持续生成随机测试用例，直到每种输出至少出现一次。</li>
+</ol>
+<h3 id="3-4-边界值方法的案例设计"><a href="#3-4-边界值方法的案例设计" class="headerlink" title="3.4 边界值方法的案例设计"></a>3.4 边界值方法的案例设计</h3><h4 id="3-4-1-佣金问题举例"><a href="#3-4-1-佣金问题举例" class="headerlink" title="3.4.1 佣金问题举例"></a>3.4.1 佣金问题举例</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231936461.png" alt="image-20210522231936461"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231946489.png" alt="image-20210522231946489"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522231954698.png" alt="image-20210522231954698"></p>
+<h2 id="四、决策表方法"><a href="#四、决策表方法" class="headerlink" title="四、决策表方法"></a>四、决策表方法</h2><h3 id="4-1-决策表"><a href="#4-1-决策表" class="headerlink" title="4.1 决策表"></a>4.1 决策表</h3><h4 id="4-1-1-决策表的基本概念"><a href="#4-1-1-决策表的基本概念" class="headerlink" title="4.1.1 决策表的基本概念"></a>4.1.1 决策表的基本概念</h4><ol>
+<li>在所有功能性测试方法中，基于决策表的测试方法是最严格的，因为决策表具有逻辑严格性。</li>
+<li>决策表一直被用来表示和分析复杂逻辑关系。决策表很适合描述不同条件集合下采取行动的若干组合的情况</li>
+<li>决策表有四个部分：桩部分、条目部分、条件部分、行动部分。</li>
+<li>因此，我们可以引用条件桩、条件条目、行动桩和行动条目。条目中的一列是一条规则。规则指在规则的条件<br>环境下要采取什么行动。</li>
+</ol>
+<h4 id="4-1-2-决策表结构"><a href="#4-1-2-决策表结构" class="headerlink" title="4.1.2 决策表结构"></a>4.1.2 决策表结构</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232343451.png" alt="image-20210522232343451"></p>
+<h4 id="4-1-3-如何看懂一个决策表"><a href="#4-1-3-如何看懂一个决策表" class="headerlink" title="4.1.3 如何看懂一个决策表"></a>4.1.3 如何看懂一个决策表</h4><ol>
+<li>在决策表中，如果C1、C2和C3都为真,则采取行动A1和A2。如果C1和C2都为真而C3为假，则采取行动A1<br>和A3。</li>
+<li>在C1为真C2为假条件下，规则中的C3条目叫做“不关心”条目。不关心条目由两种主要解释：条件无关或条<br>件不适用。</li>
+<li>如果有二叉条件(真/假，是/否，0/1)，则决策表的条件部分是旋转了90度的真值表。</li>
+<li>所有条件都是二叉条件的决策表叫做有限条目决策表。如果条件可以有多个值，则对应的决策表叫做扩展条件。</li>
+</ol>
+<h3 id="4-2-决策表测试分析的方法"><a href="#4-2-决策表测试分析的方法" class="headerlink" title="4.2 决策表测试分析的方法"></a>4.2 决策表测试分析的方法</h3><h4 id="4-2-1-决策表的测试"><a href="#4-2-1-决策表的测试" class="headerlink" title="4.2.1 决策表的测试"></a>4.2.1 决策表的测试</h4><ol>
+<li>决策表的条件是真值表</li>
+<li>保证能够考虑了所有可能的条件组合</li>
+<li>使用决策表标识测试用例，能够保证一种完备的测试</li>
+<li>为了使用决策表标识测试用例，我们把条件解释为输入，把行动解释为输出。</li>
+<li>决策表是说明性的，给出的条件没有特别的顺序，而且所选择的行动发生时也没有任何特定顺序</li>
+</ol>
+<p><strong>例</strong>：</p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232804719.png" alt="image-20210522232804719"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232851982.png" alt="image-20210522232851982"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232900921.png" alt="image-20210522232900921"></p>
+<h3 id="4-3-互斥条件"><a href="#4-3-互斥条件" class="headerlink" title="4.3 互斥条件"></a>4.3 互斥条件</h3><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232944888.png" alt="image-20210522232944888"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232936988.png" alt="image-20210522232936988"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522232954346.png" alt="image-20210522232954346"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522233005777.png" alt="image-20210522233005777"></p>
+<h3 id="4-4-决策表方法的案例设计"><a href="#4-4-决策表方法的案例设计" class="headerlink" title="4.4 决策表方法的案例设计"></a>4.4 决策表方法的案例设计</h3><h4 id="4-4-1-三角形问题的测试用例"><a href="#4-4-1-三角形问题的测试用例" class="headerlink" title="4.4.1 三角形问题的测试用例"></a>4.4.1 三角形问题的测试用例</h4><p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522233029012.png" alt="image-20210522233029012"></p>
+<p><img src="/pic/2021-4-30-2021-4-30-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A04-%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/image-20210522233046221.png" alt="image-20210522233046221"></p>
+<h3 id="4-5-决策表总结"><a href="#4-5-决策表总结" class="headerlink" title="4.5 决策表总结"></a>4.5 决策表总结</h3><ol>
+<li>决策表技术适用于以下特征的应用程序<br>• IF-THEN-ELSE逻辑突出<br>• 输入变量之间存在逻辑关系<br>• 涉及输出变量子集的计算<br>• 输入与输出之间存在因果关系</li>
+<li>决策表不能很好地伸缩，需要使用扩展条目决策表、代数简化表，将大表分解成小表可以使用迭代技术，逐渐改进，直到得到满意的决策表</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A6%82%E5%BF%B5%EF%BC%8C%E7%AD%89%E4%BB%B7%E7%B1%BB%EF%BC%8C%E8%BE%B9%E7%95%8C%E5%80%BC%EF%BC%8C%E5%86%B3%E7%AD%96%E8%A1%A8/" rel="tag">概念，等价类，边界值，决策表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/" rel="tag">黑盒测试</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/05/03/2021-5-3-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A05-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      软测学习5-软件测试模型
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/04/29/2021-4-29-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A03-%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">软测学习3 白盒测试</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>Charonc &copy; 2021</li>
+    </ul>
+  </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=2836442100&auto=1&height=32"></iframe>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/toux.png" alt="Charonc"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">时光轴</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">照片</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+
+</html>

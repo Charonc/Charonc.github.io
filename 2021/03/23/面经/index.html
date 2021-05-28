@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    面经 |
+    
+    Charonc</title>
+  
+  <link rel="shortcut icon" href="/images/C.svg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-面经" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  面经
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/03/23/%E9%9D%A2%E7%BB%8F/" class="article-date">
+  <time datetime="2021-03-22T16:00:00.000Z" itemprop="datePublished">2021-03-23</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h2 id="一、http1-0，http1-1，http2-0的区别"><a href="#一、http1-0，http1-1，http2-0的区别" class="headerlink" title="一、http1.0，http1.1，http2.0的区别"></a>一、http1.0，http1.1，http2.0的区别</h2><h3 id="1-HTTP1-0和HTTP1-1的一些区别"><a href="#1-HTTP1-0和HTTP1-1的一些区别" class="headerlink" title="(1) HTTP1.0和HTTP1.1的一些区别"></a>(1) HTTP1.0和HTTP1.1的一些区别</h3><h4 id="1-长连接"><a href="#1-长连接" class="headerlink" title="1.长连接"></a>1.长连接</h4><p>Http1.1支持请求长连接和流水线链接，而http1.0虽然支持但不是默认开启的。在HTTP1.1中默认开启长连接keep-alive，一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点。HTTP1.0需要使用keep-alive参数来告知服务器端要建立一个长连接。通过支持长连接使得建立和关闭tcp链接的次数减少了，从而减少了消耗和延迟。</p>
+<a id="more"></a>
+<h4 id="2-节约带宽"><a href="#2-节约带宽" class="headerlink" title="2.节约带宽"></a>2.节约带宽</h4><p> HTTP1.0中存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能。HTTP1.1支持只发送header信息（不带任何body信息），如果服务器认为客户端有权限请求服务器，则返回100，客户端接收到100才开始把请求body发送到服务器；如果返回401，客户端就可以不用发送请求body了节约了带宽。</p>
+<h5 id="3-HOST域"><a href="#3-HOST域" class="headerlink" title="3.HOST域"></a>3.HOST域</h5><p> 在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname），HTTP1.0没有host域。随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。HTTP1.1的请求消息和响应消息都支持host域，且请求消息中如果没有host域会报告一个错误（400 Bad Request）。</p>
+<h5 id="4-缓存处理"><a href="#4-缓存处理" class="headerlink" title="4.缓存处理"></a>4.缓存处理</h5><p>  在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。</p>
+<h3 id="2-http1-1和http2-0的一些区别"><a href="#2-http1-1和http2-0的一些区别" class="headerlink" title="(2)http1.1和http2.0的一些区别"></a>(2)http1.1和http2.0的一些区别</h3><h4 id="1-多路复用"><a href="#1-多路复用" class="headerlink" title="1.多路复用"></a>1.多路复用</h4><p> HTTP2.0使用了多路复用的技术，做到同一个连接并发处理多个请求，而且并发请求的数量比HTTP1.1大了好几个数量级。HTTP1.1也可以多建立几个TCP连接，来支持处理更多并发的请求，但是创建TCP连接本身也是有开销的。</p>
+<p><img src="/pic/%E9%9D%A2%E7%BB%8F/duoLuFuYong.jpg" alt="duoLuFuYong"></p>
+<h4 id="2-头部数据压缩"><a href="#2-头部数据压缩" class="headerlink" title="2.头部数据压缩"></a>2.头部数据压缩</h4><p>  在HTTP1.1中，HTTP请求和响应都是由状态行、请求/响应头部、消息主体三部分组成。一般而言，消息主体都会经过gzip压缩，或者本身传输的就是压缩过后的二进制文件，但状态行和头部却没有经过任何压缩，直接以纯文本传输。随着Web功能越来越复杂，每个页面产生的请求数也越来越多，导致消耗在头部的流量越来越多，尤其是每次都要传输UserAgent、Cookie这类不会频繁变动的内容，完全是一种浪费。<br>  HTTP1.1不支持header数据的压缩，HTTP2.0使用HPACK算法对header的数据进行压缩，这样数据体积小了，在网络上传输就会更快。</p>
+<h4 id="3-服务器推送"><a href="#3-服务器推送" class="headerlink" title="3.服务器推送"></a>3.服务器推送</h4><p> 服务端推送是一种在客户端请求之前发送数据的机制。网页使用了许多资源：HTML、样式表、脚本、图片等等。在HTTP1.1中这些资源每一个都必须明确地请求。这是一个很慢的过程。浏览器从获取HTML开始，然后在它解析和评估页面的时候，增量地获取更多的资源。因为服务器必须等待浏览器做每一个请求，网络经常是空闲的和未充分使用的。<br> 为了改善延迟，HTTP2.0引入了server push，它允许服务端推送资源给浏览器，在浏览器明确地请求之前，免得客户端再次创建连接发送请求到服务器端获取。这样客户端可以直接从本地加载这些资源，不用再通过网络。</p>
+<p><img src="/pic/%E9%9D%A2%E7%BB%8F/fuWuqiTuiSong.jpg" alt="fuWuqiTuiSong"></p>
+<h2 id="二、HashMap，HashTable和ConcurrentHashMap的区别"><a href="#二、HashMap，HashTable和ConcurrentHashMap的区别" class="headerlink" title="二、HashMap，HashTable和ConcurrentHashMap的区别"></a>二、HashMap，HashTable和ConcurrentHashMap的区别</h2><h3 id="1-解释说明"><a href="#1-解释说明" class="headerlink" title="(1) 解释说明"></a>(1) 解释说明</h3><p>1.HashMap是非线程安全的，HashTable是线程安全的，HashTable中的很多方法都是加了sysnchronized关键字的，确保了方法的同步；</p>
+<p>2.HashMap可以接受空key和value，而HashTable不能接受空key和value；</p>
+<p>3.由于HashMap是异步执行，而HashTable是同步执行，所以在单线程环境下，HashMap的速度高于HashTable；</p>
+<p>4.HashMap的迭代器采用的是Iterator，Iterator是快速失败（Fail-Fast）,在遍历过程中若有其他线程对该HashMap进行增加或者删除元素，则会抛出ConcurrentModificationException，因为快速失败的迭代器是操作的集合本身，<br>HashTable的迭代器是Enumeration，Enumeration是安全失败（Fail-Safe），在遍历过程中若有其他线程对该集合进行增加或则删除元素，不会抛出ConcurentModificationException，因为安全失败的迭代器操作的是原集合的一个拷贝。</p>
+<p>5.在进行迭代时，HashTable会锁住整个Map，而ConcurrentHashMap只锁住Map的一部分，所以ConcurrentHashMap在多线程环境下的性能更好。</p>
+<p>6.Map m= Collections.synchronizedMap(hashMap);</p>
+<h3 id="2-代码举例"><a href="#2-代码举例" class="headerlink" title="(2) 代码举例"></a>(2) 代码举例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Hashtable;</span><br><span class="line">import java.util.concurrent.ConcurrentHashMap;</span><br><span class="line"></span><br><span class="line">public class StudyHash &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HashMap&lt;Integer,Integer&gt; hashMap=new HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">        ConcurrentHashMap&lt;Integer,Integer&gt; concurrentHashMap=new ConcurrentHashMap&lt;&gt;();</span><br><span class="line">        Hashtable&lt;Integer,Integer&gt;hashtable=new Hashtable&lt;&gt;();</span><br><span class="line">        hashMap.put(null,null);//成功</span><br><span class="line">        concurrentHashMap.put(null,null);//失败 抛出了空指针异常</span><br><span class="line">        hashtable.put(null,null);//失败 抛出了空指针异常</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、HashMap和TreeMap的区别"><a href="#三、HashMap和TreeMap的区别" class="headerlink" title="三、HashMap和TreeMap的区别"></a>三、HashMap和TreeMap的区别</h2><p>Map：在数组中是通过数组下标来对 其内容进行索引的，而Map是通过对象来对 对象进行索引的，用来 索引的对象叫键key，其对应的对象叫值value；</p>
+<p>1、HashMap是通过hashcode()对其内容进行快速查找的；HashMap中的元素是没有顺序的；</p>
+<p>TreeMap中所有的元素都是有某一固定顺序的，如果需要得到一个有序的结果，就应该使用TreeMap；</p>
+<p>2、HashMap和TreeMap都不是线程安全的；</p>
+<p>3、HashMap继承AbstractMap类；覆盖了hashcode() 和equals() 方法，以确保两个相等的映射返回相同的哈希值；</p>
+<p>TreeMap继承SortedMap类；他保持键的有序顺序；</p>
+<p>4、HashMap：基于hash表实现的；使用HashMap要求添加的键类明确定义了hashcode() 和equals() （可以重写该方法）；为了优化HashMap的空间使用，可以调优初始容量和负载因子；</p>
+<p>TreeMap：基于红黑树实现的；TreeMap就没有调优选项，因为红黑树总是处于平衡的状态；</p>
+<p>5、HashMap：适用于Map插入，删除，定位元素；</p>
+<p>TreeMap：适用于按自然顺序或自定义顺序遍历键（key）；</p>
+<h2 id="四、HashMap-和-Hashtable-的区别？HashMap如何实现扩容？"><a href="#四、HashMap-和-Hashtable-的区别？HashMap如何实现扩容？" class="headerlink" title="四、HashMap 和 Hashtable 的区别？HashMap如何实现扩容？"></a>四、HashMap 和 Hashtable 的区别？HashMap如何实现扩容？</h2><p>HashMap是用数组+链表+红黑树进行实现的，当添加一个元素（key-value）时，就首先计 算元素key的hash值，并根据hash值来确定插入数组中的位置，但是可能存在其他元素已经 被放在数组同一位置了，这个时候便使用链表来解决哈希冲突，当链表长度太长的时候，便将链表转换为红黑树来提高搜索的效率。<br>HashMap是基于拉链法实现的一个散列表，内部由数组和链表和红黑树实现。<br>数组的初始容量为16，而容量是以2的次方扩充的，一是为了提高性能使用足够大的数组，二是为了能使用位运算代替取模预算。<br>数组是否需要扩充是通过负载因子判断的，如果当前元素个数为数组容量的0.75时，就会扩充数组。这个0.75就是默认的负载因子，可由构造传入。<br>为了解决碰撞，数组中的元素是单向链表类型。当链表长度到达一个阈值时（&gt;=8）， 会将链表转换成红黑树提高性能。而当链表长度缩小到另一个阈值时（&lt;=6），又会将红黑树转换回单向链表提高性能，这里是一个平衡点。<br>当个数不多的时候，直接链表遍历更方便，实现起来也简单。而红黑树的实现要复杂的多。</p>
+<h2 id="五、ConcurrentHashMap的底层实现"><a href="#五、ConcurrentHashMap的底层实现" class="headerlink" title="五、ConcurrentHashMap的底层实现"></a>五、ConcurrentHashMap的底层实现</h2><p>底层数据结构： JDK1.7的 ConcurrentHashMap 底层采用 分段的数组+链表 实现，JDK1.8 采用的数据结构跟HashMap1.8的结构一样，数组+链表/红黑二叉树。Hashtable 和 JDK1.8 之前的 HashMap 的底层数据结构类似都是采用 数组+链表 的形式，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的；</p>
+<p>实现线程安全的方式（重要）：</p>
+<p>① 在JDK1.7的时候，ConcurrentHashMap（分段锁） 对整个桶数组进行了分割分段(Segment)，每一把锁只锁容器其中一部分数据，多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。 到了 JDK1.8 的时候已经摒弃了Segment的概念，而是直接用 Node 数组+链表+红黑树的数据结构来实现，并发控制使用 synchronized 和 CAS 来操作。（JDK1.6以后 对 synchronized锁做了很多优化） 整个看起来就像是优化过且线程安全的 HashMap，虽然在JDK1.8中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本；synchronized只锁定当前链表或红黑二叉树的首节点，这样只要hash不 冲突，就不会产生并发，效率又提升N倍。(TreeBin: 红黑二叉树节点 Node: 链表节点)<br>② Hashtable(同一把锁) :使用 synchronized 来保证线程安全，效率非常低下。当一个线程访问同步方法时，其他线程也访问同步方法，可能会进入阻塞或轮询状态，如使用 put 添加元素，另一个线程不能使用 put 添加元素，也不能使用 get，竞争会越来越激烈效率越低。</p>
+<h2 id="六、HashMap，LinkedHashMap，TreeMap-有什么区别？HashMap-，TreeMap，LinkedHashMap使用场景？"><a href="#六、HashMap，LinkedHashMap，TreeMap-有什么区别？HashMap-，TreeMap，LinkedHashMap使用场景？" class="headerlink" title="六、HashMap，LinkedHashMap，TreeMap 有什么区别？HashMap ，TreeMap，LinkedHashMap使用场景？"></a>六、HashMap，LinkedHashMap，TreeMap 有什么区别？HashMap ，TreeMap，LinkedHashMap使用场景？</h2><p>LinkedHashMap 保存了记录的插入顺序，在用 Iterator 遍历时，先取到的记录肯定是先插入的；遍历比 HashMap 慢；</p>
+<p>TreeMap 实现 SortMap 接口，能够把它保存的记录根据键排序（默认按键值升序排序，也可以指定排序的比较器）</p>
+<p>一般情况下，使用最多的是 HashMap。HashMap：在 Map 中插入、删除和定位元素时；TreeMap：在需要按自然顺序或自定义顺序遍历键的情况下； LinkedHashMap：在需要输出的顺序和输入的顺序相同的情况下。</p>
+<h2 id="七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？-线程安全的集合类"><a href="#七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？-线程安全的集合类" class="headerlink" title="七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？ 线程安全的集合类"></a>七、有哪些集合是线程不安全的，又有哪些集合是线程不安全的？怎么解决呢？ 线程安全的集合类</h2><p>Vector Stack Hashtable<br>java.util.concurrent包下所有的集合类（ConcurrentHashMap，CopyOnWriteArrayList和CopyOnWriteArraySet等）<br>快速失败(fail-fast)是 Java 集合的一种错误检测机制。在使用迭代器对集合进行遍历的时候，我们在多线程下操作非安全失败(fail-safe)的集合类可能就会触发 fail-fast 机制，导致抛出ConcurrentModificationException 异常。另外，在单线程下，如果在遍历过程中对集合对象的内容进行了修改的话也会触发 fail-fast 机制。</p>
+<p>举个例子：多线程下，如果线程 1 正在对集合进行遍历，此时线程 2 对集合进行修改（增加、删除、修改），或者线程 1 在遍历过程中对集合进行修改，都会导致线程 1 抛出异常。</p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HashMap/" rel="tag">HashMap</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/03/24/%E5%BF%AB%E6%8E%92/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      Java实现快排
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/03/22/%E5%87%86%E5%A4%87%E5%AE%9E%E4%B9%A0/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">时隔多年，重回boke</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>Charonc &copy; 2021</li>
+    </ul>
+  </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=2836442100&auto=1&height=32"></iframe>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/toux.png" alt="Charonc"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">时光轴</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">照片</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+
+</html>
