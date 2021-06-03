@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Spring框架基础22 |
+    
+    Charonc</title>
+  
+  <link rel="shortcut icon" href="/images/C.svg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-2021-5-11-Spring框架的简单了解" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  Spring框架基础22
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/05/11/2021-5-11-Spring%E6%A1%86%E6%9E%B6%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" class="article-date">
+  <time datetime="2021-05-10T16:00:00.000Z" itemprop="datePublished">2021-05-11</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E7%9B%B8%E5%85%B3/">技术相关</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <a id="more"></a>
+
+
+
+<h2 id="一、Spring的由来以及特点"><a href="#一、Spring的由来以及特点" class="headerlink" title="一、Spring的由来以及特点"></a>一、Spring的由来以及特点</h2><p>本来有j2ee  一个重量级的框架  </p>
+<p>然而Spring 比较轻量化 Spring是一个j2ee轻量级一站式的开发框架</p>
+<p><strong>JavaEE</strong>：用于开发企业级（B/S）应用的技术</p>
+<p><strong>轻量级</strong>：使用最少的代码启动框架，然后根据需求选择需要使用的模块。同时除内核模块，其他模块由开发者自由选择使用，同时支持整合其他框架。也可以称为可插拔式开发框架，像插头和插座一样，插上就用，不用就拔下来。这就是Spring框架核心理念。在现实开发中，Spring主要<strong>用于整合其他框架</strong>。</p>
+<p><strong>重量级</strong>：早起的EJB，开发一个HelloWorld程序都需要引入EJB的全部模块</p>
+<p><strong>一站式</strong>：提供了表示层，服务层，持久层的所有支持。就是Spring框架提供涵盖了JavaEE开发的表示层，服务层，持久层的所有组件功能。也就是说，原则上，学完一套Spring框架，不用其他框架就可以完成网站一条流程的开发。</p>
+<p>不用必须继承于框架的某个部分！ 主要特点就是依赖反转IOC 和面向切面编程AOP</p>
+<h2 id="二、Spring模块划分"><a href="#二、Spring模块划分" class="headerlink" title="二、Spring模块划分"></a>二、Spring模块划分</h2><h3 id="2-1-总体架构图"><a href="#2-1-总体架构图" class="headerlink" title="2.1 总体架构图"></a>2.1 总体架构图</h3><p><img src="/pic/2021-5-11-Spring%E6%A1%86%E6%9E%B6%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/7445574-6c604b7559a79729.png" alt="img"></p>
+<h3 id="2-2-Core-Container（核心容器）"><a href="#2-2-Core-Container（核心容器）" class="headerlink" title="2.2 Core Container（核心容器）"></a>2.2 Core Container（核心容器）</h3><ul>
+<li><strong>Beans</strong>：负责Bean工厂中Bean的装配，所谓Bean工厂即是创建对象的工厂，Bean的装配也就是对象的创建工作；</li>
+<li><strong>Core</strong>：这个模块即是负责IOC（控制反转）最基本的实现；</li>
+<li><strong>Context</strong>：Spring的IOC容器，因大量调用Spring Core中的函数，整合了Spring的大部分功能。Bean创建好对象后，由Context负责建立Bean与Bean之间的关系并维护。所以也可以把Context看成是Bean关系的集合；</li>
+<li><strong>SpEl</strong>：即Spring Expression Language（Spring表达式语言）；</li>
+</ul>
+<h3 id="2-3-Data-Access-Integration（数据访问-集成）"><a href="#2-3-Data-Access-Integration（数据访问-集成）" class="headerlink" title="2.3 Data Access/Integration（数据访问/集成）"></a>2.3 Data Access/Integration（数据访问/集成）</h3><ul>
+<li><strong>JDBC</strong>：对JDBC的简单封装；</li>
+<li><strong>ORM</strong>：支持数据集成框架的封装（如Mybatis，Hibernate）；</li>
+<li><strong>OXM</strong>：即Object XML Mapper，它的作用是在Java对象和XML文档之间来回转换；</li>
+<li><strong>JMS</strong>：生产者和消费者的消息功能的实现；</li>
+<li><strong>Transations</strong>：事务管理；</li>
+</ul>
+<h3 id="2-4-Web"><a href="#2-4-Web" class="headerlink" title="2.4 Web"></a>2.4 Web</h3><ul>
+<li><strong>WebSocket</strong>：提供Socket通信，web端的的推送功能；</li>
+<li><strong>Servlet</strong>：Spring MVC框架的实现；</li>
+<li><strong>Web</strong>：包含web应用开发用到Spring框架时所需的核心类，包括自动载入WebApplicationContext特性的类，Struts集成类、文件上传的支持类、Filter类和大量辅助工具类；</li>
+<li><strong>Portlet</strong>：实现web模块功能的聚合（如网站首页（Port）下面可能会有不同的子窗口（Portlet））；</li>
+</ul>
+<h3 id="2-5-AOP"><a href="#2-5-AOP" class="headerlink" title="2.5 AOP"></a>2.5 AOP</h3><ul>
+<li><strong>面向切面</strong>：利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的<a href="https://baike.baidu.com/item/耦合度/2603938" target="_blank" rel="noopener">耦合度</a>降低，提高程序的可重用性，同时提高了开发的效率。</li>
+</ul>
+<h3 id="2-6-Aspects"><a href="#2-6-Aspects" class="headerlink" title="2.6 Aspects"></a>2.6 Aspects</h3><ul>
+<li>同样是面向切面的一个重要的组成部分，提供对AspectJ框架的整合；</li>
+</ul>
+<h3 id="2-7-Instrumentation（设备）"><a href="#2-7-Instrumentation（设备）" class="headerlink" title="2.7 Instrumentation（设备）"></a>2.7 Instrumentation（设备）</h3><ul>
+<li>相当于一个检测器，提供对JVM以及对Tomcat的检测；</li>
+</ul>
+<h3 id="2-8-Messaging（消息）"><a href="#2-8-Messaging（消息）" class="headerlink" title="2.8 Messaging（消息）"></a>2.8 Messaging（消息）</h3><ul>
+<li>Spring提供的对消息处理的功能；</li>
+</ul>
+<h2 id="三、spring中用到的模式"><a href="#三、spring中用到的模式" class="headerlink" title="三、spring中用到的模式"></a>三、spring中用到的模式</h2><h3 id="3-1-单例模式"><a href="#3-1-单例模式" class="headerlink" title="3.1 单例模式"></a>3.1 单例模式</h3><p>Spring中的Bean默认情况下都是单例模式！</p>
+<h3 id="3-2-工厂模式"><a href="#3-2-工厂模式" class="headerlink" title="3.2 工厂模式"></a>3.2 工厂模式</h3><p>BeanFactory和ApplicationContext来生产bean对象 用到了工厂模式</p>
+<h3 id="3-3-代理模式"><a href="#3-3-代理模式" class="headerlink" title="3.3 代理模式"></a>3.3 代理模式</h3><p>最常见的AOP的实现方式就是通过代理模式实现，Spring主要是使用<strong>JDK动态代理</strong>和<strong>CGLIB代理</strong>？</p>
+<h3 id="3-4-模板方法模式"><a href="#3-4-模板方法模式" class="headerlink" title="3.4 模板方法模式"></a>3.4 模板方法模式</h3><p>主要是一些对数据库操作的类用到，比如 JdbcTemplate、JpaTemplate，因为查询数据库的建立连接、执行查询、关闭连接几个过程，非常适用于模板方法。</p>
+<h3 id="3-5-适配器模式"><a href="#3-5-适配器模式" class="headerlink" title="3.5 适配器模式"></a>3.5 适配器模式</h3><h3 id="3-6-装饰器模式"><a href="#3-6-装饰器模式" class="headerlink" title="3.6 装饰器模式"></a>3.6 装饰器模式</h3><h3 id="3-7-观察者模式"><a href="#3-7-观察者模式" class="headerlink" title="3.7 观察者模式"></a>3.7 观察者模式</h3><h3 id="3-8-策略模式"><a href="#3-8-策略模式" class="headerlink" title="3.8 策略模式"></a>3.8 策略模式</h3><h3 id="3-9-简单工厂"><a href="#3-9-简单工厂" class="headerlink" title="3.9 简单工厂"></a>3.9 简单工厂</h3><p>又叫做静态工厂方法（StaticFactory Method）模式，但不属于23种GOF设计模式之一。</p>
+<p>简单工厂模式的实质是由一个工厂类根据传入的参数，动态决定应该创建哪一个产品类。</p>
+<p>Spring中的BeanFactory就是简单工厂模式的体现，根据传入一个唯一的标识来获得Bean对象，但是否是在传入参数后创建还是传入参数前创建这个要根据具体情况来定。</p>
+<h1 id="SpringBoot启动流程"><a href="#SpringBoot启动流程" class="headerlink" title="SpringBoot启动流程"></a>SpringBoot启动流程</h1><p><img src="/pic/2021-5-11-Spring%E6%A1%86%E6%9E%B6%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/v2-08bc2946bc28d3d29c02a1205291ad3e_r.jpg" alt="preview"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/05/12/2021-5-12-Spring%E3%80%81SpringBoot%E3%80%81SrpingMVC/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      Spring、SpringBoot、SrpingMVC
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/05/06/2021-5-6-%E8%BD%AF%E6%B5%8B%E5%AD%A6%E4%B9%A09-%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E8%87%AA%E5%8A%A8%E5%8C%96/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">软测学习9-软件测试自动化</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>Charonc &copy; 2021</li>
+    </ul>
+  </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=2836442100&auto=1&height=32"></iframe>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/toux.png" alt="Charonc"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">时光轴</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">照片</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+
+</html>
